@@ -37,10 +37,19 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "Portfolio" }],
   openGraph: {
-    title: "Portfolio | Full-Stack Developer & Digital Architect",
+    title: "Portfolio | Aitzaz Hassan - Full-Stack Dev",
     description:
       "Crafting exceptional digital experiences through innovative design and cutting-edge technology.",
     type: "website",
+    url: "https://your-portfolio-url.com",
+    images: [
+      {
+        url: "https://your-portfolio-url.com/profile.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Portfolio Open Graph Image",
+      },
+    ],
   },
 };
 

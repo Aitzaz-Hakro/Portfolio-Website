@@ -48,10 +48,9 @@ function AnimatedInput({
 
   const labelClasses = `
     absolute left-4 transition-all duration-300 pointer-events-none
-    ${
-      isFocused || hasValue
-        ? "top-2 text-xs text-primary"
-        : "top-1/2 -translate-y-1/2 text-muted-foreground"
+    ${isFocused || hasValue
+      ? "top-2 text-xs text-primary"
+      : "top-1/2 -translate-y-1/2 text-muted-foreground"
     }
   `;
 
@@ -70,11 +69,10 @@ function AnimatedInput({
             onChange={(e) => setHasValue(e.target.value.length > 0)}
           />
           <label
-            className={`absolute left-4 transition-all duration-300 pointer-events-none ${
-              isFocused || hasValue
+            className={`absolute left-4 transition-all duration-300 pointer-events-none ${isFocused || hasValue
                 ? "top-2 text-xs text-primary"
                 : "top-6 text-muted-foreground"
-            }`}
+              }`}
           >
             {label}
           </label>
@@ -166,7 +164,7 @@ export function ContactSection() {
         }}
       />
 
-      <motion.div 
+      <motion.div
         style={{ opacity, scale, y }}
         className="container-custom relative z-10"
       >
@@ -235,7 +233,7 @@ export function ContactSection() {
                     type="button"
                     variant="glow"
                     size="lg"
-                    className="w-full group"
+                    className="w-full group rounded-full"
                   >
                     <span>Send Message</span>
                     <Send className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />

@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useEffect, useState } from "react";
-import { motion, useInView, useMotionValue, useSpring, useScroll, useTransform } from "framer-motion";
+import { motion, useInView, useScroll, useTransform } from "framer-motion";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ExternalLink, Github } from "lucide-react";
@@ -85,37 +85,7 @@ interface ProjectCardProps {
 function ProjectCard({ project, index }: ProjectCardProps) {
   const cardRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(cardRef, { once: true, margin: "-50px" });
-
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-
-  const mouseXSpring = useSpring(x, { stiffness: 300, damping: 30 });
-  const mouseYSpring = useSpring(y, { stiffness: 300, damping: 30 });
-
   const [isHovered, setIsHovered] = useState(false);
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!cardRef.current) return;
-
-    const rect = cardRef.current.getBoundingClientRect();
-    const width = rect.width;
-    const height = rect.height;
-
-    const mouseX = e.clientX - rect.left;
-    const mouseY = e.clientY - rect.top;
-
-    const rotateX = ((mouseY - height / 2) / height) * -20;
-    const rotateY = ((mouseX - width / 2) / width) * 20;
-
-    x.set(rotateY);
-    y.set(rotateX);
-  };
-
-  const handleMouseLeave = () => {
-    x.set(0);
-    y.set(0);
-    setIsHovered(false);
-  };
 
   return (
     <motion.div
@@ -123,123 +93,170 @@ function ProjectCard({ project, index }: ProjectCardProps) {
       initial={{ opacity: 0, y: 100 }}
       animate={isInView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.8, delay: index * 0.1, ease: [0.25, 0.46, 0.45, 0.94] }}
-      className="perspective-container scroll-snap-item"
+      className="nft-card group h-full"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
     >
-      <motion.div
+      {/* NFT Card with shine effect */}
+      <div 
+        className={`
+          relative overflow-hidden h-full
+          border border-white/10
+          rounded-2xl
+          backdrop-blur-md
+          transition-all duration-500 ease-out
+          ${isHovered ? 'border-white/20 scale-[1.02]' : ''}
+        `}
         style={{
-          rotateX: mouseYSpring,
-          rotateY: mouseXSpring,
-          transformStyle: "preserve-3d",
+          background: 'linear-gradient(0deg, rgba(40,44,52,1) 0%, rgba(17,0,32,0.5) 100%)',
+          boxShadow: isHovered 
+            ? '0 20px 40px -10px rgba(0,0,0,0.6)' 
+            : '0 10px 30px -5px rgba(0,0,0,0.4)',
         }}
-        onMouseMove={handleMouseMove}
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={handleMouseLeave}
-        className="tilt-card group relative overflow-hidden rounded-2xl glass cursor-hover"
       >
-        {/* Glow effect */}
-        <motion.div
-          className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-0"
+        {/* Shine effect on hover */}
+        <div 
+          className={`
+            absolute inset-0 pointer-events-none z-10
+            transition-opacity duration-500
+            ${isHovered ? 'opacity-100' : 'opacity-0'}
+          `}
           style={{
-            background: `radial-gradient(circle at center, ${project.color}20, transparent 70%)`,
+            background: 'linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.08) 45%, rgba(255,255,255,0.12) 50%, rgba(255,255,255,0.08) 55%, transparent 60%)',
+            backgroundSize: '200% 200%',
+            animation: isHovered ? 'shine 0.8s ease-in-out' : 'none',
           }}
         />
 
-        {/* Image placeholder */}
-        <div
-          className="relative h-56 md:h-64 overflow-hidden"
-          style={{
-            background: `linear-gradient(135deg, ${project.color}30, ${project.color}10)`,
-          }}
-        >
-          {/* Animated gradient overlay */}
-          <motion.div
-            className="absolute inset-0"
+        {/* Main content wrapper */}
+        <div className="p-5 flex flex-col h-full">
+          {/* Project Image */}
+          <div 
+            className="relative h-48 rounded-xl overflow-hidden mb-5"
             style={{
-              background: `linear-gradient(45deg, transparent 40%, ${project.color}40 50%, transparent 60%)`,
-              backgroundSize: "200% 200%",
+              background: `linear-gradient(135deg, ${project.color}30, ${project.color}10)`,
             }}
-            animate={{
-              backgroundPosition: isHovered ? ["0% 0%", "100% 100%"] : "0% 0%",
-            }}
-            transition={{ duration: 1.5, ease: "easeInOut" }}
-          />
-
-          {/* Project number */}
-          <div
-            className="absolute top-4 left-4 text-8xl font-bold opacity-10"
-            style={{ color: project.color }}
           >
-            0{project.id}
+            {/* Project number watermark */}
+            <div
+              className="absolute top-4 left-4 text-6xl font-display font-bold opacity-15 select-none"
+              style={{ color: project.color }}
+            >
+              0{project.id}
+            </div>
+
+            {/* Floating letter icon */}
+            <motion.div
+              className="absolute inset-0 flex items-center justify-center"
+              animate={{ y: isHovered ? -6 : 0, scale: isHovered ? 1.08 : 1 }}
+              transition={{ duration: 0.4, ease: "easeOut" }}
+            >
+              <div 
+                className="w-16 h-16 rounded-xl flex items-center justify-center backdrop-blur-sm"
+                style={{ 
+                  background: `${project.color}25`,
+                  boxShadow: `0 8px 24px ${project.color}30`,
+                }}
+              >
+                <span className="text-3xl font-display font-bold" style={{ color: project.color }}>
+                  {project.title.charAt(0)}
+                </span>
+              </div>
+            </motion.div>
+
+            {/* Gradient overlay */}
+            <div 
+              className="absolute inset-0 opacity-40"
+              style={{
+                background: `radial-gradient(ellipse at 50% 100%, ${project.color}25, transparent 70%)`,
+              }}
+            />
           </div>
 
-          {/* Floating icon */}
-          <motion.div
-            className="absolute inset-0 flex items-center justify-center"
-            style={{ transform: "translateZ(50px)" }}
-          >
-            <motion.div
-              animate={{ y: isHovered ? -10 : 0, scale: isHovered ? 1.1 : 1 }}
-              transition={{ duration: 0.3 }}
-              className="w-20 h-20 rounded-2xl flex items-center justify-center"
-              style={{ background: `${project.color}30` }}
-            >
-              <span className="text-4xl font-bold" style={{ color: project.color }}>
-                {project.title.charAt(0)}
-              </span>
-            </motion.div>
-          </motion.div>
-        </div>
-
-        {/* Content */}
-        <div className="p-6 md:p-8 relative z-10">
-          <h3 className="text-xl md:text-2xl font-bold mb-3 group-hover:text-primary transition-colors">
-            {project.title}
-          </h3>
-          <p className="text-muted-foreground text-sm md:text-base mb-4 line-clamp-2">
+          {/* Description */}
+          <p className="text-white/60 text-sm leading-relaxed mb-5 line-clamp-2 flex-grow">
             {project.description}
           </p>
 
-          {/* Tags */}
-          <div className="flex flex-wrap gap-2 mb-6">
-            {project.tags.map((tag) => (
-              <span
-                key={tag}
-                className="text-xs px-3 py-1 rounded-full bg-secondary/50 text-muted-foreground"
+          {/* Tags Row */}
+          <div className="flex flex-wrap gap-2 mb-5">
+            {project.tags.slice(0, 3).map((tag, i) => (
+              <span 
+                key={i}
+                className="px-3 py-1 text-xs font-medium rounded-full bg-white/5 text-white/70 border border-white/10"
               >
                 {tag}
               </span>
             ))}
+            {project.tags.length > 3 && (
+              <span className="px-3 py-1 text-xs font-medium rounded-full bg-white/5 text-white/50 border border-white/10">
+                +{project.tags.length - 3}
+              </span>
+            )}
           </div>
 
-          {/* Actions */}
-          <div className="flex gap-4">
-            <motion.a
-              href={project.link}
-              whileHover={{ x: 5 }}
-              className="flex items-center gap-2 text-sm text-foreground hover:text-primary transition-colors cursor-hover"
-            >
-              <ExternalLink size={16} />
-              <span>View Project</span>
-            </motion.a>
-            <motion.a
-              href={project.github}
-              whileHover={{ x: 5 }}
-              className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors cursor-hover"
-            >
-              <Github size={16} />
-              <span>Source</span>
-            </motion.a>
+          {/* Divider */}
+          <div className="h-px w-full bg-gradient-to-r from-transparent via-white/10 to-transparent mb-5" />
+
+          {/* Creator / Title Row */}
+          <div className="flex items-center justify-between gap-4">
+            <div className="flex items-center gap-3 min-w-0 flex-1">
+              {/* Avatar wrapper */}
+              <div className="flex-shrink-0">
+                <div 
+                  className="w-10 h-10 rounded-xl flex items-center justify-center text-xs font-bold shadow-lg"
+                  style={{ 
+                    background: `linear-gradient(135deg, ${project.color}, ${project.color}90)`,
+                    color: '#000',
+                  }}
+                >
+                  {project.title.slice(0, 2).toUpperCase()}
+                </div>
+              </div>
+              <div className="min-w-0">
+                <p className="text-white font-display font-semibold text-sm truncate">{project.title}</p>
+                <p className="text-white/40 text-xs">Project #{project.id}</p>
+              </div>
+            </div>
+
+            {/* Action buttons */}
+            <div className="flex items-center gap-2 flex-shrink-0">
+              <motion.a
+                href={project.link}
+                whileHover={{ scale: 1.1, y: -2 }}
+                whileTap={{ scale: 0.95 }}
+                className="w-9 h-9 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-white/60 hover:text-primary hover:border-primary/40 hover:bg-primary/10 transition-all duration-300"
+                aria-label="View project"
+              >
+                <ExternalLink size={16} />
+              </motion.a>
+              <motion.a
+                href={project.github}
+                whileHover={{ scale: 1.1, y: -2 }}
+                whileTap={{ scale: 0.95 }}
+                className="w-9 h-9 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-white/60 hover:text-white hover:border-white/25 hover:bg-white/10 transition-all duration-300"
+                aria-label="View source code"
+              >
+                <Github size={16} />
+              </motion.a>
+            </div>
           </div>
         </div>
 
-        {/* Border glow on hover */}
-        <motion.div
-          className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
-          style={{
-            boxShadow: `inset 0 0 0 1px ${project.color}50`,
-          }}
+        {/* Colored glow on bottom */}
+        <div 
+          className="absolute bottom-0 left-1/2 -translate-x-1/2 w-2/3 h-16 blur-2xl opacity-20 pointer-events-none"
+          style={{ background: project.color }}
         />
-      </motion.div>
+      </div>
+
+      {/* Card shine animation keyframes */}
+      <style jsx>{`
+        @keyframes shine {
+          0% { background-position: 200% 0; }
+          100% { background-position: -200% 0; }
+        }
+      `}</style>
     </motion.div>
   );
 }
@@ -324,7 +341,7 @@ export function ProjectsSection() {
         </div>
 
         {/* Projects grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
           {projects.map((project, index) => (
             <ProjectCard key={project.id} project={project} index={index} />
           ))}

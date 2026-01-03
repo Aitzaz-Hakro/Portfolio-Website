@@ -63,11 +63,11 @@ export default function Home() {
       {/* Dynamic Light Rays Background */}
       <DynamicLightRays />
       
-      <Navigation />
-      <LoadingScreen />
+      {/* <LoadingScreen /> */}
       {/* <SmoothScrollProvider> */}
         {/* <CustomCursor /> */}
         <main className="noise relative z-10">
+         <Navigation />
           <HeroSection />
           <AboutSection />
           <ProjectsSection />
