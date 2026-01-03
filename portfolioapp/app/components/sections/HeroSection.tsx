@@ -155,16 +155,20 @@ export function HeroSection() {
     const style = document.createElement('style');
     style.textContent = `
       @font-face {
-        font-family: 'Ayer Poster';
-        src: url('/fonts/AyerPoster-Regular.woff2') format('woff2'),
-             url('/fonts/AyerPoster-Regular.woff') format('woff');
-        font-weight: normal;
-        font-style: normal;
-        font-display: swap;
+      font-family: 'Ayer Poster';
+      src: url('/fonts/AyerPoster-Medim.woff2') format('woff2'),
+         url('/fonts/AyerPoster-Medim.woff') format('woff');
+      font-weight: normal;
+      font-style: normal;
+      font-display: swap;
+      
       }
       
       .font-ayer-poster {
-        font-family: 'Ayer Poster', serif;
+      font-family: 'Ayer Poster', serif;
+      // word-spacing: 0.25em;
+      // letter-spacing: 0.02em;
+      // line-height: 1.2;
       }
     `;
     document.head.appendChild(style);
@@ -274,13 +278,13 @@ export function HeroSection() {
         className="relative z-20 text-center px-4 sm:px-6 md:px-8 max-w-5xl mx-auto"
       >
         {/* Main title with Tina Smith-inspired layout */}
-        <div className="mb-8 md:mb-12" style={{ perspective: "1200px" }}>
+        <div className="mb-8 md:mb-12" style={{ perspective: "1000px" }}>
           <h1
             ref={titleRef}
             className="font-ayer-poster font-bold text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl mb-6 md:mb-8 leading-[0.95] tracking-tighter"
           >
-            <span className="hero-name inline-block text-white">
-               Hassan
+            <span className="hero-name inline-block text-white bg-blue\">
+              Aitzaz Hassan
             </span>
             <br />
             <span className="hero-name inline-block text-white/90 mt-2 md:mt-4">
@@ -289,12 +293,12 @@ export function HeroSection() {
           </h1>
           
           {/* Bold tagline/hook inspired by Tina Smith */}
-          <p
+            <p
             ref={taglineRef}
-            className="font-ayer-poster font-normal text-xl sm:text-2xl md:text-3xl lg:text-4xl leading-relaxed text-white/70 max-w-3xl mx-auto"
-          >
+            className="font-ayer-poster font-normal text-xl sm:text-2xl md:text-3xl lg:text-4xl leading-relaxed text-white/70 max-w-4xl mx-auto px-4"
+            >
             specializing in <span className="text-[#f5a352] font-semibold">frontend architecture</span> and <span className="text-[#f5a352] font-semibold">immersive user experiences</span>
-          </p>
+            </p>
         </div>
 
         {/* Updated CTA Button with Tina Smith-inspired styling */}

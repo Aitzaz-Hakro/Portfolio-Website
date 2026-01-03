@@ -65,8 +65,7 @@ export default function Home() {
       <DynamicLightRays />
       
       {/* <LoadingScreen /> */}
-        <SmoothScrollProvider>
-        {/* <CustomCursor /> */}
+       <SmoothScrollProvider>
         <main className="noise relative z-10">
          <Navigation />
           <HeroSection />
