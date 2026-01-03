@@ -5,7 +5,7 @@
   --color-background: oklch(0.13 0.02 260);
   --color-foreground: oklch(0.98 0.01 260);
   
-  --color-primary: #f5a352;
+  --color-primary: #1E4FA8;
   --color-primary-foreground: oklch(0.1 0.02 260);
   
   --color-secondary: oklch(0.25 0.03 260);
@@ -14,7 +14,7 @@
   --color-muted: oklch(0.2 0.02 260);
   --color-muted-foreground: oklch(0.6 0.02 260);
   
-  --color-accent: #f5a352;
+  --color-accent: #1E4FA8;
   --color-accent-foreground: oklch(0.1 0.02 260);
   
   --color-destructive: oklch(0.55 0.2 25);
@@ -22,7 +22,7 @@
   
   --color-border: oklch(0.25 0.02 260);
   --color-input: oklch(0.2 0.02 260);
-  --color-ring: #f5a352;
+  --color-ring: #1E4FA8 ;
   
   --color-card: oklch(0.15 0.02 260);
   --color-card-foreground: oklch(0.98 0.01 260);
@@ -342,7 +342,7 @@ body {
 
 /* Perspective container for 3D effects */
 .perspective-container {
-  perspective: 1200px;
+  perspective: 1000px;
   transform-style: preserve-3d;
 }
 
