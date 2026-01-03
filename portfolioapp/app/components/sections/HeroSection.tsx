@@ -98,9 +98,9 @@ function NameBackgroundSVG() {
     >
       <defs>
         <linearGradient id="nameGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="#f5a352" stopOpacity="0.4" />
-          <stop offset="50%" stopColor="#3b82f6" stopOpacity="0.3" />
-          <stop offset="100%" stopColor="#8b5cf6" stopOpacity="0.4" />
+          <stop offset="0%" stopColor="var(--color-primary)" stopOpacity="0.4" />
+          <stop offset="50%" stopColor="var(--color-accent)" stopOpacity="0.3" />
+          <stop offset="100%" stopColor="var(--color-secondary)" stopOpacity="0.4" />
         </linearGradient>
         <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
           <feGaussianBlur stdDeviation="8" result="blur" />
@@ -120,9 +120,9 @@ function NameBackgroundSVG() {
           fontFamily: "'Ayer Poster', serif",
           fontWeight: '900',
           fill: 'url(#nameGradient)',
-          opacity: 0.6,
+          opacity: 0.8,
           letterSpacing: '-0.02em',
-          filter: 'url(#glow)'
+          filter: 'url(#glow)',
         }}
       >
         AITZAZ
@@ -152,12 +152,12 @@ export function HeroSection() {
 
   useEffect(() => {
     // Add custom font
-    const style = document.createElement('style');
+    const style = document.createElement('style');  
     style.textContent = `
       @font-face {
       font-family: 'Ayer Poster';
-      src: url('/fonts/AyerPoster-Medim.woff2') format('woff2'),
-         url('/fonts/AyerPoster-Medim.woff') format('woff');
+      src: url('/fonts/VisaDialect-Regular.woff2') format('woff2'),
+           url('/fonts/VisaDialect-Regular.woff') format('woff');
       font-weight: normal;
       font-style: normal;
       font-display: swap;
@@ -166,10 +166,11 @@ export function HeroSection() {
       
       .font-ayer-poster {
       font-family: 'Ayer Poster', serif;
-      // word-spacing: 0.25em;
-      // letter-spacing: 0.02em;
-      // line-height: 1.2;
-      }
+      word-spacing: 0.025em;
+       letter-spacing: 00em !important;
+      line-height: 1;
+      } 
+      
     `;
     document.head.appendChild(style);
 
@@ -274,20 +275,20 @@ export function HeroSection() {
 
       {/* Content */}
       <motion.div
-        style={{ opacity, scale, y }}
+        style={{ opacity, scale, y, gap: '1.5rem' }}
         className="relative z-20 text-center px-4 sm:px-6 md:px-8 max-w-5xl mx-auto"
       >
         {/* Main title with Tina Smith-inspired layout */}
-        <div className="mb-8 md:mb-12" style={{ perspective: "1000px" }}>
+        <div className="mb-8 md:mb-12" style={{ perspective: "1200px" }}>
           <h1
             ref={titleRef}
             className="font-ayer-poster font-bold text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl mb-6 md:mb-8 leading-[0.95] tracking-tighter"
           >
-            <span className="hero-name inline-block text-white bg-blue\">
+            <span className="hero-name inline-block text-accent bg-blue\">
               Aitzaz Hassan
             </span>
             <br />
-            <span className="hero-name inline-block text-white/90 mt-2 md:mt-4">
+            <span className="hero-name inline-block text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl  text-white/90 mt-2 md:mt-4">
               Creative Full Stack Developer
             </span>
           </h1>
@@ -297,7 +298,7 @@ export function HeroSection() {
             ref={taglineRef}
             className="font-ayer-poster font-normal text-xl sm:text-2xl md:text-3xl lg:text-4xl leading-relaxed text-white/70 max-w-4xl mx-auto px-4"
             >
-            specializing in <span className="text-[#f5a352] font-semibold">frontend architecture</span> and <span className="text-[#f5a352] font-semibold">immersive user experiences</span>
+            specializing in <span className="text-accent font-semibold">frontend architecture</span> and <span className="text-accent font-semibold">immersive user experiences</span>
             </p>
         </div>
 
@@ -306,12 +307,12 @@ export function HeroSection() {
           <MagneticWrapper strength={0.15}>
             <motion.button
               onClick={handleExploreClick}
-              className="group relative inline-flex items-center justify-center gap-3 px-8 md:px-10 py-4 md:py-5 bg-transparent border-2 border-[#f5a352]/70 hover:border-[#f5a352] text-white font-ayer-poster font-medium text-base md:text-lg uppercase tracking-widest rounded-none transition-all duration-500 hover:bg-[#f5a352]/10 overflow-hidden"
+              className="group relative inline-flex items-center justify-center gap-3 px-8 md:px-10 py-4 md:py-5 bg-transparent border-2 border-accent hover:border-accent text-white font-ayer-poster font-medium text-base md:text-lg uppercase tracking-widest rounded-full transition-all duration-500 hover:bg-accent/10 overflow-hidden"
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
             >
               {/* Animated background effect */}
-              <span className="absolute inset-0 bg-gradient-to-r from-transparent via-[#f5a352]/10 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
+              <span className="absolute inset-0 bg-gradient-to-r from-transparent via-accent/10 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
               
               <span className="relative">View Selected Projects</span>
               <ArrowRight className="w-5 h-5 md:w-6 md:h-6 transition-all duration-300 group-hover:translate-x-2 group-hover:scale-110" />

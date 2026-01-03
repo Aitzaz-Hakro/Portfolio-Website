@@ -22,7 +22,7 @@ const sectionConfigs: SectionConfig[] = [
     id: "hero",
     light: {
       origin: "top-center",
-      color: "#f5a352",
+      color: "accent",
       spread: 1.2,
       speed: 0.8,
       rayLength: 2.5,
@@ -32,7 +32,7 @@ const sectionConfigs: SectionConfig[] = [
     id: "about",
     light: {
       origin: "right",
-      color: "#f5a352",
+      color: "accent",
       spread: 1.0,
       speed: 0.6,
       rayLength: 2.0,
@@ -42,7 +42,7 @@ const sectionConfigs: SectionConfig[] = [
     id: "projects",
     light: {
       origin: "left",
-      color: "#f5a352",
+      color: "accent",
       spread: 1.1,
       speed: 0.7,
       rayLength: 2.2,
@@ -52,7 +52,7 @@ const sectionConfigs: SectionConfig[] = [
     id: "services",
     light: {
       origin: "top-right",
-      color: "#f5a352",
+      color: "accent",
       spread: 1.0,
       speed: 0.6,
       rayLength: 2.0,
@@ -62,7 +62,7 @@ const sectionConfigs: SectionConfig[] = [
     id: "testimonials",
     light: {
       origin: "bottom-center",
-      color: "#f5a352",
+      color: "accent",
       spread: 0.9,
       speed: 0.5,
       rayLength: 1.8,
@@ -72,7 +72,7 @@ const sectionConfigs: SectionConfig[] = [
     id: "contact",
     light: {
       origin: "top-left",
-      color: "#f5a352",
+      color: "accent",
       spread: 1.0,
       speed: 0.6,
       rayLength: 2.0,

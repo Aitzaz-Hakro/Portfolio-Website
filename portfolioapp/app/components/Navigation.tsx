@@ -15,6 +15,9 @@ export default function Navigation() {
     style.textContent = `
       .font-ayer-poster {
         font-family: 'Ayer Poster', serif;
+        // word-spacing: 0.25em;
+        letter-spacing: 0.2em !important;
+        // line-height: 1.2;
       }
     `;
     document.head.appendChild(style);
@@ -81,8 +84,8 @@ export default function Navigation() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3 + index * 0.1 }}
                 onClick={() => handleClick(link.href)}
-                className={`relative px-4 py-2 transition-all duration-300 group font-ayer-poster tracking-[0.1em] uppercase text-sm ${activeLink === link.href.replace("#", "")
-                  ? "text-[#f5a352]"
+                className={`relative px-4 py-2 transition-all duration-300 group font-ayer-poster tracking-[0.1em] uppercase text-lg wor ${activeLink === link.href.replace("#", "")
+                  ? "text-accent"
                   : "text-white/80 hover:text-white"
                   }`}
               >
@@ -98,7 +101,7 @@ export default function Navigation() {
                 {activeLink === link.href.replace("#", "") && (
                   <motion.span
                     layoutId="activeDot"
-                    className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-1 h-1 rounded-full bg-[#f5a352]"
+                    className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-1 h-1 rounded-full bg-accent"
                   />
                 )}
               </motion.button>
@@ -110,7 +113,7 @@ export default function Navigation() {
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.6 }}
               onClick={() => handleClick("#contact")}
-              className="font-ayer-poster tracking-[0.1em] uppercase text-sm cursor-pointer bg-transparent border border-white/30 hover:border-[#f5a352] px-6 py-3 rounded-full text-white hover:text-[#f5a352] transition-all duration-300 hover:shadow-[0_0_20px_rgba(245,163,82,0.2)] ml-2"
+              className="font-ayer-poster tracking-[0.1em] uppercase text-sm cursor-pointer bg-transparent border border-white/30 hover:border-accent px-6 py-3 rounded-full text-white hover:text-accent transition-all duration-300 hover:shadow-[0_0_20px_rgba(245,163,82,0.2)] ml-2"
             >
               CONTACT
             </motion.button>
@@ -182,8 +185,8 @@ export default function Navigation() {
                   >
                     <button
                       onClick={() => handleClick(link.href)}
-                      className={`font-ayer-poster text-4xl md:text-5xl font-bold tracking-wider transition-all duration-300 hover:text-[#f5a352] hover:translate-x-4 ${activeLink === link.href.replace("#", "")
-                        ? "text-[#f5a352]"
+                      className={`font-ayer-poster text-4xl md:text-5xl font-bold tracking-wider transition-all duration-300 hover:text-accent hover:translate-x-4 ${activeLink === link.href.replace("#", "")
+                        ? "text-accent"
                         : "text-white/90"
                         }`}
                     >
@@ -214,13 +217,13 @@ export default function Navigation() {
                   ease: "easeOut"
                 }}
                 onClick={() => handleClick("#contact")}
-                className="mt-12 font-ayer-poster tracking-[0.1em] uppercase text-lg cursor-pointer bg-transparent border-2 border-white/40 hover:border-[#f5a352] px-10 py-4 rounded-full text-white hover:text-[#f5a352] transition-all duration-300 hover:shadow-[0_0_30px_rgba(245,163,82,0.3)] group"
+                className="mt-12 font-ayer-poster tracking-[0.1em] uppercase text-lg cursor-pointer bg-transparent border-2 border-white/40 hover:border-accent px-10 py-4 rounded-full text-white hover:text-accent transition-all duration-300 hover:shadow-[0_0_30px_rgba(245,163,82,0.3)] group"
               >
                 <span className="relative overflow-hidden block">
                   <span className="block group-hover:-translate-y-full transition-transform duration-300">
                     CONTACT ME
                   </span>
-                  <span className="absolute top-full left-0 block group-hover:-translate-y-full transition-transform duration-300 text-[#f5a352]">
+                  <span className="absolute top-full left-0 block group-hover:-translate-y-full transition-transform duration-300 text-accent">
                     CONTACT ME
                   </span>
                 </span>

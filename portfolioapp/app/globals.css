@@ -31,7 +31,7 @@
   --color-popover-foreground: oklch(0.98 0.01 260);
   
   /* Glow colors */
-  --color-glow-primary: #f5a352;
+  --color-glow-primary: #1E4FA8;
   --color-glow-accent: #e8943f;
   --color-glow-white: oklch(1 0 0 / 0.1);
   
@@ -112,7 +112,9 @@
 /* Base styles */
 * {
   box-sizing: border-box;
-  margin: 0;
+  margin-top: 0;
+  margin-left: 0;
+  margin-right: 0;
 }
 
 html {
@@ -194,7 +196,7 @@ body {
 /* Glow effect utilities */
 .glow-primary {
   box-shadow: 0 0 20px var(--color-glow-primary),
-              0 0 40px oklch(0.7 0.2 260 / 0.3);
+              0 0 40px oklch(96.667% 0.00182 249.219 / 0.3);
 }
 
 .glow-accent {
