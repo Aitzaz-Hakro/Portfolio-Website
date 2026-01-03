@@ -7,15 +7,16 @@ import { SmoothScrollProvider } from "@/app/components/providers/SmoothScrollPro
 // import { CustomCursor } from "@/app/components/ui/CustomCursor";
 import { LoadingScreen } from "@/app/components/ui/LoadingScreen";
 import { DynamicLightRays } from "@/app/components/DynamicLightRays";
+import { HeroSection } from "@/app/components/sections/HeroSection";
 
 // Dynamic imports for better code splitting
-const HeroSection = dynamic(  
-  () =>
-    import("@/app/components/sections/HeroSection").then(
-      (mod) => mod.HeroSection
-    ),
-  { ssr: false }
-);
+// const HeroSection = dynamic(  
+//   () =>
+//     import("@/app/components/sections/HeroSection").then(
+//       (mod) => mod.HeroSection
+//     ),
+//   { ssr: false }
+// );
 
 const AboutSection = dynamic(
   () =>
@@ -64,7 +65,7 @@ export default function Home() {
       <DynamicLightRays />
       
       {/* <LoadingScreen /> */}
-      {/* <SmoothScrollProvider> */}
+        <SmoothScrollProvider>
         {/* <CustomCursor /> */}
         <main className="noise relative z-10">
          <Navigation />
@@ -76,7 +77,7 @@ export default function Home() {
           <ContactSection />
         </main>
         <Footer />
-      {/* </SmoothScrollProvider> */}
+      </SmoothScrollProvider>
     </>
   );
 }

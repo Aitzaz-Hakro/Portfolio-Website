@@ -23,19 +23,23 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Portfolio | Full-Stack Developer & Digital Architect",
+  title: "Portfolio | Aitzaz Hassan - Full-Stack Dev",
   description:
     "Crafting exceptional digital experiences through innovative design and cutting-edge technology. Full-stack developer specializing in React, Next.js, and modern web technologies.",
   keywords: [
     "full-stack developer",
     "web developer",
+    "aitzaz hassan hakro",
+    "aitzaz hakro",
+    "aitzaz portfolio",
+    "web development",
     "react developer",
     "next.js",
     "portfolio",
     "frontend developer",
     "backend developer",
   ],
-  authors: [{ name: "Portfolio" }],
+  authors: [{ name: "Aitzaz Hassan" }],
   openGraph: {
     title: "Portfolio | Aitzaz Hassan - Full-Stack Dev",
     description:
@@ -52,7 +56,6 @@ export const metadata: Metadata = {
     ],
   },
 };
-
 export default function RootLayout({
   children,
 }: Readonly<{

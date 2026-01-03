@@ -1,6 +1,3 @@
-
-
-
 "use client";
 
 import { useState, useEffect } from "react";
@@ -13,6 +10,15 @@ export default function Navigation() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
+    // Add Ayer Poster font
+    const style = document.createElement('style');
+    style.textContent = `
+      .font-ayer-poster {
+        font-family: 'Ayer Poster', serif;
+      }
+    `;
+    document.head.appendChild(style);
+
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
 
@@ -31,7 +37,10 @@ export default function Navigation() {
     };
 
     window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    return () => {
+      document.head.removeChild(style);
+      window.removeEventListener("scroll", handleScroll);
+    };
   }, []);
 
   const handleClick = (href: string) => {
@@ -43,9 +52,9 @@ export default function Navigation() {
   };
 
   const navLinks = [
-    { href: "#about", label: "About" },
-    { href: "#projects", label: "Projects" },
-    { href: "#services", label: "Services" },
+    { href: "#about", label: "ABOUT" },
+    { href: "#projects", label: "PROJECTS" },
+    { href: "#services", label: "SERVICES" },
   ];
 
   return (
@@ -54,79 +63,63 @@ export default function Navigation() {
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
-        className={`fixed top-0 left-1/2 -translate-x-1/2 z-50 transition-all duration-500 w-[95%] md:w-auto ${isScrolled ? "py-2 md:py-3" : "py-4 md:py-6"
+        className={`fixed top-0 right-0 z-50 transition-all duration-500 px-4 sm:px-6 md:px-8 pt-6 md:pt-8 ${isScrolled ? "py-2" : "py-4"
           }`}
       >
         <nav
-          className={`flex justify-center items-center h-14 md:h-16 px-5 md:px-10 gap-3 md:gap-8 lg:gap-10 text-white text-base md:text-lg rounded-full transition-all duration-500 ${isScrolled
-            ? "bg-white/10 backdrop-blur-xl border border-white/20 shadow-[0_8px_32px_rgba(0,0,0,0.2)]"
-            : "bg-white/5 backdrop-blur-sm border border-white/10"
-            }`}
+          className={`flex justify-end items-center ${isScrolled
+            ? "bg-white/5 backdrop-blur-xl border border-white/15 shadow-[0_8px_32px_rgba(0,0,0,0.3)]"
+            : "bg-transparent"
+            } rounded-full transition-all duration-500`}
         >
-          {/* Desktop Navigation Links */}
-          <div className="hidden md:flex items-center gap-6 lg:gap-8">
+          {/* Desktop Navigation Links - Right aligned */}
+          <div className="hidden md:flex items-center gap-4 lg:gap-6 px-6 py-3">
             {navLinks.map((link, index) => (
-              <motion.a
+              <motion.button
                 key={link.href}
-                href={link.href}
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.3 + index * 0.1 }}
-                onClick={(e) => {
-                  e.preventDefault();
-                  handleClick(link.href);
-                }}
-                className={`relative px-3 py-2 transition-all duration-300 group ${activeLink === link.href.replace("#", "")
-                  ? "text-primary"
-                  : "text-white/70 hover:text-white"
+                onClick={() => handleClick(link.href)}
+                className={`relative px-4 py-2 transition-all duration-300 group font-ayer-poster tracking-[0.1em] uppercase text-sm ${activeLink === link.href.replace("#", "")
+                  ? "text-[#f5a352]"
+                  : "text-white/80 hover:text-white"
                   }`}
               >
-                {/* Hover background glow */}
-                <span className="absolute inset-0 rounded-lg bg-white/0 group-hover:bg-white/10 transition-all duration-300" />
+                {/* Hover background effect */}
+                <span className="absolute inset-0 rounded-full bg-white/0 group-hover:bg-white/5 transition-all duration-300" />
 
-                {/* Text with slide effect */}
-                <span className="relative z-10 overflow-hidden block">
-                  <span className="block group-hover:-translate-y-full transition-transform duration-300 ease-out">
-                    {link.label}
-                  </span>
-                  <span className="absolute top-full left-0 block group-hover:-translate-y-full transition-transform duration-300 ease-out text-primary">
-                    {link.label}
-                  </span>
+                {/* Text with minimal effect */}
+                <span className="relative z-10">
+                  {link.label}
                 </span>
 
-                {/* Animated underline */}
-                <span
-                  className={`absolute bottom-0 left-1/2 -translate-x-1/2 h-[2px] bg-gradient-to-r from-transparent via-primary to-transparent transition-all duration-300 ${activeLink === link.href.replace("#", "")
-                    ? "w-full opacity-100"
-                    : "w-0 opacity-0 group-hover:w-full group-hover:opacity-100"
-                    }`}
-                />
-              </motion.a>
+                {/* Active indicator - simple dot */}
+                {activeLink === link.href.replace("#", "") && (
+                  <motion.span
+                    layoutId="activeDot"
+                    className="absolute -bottom-1 left-1/2 transform -translate-x-1/2 w-1 h-1 rounded-full bg-[#f5a352]"
+                  />
+                )}
+              </motion.button>
             ))}
+
+            {/* Contact Button - Desktop */}
+            <motion.button
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.6 }}
+              onClick={() => handleClick("#contact")}
+              className="font-ayer-poster tracking-[0.1em] uppercase text-sm cursor-pointer bg-transparent border border-white/30 hover:border-[#f5a352] px-6 py-3 rounded-full text-white hover:text-[#f5a352] transition-all duration-300 hover:shadow-[0_0_20px_rgba(245,163,82,0.2)] ml-2"
+            >
+              CONTACT
+            </motion.button>
           </div>
 
-          {/* Contact Button - Desktop */}
-          <motion.button
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.6 }}
-            onClick={() => handleClick("#contact")}
-            className="hidden md:block cursor-pointer bg-gradient-to-b from-primary to-primary/80 shadow-[0px_4px_32px_0_rgba(245,163,82,.50)] px-8 py-3 rounded-xl border-[1px] border-primary/50 text-black text-base font-semibold group overflow-hidden hover:shadow-[0px_4px_48px_0_rgba(245,163,82,.70)] transition-shadow duration-300"
-          >
-            <div className="relative overflow-hidden h-6">
-              <p className="group-hover:-translate-y-8 duration-[1.125s] ease-[cubic-bezier(0.19,1,0.22,1)]">
-                CONTACT ME
-              </p>
-              <p className="absolute top-8 left-0 group-hover:top-0 duration-[1.125s] ease-[cubic-bezier(0.19,1,0.22,1)]">
-                CONTACT ME
-              </p>
-            </div>
-          </motion.button>
-
-          {/* Mobile Menu Button */}
+          {/* Mobile Menu Button - Minimal design */}
           <button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="md:hidden relative w-10 h-10 rounded-xl bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center group hover:bg-white/20 transition-all duration-300"
+            className="md:hidden relative w-12 h-12 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 flex items-center justify-center group hover:bg-white/15 transition-all duration-300"
             aria-label="Toggle menu"
           >
             <motion.div
@@ -143,7 +136,7 @@ export default function Navigation() {
         </nav>
       </motion.header>
 
-      {/* Mobile Menu Overlay */}
+      {/* Mobile Menu Overlay - Slides from left */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
@@ -153,62 +146,95 @@ export default function Navigation() {
             transition={{ duration: 0.3 }}
             className="fixed inset-0 z-40 md:hidden"
           >
-            {/* Backdrop with blur */}
+            {/* Backdrop with gradient */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="absolute inset-0 bg-black/80 backdrop-blur-xl"
+              className="absolute inset-0 bg-gradient-to-br from-black/95 via-black/90 to-black/95 backdrop-blur-xl"
               onClick={() => setIsMobileMenuOpen(false)}
             />
 
-            {/* Menu Content */}
+            {/* Menu Container - Slides from left */}
             <motion.div
-              initial={{ opacity: 0, y: 50 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 50 }}
-              transition={{ duration: 0.4, ease: "easeOut" }}
-              className="relative h-full flex flex-col items-center justify-center gap-8"
+              initial={{ x: "-100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "-100%" }}
+              transition={{ 
+                duration: 0.5, 
+                ease: [0.22, 1, 0.36, 1] // Custom easing for smooth slide
+              }}
+              className="relative h-full w-full md:w-96 flex flex-col items-start justify-center pl-8 sm:pl-12 md:pl-16"
             >
-              {navLinks.map((link, index) => (
-                <motion.a
-                  key={link.href}
-                  href={link.href}
-                  initial={{ opacity: 0, x: -50 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: 50 }}
-                  transition={{ delay: 0.1 + index * 0.1, duration: 0.4 }}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    handleClick(link.href);
-                  }}
-                  className={`text-3xl font-bold tracking-wide transition-all duration-300 hover:text-primary hover:scale-110 ${activeLink === link.href.replace("#", "")
-                    ? "text-primary"
-                    : "text-white/80"
-                    }`}
-                >
-                  {link.label}
-                </motion.a>
-              ))}
+              {/* Navigation Links - Stacked vertically with staggered animation */}
+              <div className="space-y-8">
+                {navLinks.map((link, index) => (
+                  <motion.div
+                    key={link.href}
+                    initial={{ x: -50, opacity: 0 }}
+                    animate={{ x: 0, opacity: 1 }}
+                    exit={{ x: -50, opacity: 0 }}
+                    transition={{ 
+                      delay: 0.1 + index * 0.1, 
+                      duration: 0.4,
+                      ease: "easeOut"
+                    }}
+                  >
+                    <button
+                      onClick={() => handleClick(link.href)}
+                      className={`font-ayer-poster text-4xl md:text-5xl font-bold tracking-wider transition-all duration-300 hover:text-[#f5a352] hover:translate-x-4 ${activeLink === link.href.replace("#", "")
+                        ? "text-[#f5a352]"
+                        : "text-white/90"
+                        }`}
+                    >
+                      {link.label}
+                    </button>
+                    
+                    {/* Subtle separator for each link */}
+                    {index < navLinks.length - 1 && (
+                      <motion.div
+                        initial={{ width: 0 }}
+                        animate={{ width: "100%" }}
+                        transition={{ delay: 0.15 + index * 0.1, duration: 0.3 }}
+                        className="h-px bg-white/10 mt-2"
+                      />
+                    )}
+                  </motion.div>
+                ))}
+              </div>
 
-              {/* Contact Button - Mobile */}
+              {/* Contact Button - Mobile - Appears last */}
               <motion.button
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 20 }}
-                transition={{ delay: 0.4, duration: 0.4 }}
+                initial={{ x: -50, opacity: 0 }}
+                animate={{ x: 0, opacity: 1 }}
+                exit={{ x: -50, opacity: 0 }}
+                transition={{ 
+                  delay: 0.4, 
+                  duration: 0.4,
+                  ease: "easeOut"
+                }}
                 onClick={() => handleClick("#contact")}
-                className="mt-4 cursor-pointer bg-gradient-to-b from-primary to-primary/80 shadow-[0px_4px_32px_0_rgba(245,163,82,.50)] px-8 py-3 rounded-xl border-[1px] border-primary/50 text-black font-medium text-lg group overflow-hidden"
+                className="mt-12 font-ayer-poster tracking-[0.1em] uppercase text-lg cursor-pointer bg-transparent border-2 border-white/40 hover:border-[#f5a352] px-10 py-4 rounded-full text-white hover:text-[#f5a352] transition-all duration-300 hover:shadow-[0_0_30px_rgba(245,163,82,0.3)] group"
               >
-                <div className="relative overflow-hidden h-6">
-                  <p className="group-hover:-translate-y-8 duration-[1.125s] ease-[cubic-bezier(0.19,1,0.22,1)]">
+                <span className="relative overflow-hidden block">
+                  <span className="block group-hover:-translate-y-full transition-transform duration-300">
                     CONTACT ME
-                  </p>
-                  <p className="absolute top-8 left-0 group-hover:top-0 duration-[1.125s] ease-[cubic-bezier(0.19,1,0.22,1)]">
+                  </span>
+                  <span className="absolute top-full left-0 block group-hover:-translate-y-full transition-transform duration-300 text-[#f5a352]">
                     CONTACT ME
-                  </p>
-                </div>
+                  </span>
+                </span>
               </motion.button>
+
+              {/* Close hint - subtle text */}
+              <motion.p
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.6, duration: 0.3 }}
+                className="absolute bottom-8 left-8 text-white/40 text-sm tracking-wider uppercase mt-8"
+              >
+                CLICK ANYWHERE TO CLOSE
+              </motion.p>
             </motion.div>
           </motion.div>
         )}

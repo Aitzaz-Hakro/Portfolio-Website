@@ -87,40 +87,59 @@ function SubtleParticles() {
   );
 }
 
-// Scroll progress indicator
-function ScrollIndicator() {
-  const [scrollProgress, setScrollProgress] = useState(0);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const windowHeight = window.innerHeight;
-      const documentHeight = document.documentElement.scrollHeight - windowHeight;
-      const scrolled = window.scrollY;
-      const progress = (scrolled / documentHeight) * 100;
-      setScrollProgress(progress);
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
+// Name background SVG component
+function NameBackgroundSVG() {
   return (
-    <div className="fixed right-4 md:right-8 top-1/2 -translate-y-1/2 z-50 hidden md:flex flex-col items-center gap-2">
-      <div className="h-24 w-[2px] bg-white/10 rounded-full overflow-hidden">
-        <motion.div
-          className="w-full bg-white/60 rounded-full"
-          style={{ height: `${scrollProgress}%` }}
-          transition={{ duration: 0.1 }}
-        />
-      </div>
-    </div>
+    <svg 
+      className="absolute inset-0 w-full h-full z-0 opacity-15 pointer-events-none"
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 1200 400"
+      preserveAspectRatio="xMidYMid slice"
+    >
+      <defs>
+        <linearGradient id="nameGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stopColor="#f5a352" stopOpacity="0.4" />
+          <stop offset="50%" stopColor="#3b82f6" stopOpacity="0.3" />
+          <stop offset="100%" stopColor="#8b5cf6" stopOpacity="0.4" />
+        </linearGradient>
+        <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+          <feGaussianBlur stdDeviation="8" result="blur" />
+          <feComposite in="SourceGraphic" in2="blur" operator="over" />
+        </filter>
+      </defs>
+      
+      {/* Large decorative name text in background */}
+      <text
+        x="50%"
+        y="50%"
+        textAnchor="middle"
+        dominantBaseline="middle"
+        className="font-display"
+        style={{
+          fontSize: '320px',
+          fontFamily: "'Ayer Poster', serif",
+          fontWeight: '900',
+          fill: 'url(#nameGradient)',
+          opacity: 0.6,
+          letterSpacing: '-0.02em',
+          filter: 'url(#glow)'
+        }}
+      >
+        AITZAZ
+      </text>
+    </svg>
   );
 }
+
+
 
 export function HeroSection() {
   const containerRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
   const ctaRef = useRef<HTMLDivElement>(null);
+  const taglineRef = useRef<HTMLParagraphElement>(null);
+
+  // Force recompilation - remove this comment
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -132,35 +151,87 @@ export function HeroSection() {
   const y = useTransform(scrollYProgress, [0, 0.5], [0, 50]);
 
   useEffect(() => {
+    // Add custom font
+    const style = document.createElement('style');
+    style.textContent = `
+      @font-face {
+        font-family: 'Ayer Poster';
+        src: url('/fonts/AyerPoster-Regular.woff2') format('woff2'),
+             url('/fonts/AyerPoster-Regular.woff') format('woff');
+        font-weight: normal;
+        font-style: normal;
+        font-display: swap;
+      }
+      
+      .font-ayer-poster {
+        font-family: 'Ayer Poster', serif;
+      }
+    `;
+    document.head.appendChild(style);
+
     const ctx = gsap.context(() => {
       const tl = gsap.timeline({ defaults: { ease: "power4.out" } });
 
-      // Animate title words
-      const words = titleRef.current?.querySelectorAll('.hero-word');
-      if (words) {
+      // Animate main name with staggered fade-in
+      const nameWords = titleRef.current?.querySelectorAll('.hero-name');
+      if (nameWords) {
         tl.fromTo(
-          words,
-          { y: 100, opacity: 0, rotateX: -90 },
+          nameWords,
+          { 
+            y: 60, 
+            opacity: 0, 
+            filter: "blur(10px)" 
+          },
           {
             y: 0,
             opacity: 1,
-            rotateX: 0,
-            duration: 1.2,
-            stagger: 0.1,
+            filter: "blur(0px)",
+            duration: 1.4,
+            stagger: 0.15,
             delay: 0.3
           }
         );
       }
 
+      // Animate tagline with fade-in from bottom
+      if (taglineRef.current) {
+        tl.fromTo(
+          taglineRef.current,
+          { 
+            y: 40, 
+            opacity: 0,
+            scale: 0.95 
+          },
+          { 
+            y: 0, 
+            opacity: 1, 
+            scale: 1, 
+            duration: 1.2 
+          },
+          "-=0.6"
+        );
+      }
+
+      // Animate CTA button
       tl.fromTo(
         ctaRef.current,
-        { y: 30, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.8 },
+        { 
+          y: 30, 
+          opacity: 0,
+          rotateX: -20 
+        },
+        { 
+          y: 0, 
+          opacity: 1, 
+          rotateX: 0, 
+          duration: 0.9 
+        },
         "-=0.4"
       );
     }, containerRef);
 
     return () => {
+      document.head.removeChild(style);
       ctx.revert();
     };
   }, []);
@@ -183,65 +254,69 @@ export function HeroSection() {
         className="absolute inset-0 z-0"
         style={{
           background: `
-            radial-gradient(ellipse 80% 50% at 50% 100%, rgba(30, 30, 40, 0.8) 0%, transparent 60%),
-            radial-gradient(ellipse 60% 40% at 20% 80%, rgba(20, 20, 30, 0.6) 0%, transparent 50%),
-            radial-gradient(ellipse 60% 40% at 80% 80%, rgba(20, 20, 30, 0.6) 0%, transparent 50%),
+            radial-gradient(ellipse 80% 50% at 50% 100%, rgba(30, 30, 40, 0.9) 0%, transparent 60%),
+            radial-gradient(ellipse 60% 40% at 20% 80%, rgba(20, 20, 30, 0.7) 0%, transparent 50%),
+            radial-gradient(ellipse 60% 40% at 80% 80%, rgba(20, 20, 30, 0.7) 0%, transparent 50%),
             linear-gradient(180deg, #0a0a0f 0%, #0d0d14 50%, #0a0a0f 100%)
           `,
         }}
       />
 
+      {/* Name background SVG */}
+      <NameBackgroundSVG />
+
       {/* Subtle particles */}
       <SubtleParticles />
-
-      {/* Scroll indicator */}
-      <ScrollIndicator />
 
       {/* Content */}
       <motion.div
         style={{ opacity, scale, y }}
         className="relative z-20 text-center px-4 sm:px-6 md:px-8 max-w-5xl mx-auto"
       >
-        {/* Main title with italic styling */}
-        <h1
-          ref={titleRef}
-          className="font-display font-bold text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl mb-8 md:mb-12 leading-[1.1] tracking-tight"
-          style={{ perspective: "1000px" }}
-        >
-          <span className="hero-word inline-block italic">
-            Aitzaz Hassan
-          </span>
-          <span className="hero-word inline-block italic ">
-            Full Stack Developer
-          </span>
-          <br />
-          <span className="hero-word inline-block italic mt-2 sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl  md:mt-4 mb-3 text-muted-foreground ">
-            Crafting Digital Experiences
-          </span>
-        </h1>
+        {/* Main title with Tina Smith-inspired layout */}
+        <div className="mb-8 md:mb-12" style={{ perspective: "1200px" }}>
+          <h1
+            ref={titleRef}
+            className="font-ayer-poster font-bold text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl mb-6 md:mb-8 leading-[0.95] tracking-tighter"
+          >
+            <span className="hero-name inline-block text-white">
+               Hassan
+            </span>
+            <br />
+            <span className="hero-name inline-block text-white/90 mt-2 md:mt-4">
+              Creative Full Stack Developer
+            </span>
+          </h1>
+          
+          {/* Bold tagline/hook inspired by Tina Smith */}
+          <p
+            ref={taglineRef}
+            className="font-ayer-poster font-normal text-xl sm:text-2xl md:text-3xl lg:text-4xl leading-relaxed text-white/70 max-w-3xl mx-auto"
+          >
+            specializing in <span className="text-[#f5a352] font-semibold">frontend architecture</span> and <span className="text-[#f5a352] font-semibold">immersive user experiences</span>
+          </p>
+        </div>
 
-        {/* CTA Button */}
-        <div ref={ctaRef} className="flex justify-center mt-8 md:mt-12">
+        {/* Updated CTA Button with Tina Smith-inspired styling */}
+        <div ref={ctaRef} className="flex justify-center mt-10 md:mt-14">
           <MagneticWrapper strength={0.15}>
             <motion.button
               onClick={handleExploreClick}
-              className="group w-auto min-w-[12rem] h-10 relative inline-flex items-center justify-center gap-2 md:gap-3 px-6 md:px-8 py-3 md:py-4 bg-[#f5a352] hover:bg-[#e8943f] text-black font-sans font-medium text-sm md:text-base uppercase tracking-wider rounded-full transition-all duration-300 hover:shadow-[0_0_30px_rgba(245,163,82,0.4)]"
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
+              className="group relative inline-flex items-center justify-center gap-3 px-8 md:px-10 py-4 md:py-5 bg-transparent border-2 border-[#f5a352]/70 hover:border-[#f5a352] text-white font-ayer-poster font-medium text-base md:text-lg uppercase tracking-widest rounded-none transition-all duration-500 hover:bg-[#f5a352]/10 overflow-hidden"
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
             >
-              <span>Explore Works</span>
-              <ArrowRight className="w-4 h-4 md:w-5 md:h-5 transition-transform duration-300 group-hover:translate-x-1" />
+              {/* Animated background effect */}
+              <span className="absolute inset-0 bg-gradient-to-r from-transparent via-[#f5a352]/10 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
+              
+              <span className="relative">View Selected Projects</span>
+              <ArrowRight className="w-5 h-5 md:w-6 md:h-6 transition-all duration-300 group-hover:translate-x-2 group-hover:scale-110" />
             </motion.button>
           </MagneticWrapper>
         </div>
 
         {/* Scroll down indicator */}
-        <motion.div
-          className="absolute bottom-6 md:bottom-10 left-1/2 -translate-x-1/2"
-          animate={{ y: [0, 8, 0] }}
-          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-        >
-        </motion.div>
+       
       </motion.div>
 
       {/* Bottom gradient fade */}
