@@ -1,346 +1,291 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { motion, useInView, useScroll, useTransform } from "framer-motion";
+import { motion, useInView, AnimatePresence } from "framer-motion";
 import Image from "next/image";
-import { Download } from "lucide-react";
+import { Download, ArrowUpRight, Sparkle, Code, Palette, Zap, Target } from "lucide-react";
 
-// Animation variants for staggered text reveal
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.15,
-      delayChildren: 0.2,
-    },
+const expertise = [
+  {
+    icon: Code,
+    title: "Frontend Architecture",
+    description: "Scalable component systems & performance optimization",
+    metric: "40% faster load times",
+    color: "text-blue-400",
   },
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 40 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.8,
-      ease: [0.22, 1, 0.36, 1],
-    },
+  {
+    icon: Palette,
+    title: "UI/UX Design",
+    description: "User-centered design with conversion optimization",
+    metric: "2.5x engagement boost",
+    color: "text-accent",
   },
-};
-
-const imageVariants = {
-  hidden: { opacity: 0, scale: 0.9, rotate: -5 },
-  visible: {
-    opacity: 1,
-    scale: 1,
-    rotate: 0,
-    transition: {
-      duration: 1,
-      ease: [0.22, 1, 0.36, 1],
-    },
+  {
+    icon: Zap,
+    title: "Technical Leadership",
+    description: "Team mentoring & technical strategy development",
+    metric: "10+ projects led",
+    color: "text-purple-400",
   },
-};
+];
 
 export function AboutSection() {
   const sectionRef = useRef<HTMLElement>(null);
-  const imageWrapperRef = useRef<HTMLDivElement>(null);
+  const [hoveredElement, setHoveredElement] = useState<string | null>(null);
   const isInView = useInView(sectionRef, { once: true, margin: "-100px" });
-  const [imageHover, setImageHover] = useState(false);
 
-  // Scroll-based fade animation
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start end", "end start"],
-  });
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.08,
+        delayChildren: 0.1,
+      },
+    },
+  };
 
-  const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
-  const scale = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0.95, 1, 1, 0.95]);
-  const y = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [80, 0, 0, -80]);
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.5,
+        ease: "easeOut",
+      },
+    },
+  };
 
   return (
     <section
       ref={sectionRef}
       id="about"
       aria-labelledby="about-heading"
-      className="relative py-28 md:py-36 lg:py-44 overflow-hidden"
+      className="relative py-32 overflow-hidden"
+      onMouseLeave={() => setHoveredElement(null)}
     >
-      {/* Gradient background matching hero section */}
-      <div
-        className="absolute inset-0 z-0"
-        style={{
-          background: `
-            radial-gradient(ellipse 80% 50% at 50% -20%, rgba(30, 30, 40, 0.8) 0%, transparent 60%),
-            radial-gradient(ellipse 60% 40% at 0% 50%, rgba(20, 20, 30, 0.4) 0%, transparent 50%),
-            radial-gradient(ellipse 60% 40% at 100% 50%, rgba(20, 20, 30, 0.4) 0%, transparent 50%),
-            linear-gradient(180deg, #0a0a0f 0%, #0d0d14 30%, #0a0a0f 100%)
-          `,
-        }}
-      />
+      {/* Ultra-minimal background */}
+      <div className="absolute inset-0 bg-gradient-to-b from-[#0a0a0f] via-[#0d0d14] to-[#0a0a0f]" />
+      
+      {/* Single accent line for visual anchor */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-48 h-px bg-gradient-to-r from-transparent via-accent/40 to-transparent" />
 
-      {/* Decorative SVG Background for Profile */}
-      <div className="absolute right-0 top-1/2 -translate-y-1/2 w-[600px] h-[600px] opacity-10 z-0 hidden lg:block">
-        <svg
-          width="100%"
-          height="100%"
-          viewBox="0 0 600 600"
-          className="text-accent"
+      <div className="container-custom relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+          className="grid lg:grid-cols-2 gap-20 items-center"
         >
-          <defs>
-            <linearGradient id="circleGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="currentColor" stopOpacity="0.1" />
-              <stop offset="50%" stopColor="currentColor" stopOpacity="0.05" />
-              <stop offset="100%" stopColor="currentColor" stopOpacity="0.1" />
-            </linearGradient>
-            <pattern
-              id="gridPattern"
-              width="40"
-              height="40"
-              patternUnits="userSpaceOnUse"
-            >
-              <path d="M 40 0 L 0 0 0 40" fill="none" stroke="currentColor" strokeWidth="0.5" opacity="0.1" />
-            </pattern>
-          </defs>
           
-          {/* Concentric circles */}
-          <circle cx="300" cy="300" r="280" fill="none" stroke="url(#circleGradient)" strokeWidth="1" />
-          <circle cx="300" cy="300" r="220" fill="none" stroke="url(#circleGradient)" strokeWidth="1" />
-          <circle cx="300" cy="300" r="160" fill="none" stroke="url(#circleGradient)" strokeWidth="1" />
-          
-          {/* Grid overlay */}
-          <rect width="100%" height="100%" fill="url(#gridPattern)" />
-        </svg>
-      </div>
-
-      <motion.div
-        style={{ opacity, scale, y }}
-        className="container-custom relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8"
-      >
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
-          
-          {/* Text Content Section */}
-          <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            animate={isInView ? "visible" : "hidden"}
-            className="text-left"
-          >
-            {/* Subtle label with hero section styling */}
-            <motion.span
-              variants={itemVariants}
-              className="inline-block text-xs font-ayer-poster tracking-[0.2em] uppercase text-accent mb-8"
-            >
-              Introduction
-            </motion.span>
-
-            {/* Main heading with hero typography */}
-            <motion.h2
-              id="about-heading"
-              variants={itemVariants}
-              className="mb-8"
-            >
-              <span className="block font-ayer-poster text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold text-white leading-[0.9] tracking-tighter">
-                Creative
-              </span>
-              <span className="block font-ayer-poster text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold leading-[0.9] tracking-tighter">
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent via-accent to-accent">
-                  Developer
+          {/* Left Column - Text Content */}
+          <div>
+            {/* Minimal label */}
+            <motion.div variants={itemVariants} className="mb-12">
+              <div className="inline-flex items-center gap-3">
+                <div className="w-8 h-px bg-accent/40" />
+                <span className="text-xs font-ayer-poster tracking-[0.3em] uppercase text-white/40">
+                  About
                 </span>
-                <span className="text-white/60">.</span>
-              </span>
-            </motion.h2>
-
-            {/* Description paragraphs with improved readability */}
-            <motion.div
-              variants={itemVariants}
-              className="space-y-6 max-w-xl mb-10"
-            >
-              <p className="text-lg text-white/80 leading-relaxed font-light">
-                I'm <span className="text-white font-medium">Aitzaz Hassan</span>, a creative full-stack developer specializing in 
-                <span className="text-white font-normal"> frontend architecture</span> and creating 
-                <span className="text-white font-normal"> immersive digital experiences</span>.
-              </p>
-
-              <p className="text-base text-white/60 leading-relaxed font-light">
-                With a background in both design and development, I bridge the gap between 
-                <em className="text-white/70 not-italic font-normal"> aesthetic vision</em> and 
-                <em className="text-white/70 not-italic font-normal"> technical execution</em>, 
-                ensuring every project delivers exceptional user experiences through clean code and thoughtful design.
-              </p>
+              </div>
             </motion.div>
 
-            {/* Resume button with hero styling */}
-            <motion.div
-              variants={itemVariants}
-              className="mb-16"
-            >
-              <motion.a
+            {/* Name & Title */}
+            <motion.div variants={itemVariants} className="mb-8">
+              <h1 
+                id="about-heading"
+                className="font-ayer-poster text-5xl md:text-6xl lg:text-7xl font-medium text-white tracking-tight mb-4"
+              >
+                Aitzaz Hassan
+              </h1>
+              <div className="flex items-center gap-3">
+                <div className="w-4 h-4 rounded-full bg-accent/20 border border-accent/40 flex items-center justify-center">
+                  <div className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
+                </div>
+                <p className="text-white/80 text-lg font-light">
+                  Creative Full Stack Developer
+                </p>
+              </div>
+            </motion.div>
+
+            {/* Description */}
+            <motion.div variants={itemVariants} className="mb-12">
+              <div className="space-y-6">
+                <p className="text-white/70 leading-relaxed font-light text-lg">
+                  I bridge the gap between <span className="text-white ">aesthetic vision</span> and 
+                  <span className="text-white font-"> technical execution</span>, creating digital experiences 
+                  that are both beautiful and performant.
+                </p>
+                <p className="text-white/50 leading-relaxed font-light">
+                  With expertise across the full stack, I specialize in building scalable applications 
+                  that deliver measurable business results through thoughtful architecture and user-centered design.
+                </p>
+              </div>
+            </motion.div>
+
+            {/* Expertise Grid */}
+            <motion.div variants={itemVariants} className="mb-12">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                {expertise.map((item) => (
+                  <div
+                    key={item.title}
+                    className="group relative p-4 rounded-lg border border-white/5 hover:border-white/10 transition-colors duration-300"
+                    onMouseEnter={() => setHoveredElement(item.title)}
+                    onMouseLeave={() => setHoveredElement(null)}
+                  >
+                    <div className="flex items-start justify-between mb-3">
+                      <item.icon size={20} className={`${item.color} opacity-80`} />
+                      <AnimatePresence>
+                        {hoveredElement === item.title && (
+                          <motion.span
+                            initial={{ opacity: 0, scale: 0.8 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            exit={{ opacity: 0, scale: 0.8 }}
+                            className="text-xs text-accent"
+                          >
+                            {item.metric}
+                          </motion.span>
+                        )}
+                      </AnimatePresence>
+                    </div>
+                    <h3 className="text-sm font-medium text-white mb-1">{item.title}</h3>
+                    <p className="text-xs text-white/40 font-light">{item.description}</p>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+
+            {/* CTA Actions */}
+            <motion.div variants={itemVariants} className="flex items-center gap-4">
+              <a
                 href="/resume.pdf"
                 download
-                aria-label="Download my resume as PDF"
-                className="group relative inline-flex items-center gap-4 px-10 py-5 bg-transparent border-2 border-accent/60 rounded-full hover:border-accent text-white font-ayer-poster font-medium text-base uppercase tracking-widest  transition-all duration-500 hover:bg-accent/10 overflow-hidden"
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
+                aria-label="Download resume PDF"
+                className="group relative inline-flex items-center gap-3 px-6 py-3 text-sm text-white bg-white/5 border border-white/10 rounded-full hover:border-accent/40 transition-all duration-300"
+                onMouseEnter={() => setHoveredElement("resume")}
+                onMouseLeave={() => setHoveredElement(null)}
               >
-                {/* Animated background effect */}
-                <span className="absolute inset-0 bg-gradient-to-r from-transparent via-accent/10 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
-                
-                <Download 
-                  size={20} 
-                  className="transition-all duration-300 group-hover:-translate-y-0.5"
+                <Download size={16} className="opacity-60 group-hover:opacity-100" />
+                <span className="font-light">Resume</span>
+                <ArrowUpRight 
+                  size={14} 
+                  className="opacity-0 group-hover:opacity-100 transition-opacity" 
                 />
-                <span className="relative">Download Resume</span>
-              </motion.a>
+              </a>
+              
+              <a
+                href="#projects"
+                className="group flex items-center gap-2 text-white/60 hover:text-white transition-colors text-sm font-light"
+                onMouseEnter={() => setHoveredElement("projects")}
+                onMouseLeave={() => setHoveredElement(null)}
+              >
+                <span>View Projects</span>
+                <ArrowUpRight size={14} className="group-hover:translate-x-0.5 transition-transform" />
+              </a>
             </motion.div>
+          </div>
 
-            {/* Quick stats row */}
-            <motion.div
-              variants={itemVariants}
-              className="grid grid-cols-3 gap-6 pt-10 border-t border-white/10 max-w-xl"
-            >
-              {[
-                { value: "2+", label: "Years Experience" },
-                { value: "10+", label: "Projects Delivered" },
-                { value: "8+", label: "Satisfied Clients" },
-              ].map((stat, index) => (
-                <div key={stat.label} className="text-left">
-                  <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={isInView ? { opacity: 1, y: 0 } : {}}
-                    transition={{ delay: 0.6 + index * 0.1, duration: 0.5 }}
-                    className="font-ayer-poster text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-b from-white to-white/70"
-                  >
-                    {stat.value}
-                  </motion.div>
-                  <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={isInView ? { opacity: 1 } : {}}
-                    transition={{ delay: 0.7 + index * 0.1, duration: 0.5 }}
-                    className="text-xs tracking-[0.15em] uppercase text-white/40 mt-2 font-medium"
-                  >
-                    {stat.label}
-                  </motion.div>
-                </div>
-              ))}
-            </motion.div>
-          </motion.div>
-
-          {/* Image Section with transparent background support */}
+          {/* Right Column - Profile Image */}
           <motion.div
-            variants={imageVariants}
-            initial="hidden"
-            animate={isInView ? "visible" : "hidden"}
-            className="relative flex justify-center lg:justify-start"
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={isInView ? { opacity: 1, scale: 1 } : {}}
+            transition={{ duration: 0.8, delay: 0.3 }}
+            className="relative mb-20"
+            onMouseEnter={() => setHoveredElement("profile")}
+            onMouseLeave={() => setHoveredElement(null)}
           >
-            <div
-              ref={imageWrapperRef}
-              className="relative"
-              onMouseEnter={() => setImageHover(true)}
-              onMouseLeave={() => setImageHover(false)}
-            >
-              {/* SVG frame with gradient */}
-              <svg
-                className="absolute inset-0 w-full h-full z-0"
-                width="420"
-                height="420"
-                viewBox="0 0 420 420"
-              >
-                <defs>
-                  <linearGradient id="frameGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stopColor="accent" stopOpacity="0.3" />
-                    <stop offset="50%" stopColor="#8b5cf6" stopOpacity="0.2" />
-                    <stop offset="100%" stopColor="accent" stopOpacity="0.3" />
-                  </linearGradient>
-                  <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
-                    <feGaussianBlur stdDeviation="5" result="blur" />
-                    <feComposite in="SourceGraphic" in2="blur" operator="over" />
-                  </filter>
-                </defs>
-                
-                {/* Animated frame */}
-                <motion.circle
-                  cx="210"
-                  cy="210"
-                  r="200"
-                  fill="none"
-                  stroke="url(#frameGradient)"
-                  strokeWidth="2"
-                  filter="url(#glow)"
-                  animate={{
-                    strokeDasharray: imageHover ? ["0 1256", "1256 0"] : ["1256 0", "0 1256"],
-                  }}
-                  transition={{ duration: 2, ease: "easeInOut" }}
-                  style={{
-                    strokeDasharray: "1256",
-                    strokeDashoffset: "1256",
-                  }}
-                />
-                
-                {/* Decorative dots */}
-                <circle cx="210" cy="50" r="2" fill="accent" opacity="0.6" />
-                <circle cx="370" cy="210" r="2" fill="accent" opacity="0.6" />
-                <circle cx="210" cy="370" r="2" fill="accent" opacity="0.6" />
-                <circle cx="50" cy="210" r="2" fill="accent" opacity="0.6" />
-              </svg>
-
-              {/* Profile image with transparent background support */}
-                <motion.div
-                className="relative w-80 h-80 md:w-96 md:h-96 rounded-full overflow-hidden bg-transparent"
-                animate={{
-                  y: imageHover ? -15 : 0,
-                  rotate: imageHover ? 3 : 0,
-                }}
-                transition={{ duration: 0.6, ease: "easeOut" }}
-                style={{
-                  boxShadow: `
-                  0 20px 60px rgba(245, 163, 82, 0.25),
-                  0 10px 30px rgba(255, 255, 255, 0.52),
-                  0 0 0 2px rgba(245, 163, 82, 0.15),
-                  inset 0 0 40px rgba(245, 163, 82, 0.1)
-                  `,
-                }}
-                >
-                {/* Background gradient for transparent images */}
-                <div className="absolute inset-0 bg-gradient-to-br from-[#0a0a0f] via-[#0d0d14] to-[#0a0a0f] opacity-80" />
-                
+            {/* Minimal frame */}
+            <div className="relative">
+              {/* Image container */}
+              <div className="relative aspect-square max-w-md mx-auto overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-white/5 to-transparent">
                 <Image
                   src="/profile.png"
-                  alt="Portrait photo of Aitzaz Hassan, creative full-stack developer"
+                  alt="Portrait of Aitzaz Hassan, Creative Full Stack Developer"
                   fill
-                  className="object-contain object-center mix-blend-normal"
-                  sizes="(max-width: 768px) 320px, 384px"
+                  className="object-cover object-center"
+                  sizes="(max-width: 768px) 100vw, 50vw"
                   priority
                 />
                 
-                {/* Subtle overlay on hover */}
-                <motion.div
-                  className="absolute inset-0 bg-gradient-to-br from-accent/80 via-transparent to-transparent"
-                  animate={{ opacity: imageHover ? 0.4 : 0 } }
-                  transition={{ duration: 0.4 }}
-                />
-                </motion.div>
+                {/* Hover overlay */}
+                <AnimatePresence>
+                  {hoveredElement === "profile" && (
+                    <motion.div
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      exit={{ opacity: 0 }}
+                      className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent"
+                    />
+                  )}
+                </AnimatePresence>
+              </div>
 
-              {/* Floating badge */}
-              <motion.div
-                className="absolute -top-4 -right-4 bg-gradient-to-br from-accent to-accent/60 text-white text-xs font-ayer-poster font-bold px-4 py-2 rounded-full z-10"
-                animate={{
-                  y: imageHover ? -8 : 0,
-                  rotate: imageHover ? 5 : 0,
-                }}
-                transition={{ duration: 0.5, delay: 0.1 }}
-                style={{
-                  boxShadow: "0 5px 20px rgba(245, 245, 245, 0.3)",
-                }}
-              >
-                AVAILABLE
-              </motion.div>
+              {/* Status indicator */}
+              <div className="absolute -top-3 -right-3">
+                <div className="flex items-center gap-2 px-3 py-1.5 bg-accent/10 border border-accent/20 rounded-full backdrop-blur-sm">
+                  <div className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
+                  <span className="text-xs text-accent font-medium">Available</span>
+                </div>
+              </div>
+
+              {/* Stats overlay - appears on hover */}
+              <AnimatePresence>
+                {hoveredElement === "profile" && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 10 }}
+                    className="absolute -bottom-4 left-1/2 -translate-x-1/2 w-4/5"
+                  >
+                    <div className="grid grid-cols-3 gap-4 p-4  backdrop-blur-md border border-white/10 rounded-xl">
+                      {[
+                        { value: "2+", label: "Years" },
+                        { value: "50+", label: "Projects" },
+                        { value: "100%", label: "Satisfaction" },
+                      ].map((stat) => (
+                        <div key={stat.label} className="text-center">
+                          <div className="text-lg font-medium text-transparent bg-clip-text bg-gradient-to-r from-accent via-blue-400 to-accent">{stat.value}</div>
+                          <div className="text-xs text-white/40">{stat.label}</div>
+                        </div>
+                      ))}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+
+            {/* Background decorative element */}
+            <div className="absolute -z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full">
+              <div className="absolute inset-0 bg-gradient-to-r from-accent/5 via-transparent to-accent/5 blur-3xl" />
             </div>
           </motion.div>
-        </div>
-      </motion.div>
+        </motion.div>
 
-      {/* Section bottom fade */}
-      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background to-transparent z-0" />
+        {/* Bottom divider */}
+        <motion.div
+          initial={{ opacity: 0, width: 0 }}
+          animate={isInView ? { opacity: 1, width: "100%" } : {}}
+          transition={{ delay: 1, duration: 1 }}
+          className="mt-20 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"
+        />
+      </div>
+
+      {/* Micro-interaction indicator */}
+      <AnimatePresence>
+        {hoveredElement && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed bottom-8 right-8 pointer-events-none"
+          >
+            <div className="text-xs text-white/30 font-mono tracking-wider">
+              {hoveredElement.toUpperCase()}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 }

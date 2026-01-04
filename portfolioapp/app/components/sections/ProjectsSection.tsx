@@ -4,73 +4,73 @@ import { useRef, useEffect, useState } from "react";
 import { motion, useInView, useScroll, useTransform } from "framer-motion";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { ExternalLink, Github } from "lucide-react";
+import { ExternalLink, Github, ArrowRight } from "lucide-react";
 
 gsap.registerPlugin(ScrollTrigger);
 
 const projects = [
   {
     id: 1,
-    title: "Nexus Platform",
-    description:
-      "A next-generation SaaS platform with real-time collaboration features and AI-powered analytics dashboard.",
+    title: "Brit Cars Ltd",
+    description: "Comprehensive car rental platform with real-time availability, dynamic pricing,  recommendations.",
+    category: "Web App",
     tags: ["Next.js", "TypeScript", "PostgreSQL", "AI"],
-    image: "/projects/project1.jpg",
+    image: "/projects/project1.png",
     color: "#8b5cf6",
-    link: "#",
+    link: "https://britcarsltd.co.uk",
     github: "#",
   },
   {
     id: 2,
-    title: "Crypto Vault",
-    description:
-      "Secure cryptocurrency portfolio management with advanced charting and automated trading strategies.",
-    tags: ["React", "Node.js", "Web3", "D3.js"],
-    image: "/projects/project2.jpg",
+    title: "Hult Prize MUET Chapter",
+    description: "Secure cryptocurrency portfolio management with advanced charting and automated trading strategies.",
+    category: "Web3",
+    tags: ["Html", "Bootstrap", "JavaScript"],
+    image: "/projects/project2.png",
     color: "#06b6d4",
     link: "#",
     github: "#",
   },
   {
     id: 3,
-    title: "EcoTrack",
-    description:
-      "Environmental monitoring platform tracking carbon footprint with IoT integration and predictive modeling.",
+    title: "Team k9 Security ",
+    description: "Environmental monitoring platform tracking carbon footprint with IoT integration and predictive modeling.",
+    category: "SaaS",
     tags: ["Python", "FastAPI", "React", "ML"],
-    image: "/projects/project3.jpg",
+    image: "/projects/project3.png",
     color: "#10b981",
-    link: "#",
+    link: "https://teamk9security.co.uk",
     github: "#",
   },
   {
     id: 4,
-    title: "MindFlow",
-    description:
-      "Mental wellness application featuring guided meditation, mood tracking, and personalized recommendations.",
+    title: "NCRAAI MUET",
+    description: "Mental wellness application featuring guided meditation, mood tracking, and personalized recommendations.",
+    category: "Mobile",
     tags: ["React Native", "Node.js", "MongoDB"],
-    image: "/projects/project4.jpg",
+    image: "/projects/project4.png",
     color: "#f59e0b",
     link: "#",
     github: "#",
   },
   {
     id: 5,
-    title: "QuantumLeap",
-    description:
-      "High-frequency trading platform with microsecond execution times and complex algorithmic strategies.",
+    title: "Cerevo Ai",
+    description: "High-frequency trading platform with microsecond execution times and complex algorithmic strategies.",
+    category: "FinTech",
     tags: ["Rust", "Python", "Redis", "WebSocket"],
-    image: "/projects/project5.jpg",
+    image: "/projects/project5.png",
     color: "#ef4444",
     link: "#",
     github: "#",
   },
   {
     id: 6,
-    title: "Artisan Hub",
-    description:
-      "E-commerce marketplace for handcrafted goods with AR preview and creator monetization tools.",
+    title: "ExoVision",
+    description: "E-commerce marketplace for handcrafted goods with AR preview and creator monetization tools.",
+    category: "E-commerce",
     tags: ["Next.js", "Stripe", "Prisma", "AR.js"],
-    image: "/projects/project6.jpg",
+    image: "/projects/project6.png",
     color: "#ec4899",
     link: "#",
     github: "#",
@@ -84,102 +84,103 @@ interface ProjectCardProps {
 
 function ProjectCard({ project, index }: ProjectCardProps) {
   const cardRef = useRef<HTMLDivElement>(null);
-  const isInView = useInView(cardRef, { once: true, margin: "-50px" });
+  const imageRef = useRef<HTMLDivElement>(null);
+  const isInView = useInView(cardRef, { once: true, margin: "-100px" });
   const [isHovered, setIsHovered] = useState(false);
 
+  // Hover animation for image
+  useEffect(() => {
+    if (isHovered && imageRef.current) {
+      gsap.to(imageRef.current, {
+        scale: 1.05,
+        duration: 0.6,
+        ease: "power2.out",
+      });
+    } else if (imageRef.current) {
+      gsap.to(imageRef.current, {
+        scale: 1,
+        duration: 0.4,
+        ease: "power2.out",
+      });
+    }
+  }, [isHovered]);
+
   return (
-    <motion.div
+    <motion.article
       ref={cardRef}
-      initial={{ opacity: 0, y: 100 }}
+      initial={{ opacity: 0, y: 80 }}
       animate={isInView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.8, delay: index * 0.1, ease: [0.25, 0.46, 0.45, 0.94] }}
-      className="nft-card group h-full"
+      transition={{ 
+        duration: 0.8, 
+        delay: index * 0.15, 
+        ease: [0.22, 1, 0.36, 1] 
+      }}
+      className="group relative h-full"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      {/* NFT Card with shine effect */}
-      <div 
-        className={`
-          relative overflow-hidden h-full
-          border border-white/10
-          rounded-2xl
-          backdrop-blur-md
-          transition-all duration-500 ease-out
-          ${isHovered ? 'border-white/20 scale-[1.02]' : ''}
-        `}
+      {/* Background glow effect */}
+      <motion.div
+        className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500"
         style={{
-          background: 'linear-gradient(0deg, rgba(40,44,52,1) 0%, rgba(17,0,32,0.5) 100%)',
-          boxShadow: isHovered 
-            ? '0 20px 40px -10px rgba(0,0,0,0.6)' 
-            : '0 10px 30px -5px rgba(0,0,0,0.4)',
+          background: `radial-gradient(600px circle at center, ${project.color}15, transparent 70%)`,
         }}
-      >
-        {/* Shine effect on hover */}
-        <div 
-          className={`
-            absolute inset-0 pointer-events-none z-10
-            transition-opacity duration-500
-            ${isHovered ? 'opacity-100' : 'opacity-0'}
-          `}
-          style={{
-            background: 'linear-gradient(105deg, transparent 40%, rgba(255,255,255,0.08) 45%, rgba(255,255,255,0.12) 50%, rgba(255,255,255,0.08) 55%, transparent 60%)',
-            backgroundSize: '200% 200%',
-            animation: isHovered ? 'shine 0.8s ease-in-out' : 'none',
-          }}
-        />
+      />
 
-        {/* Main content wrapper */}
-        <div className="p-5 flex flex-col h-full">
-          {/* Project Image */}
+      {/* Card container */}
+      <div className="relative h-full bg-gradient-to-b from-white/5 to-transparent backdrop-blur-sm border border-white/10 rounded-2xl overflow-hidden transition-all duration-500 group-hover:border-white/20">
+        {/* Project image */}
+        <div className="relative h-64 overflow-hidden">
           <div 
-            className="relative h-48 rounded-xl overflow-hidden mb-5"
+            ref={imageRef}
+            className="absolute inset-0 bg-gradient-to-br from-gray-900 to-black"
             style={{
-              background: `linear-gradient(135deg, ${project.color}30, ${project.color}10)`,
+              backgroundImage: `linear-gradient(45deg, ${project.color}15, transparent 50%), url(${project.image})`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
             }}
           >
-            {/* Project number watermark */}
-            <div
-              className="absolute top-4 left-4 text-6xl font-display font-bold opacity-15 select-none"
-              style={{ color: project.color }}
-            >
-              0{project.id}
+            {/* Category label */}
+            <div className="absolute top-4 left-4">
+              <span className="inline-block px-3 py-1 text-xs font-ayer-poster tracking-wider uppercase bg-white/10 backdrop-blur-sm rounded-full text-white/80 border border-white/20">
+                {project.category}
+              </span>
             </div>
 
-            {/* Floating letter icon */}
-            <motion.div
-              className="absolute inset-0 flex items-center justify-center"
-              animate={{ y: isHovered ? -6 : 0, scale: isHovered ? 1.08 : 1 }}
-              transition={{ duration: 0.4, ease: "easeOut" }}
-            >
-              <div 
-                className="w-16 h-16 rounded-xl flex items-center justify-center backdrop-blur-sm"
-                style={{ 
-                  background: `${project.color}25`,
-                  boxShadow: `0 8px 24px ${project.color}30`,
-                }}
-              >
-                <span className="text-3xl font-display font-bold" style={{ color: project.color }}>
-                  {project.title.charAt(0)}
-                </span>
-              </div>
-            </motion.div>
+            {/* Project number */}
+            <div className="absolute bottom-4 right-4">
+              <span className="font-ayer-poster text-6xl font-bold text-white/5">
+                0{project.id}
+              </span>
+            </div>
 
             {/* Gradient overlay */}
-            <div 
-              className="absolute inset-0 opacity-40"
-              style={{
-                background: `radial-gradient(ellipse at 50% 100%, ${project.color}25, transparent 70%)`,
-              }}
-            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
           </div>
 
+          {/* Hover overlay */}
+          <motion.div
+            className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: isHovered ? 1 : 0 }}
+            transition={{ duration: 0.3 }}
+          />
+        </div>
+
+        {/* Content */}
+        <div className="p-8">
+          {/* Project title */}
+          <h3 className="font-ayer-poster text-2xl font-bold text-white mb-3">
+            {project.title}
+          </h3>
+
           {/* Description */}
-          <p className="text-white/60 text-sm leading-relaxed mb-5 line-clamp-2 flex-grow">
+          <p className="text-white/60 text-sm leading-relaxed mb-6 font-light">
             {project.description}
           </p>
 
-          {/* Tags Row */}
-          <div className="flex flex-wrap gap-2 mb-5">
+          {/* Tags */}
+          <div className="flex flex-wrap gap-2 mb-8">
             {project.tags.slice(0, 3).map((tag, i) => (
               <span 
                 key={i}
@@ -188,76 +189,56 @@ function ProjectCard({ project, index }: ProjectCardProps) {
                 {tag}
               </span>
             ))}
-            {project.tags.length > 3 && (
-              <span className="px-3 py-1 text-xs font-medium rounded-full bg-white/5 text-white/50 border border-white/10">
-                +{project.tags.length - 3}
-              </span>
-            )}
           </div>
 
           {/* Divider */}
-          <div className="h-px w-full bg-gradient-to-r from-transparent via-white/10 to-transparent mb-5" />
+          <div className="h-px w-full bg-gradient-to-r from-transparent via-white/10 to-transparent mb-6" />
 
-          {/* Creator / Title Row */}
-          <div className="flex items-center justify-between gap-4">
-            <div className="flex items-center gap-3 min-w-0 flex-1">
-              {/* Avatar wrapper */}
-              <div className="flex-shrink-0">
-                <div 
-                  className="w-10 h-10 rounded-xl flex items-center justify-center text-xs font-bold shadow-lg"
-                  style={{ 
-                    background: `linear-gradient(135deg, ${project.color}, ${project.color}90)`,
-                    color: '#000',
-                  }}
-                >
-                  {project.title.slice(0, 2).toUpperCase()}
-                </div>
-              </div>
-              <div className="min-w-0">
-                <p className="text-white font-display font-semibold text-sm truncate">{project.title}</p>
-                <p className="text-white/40 text-xs">Project #{project.id}</p>
-              </div>
-            </div>
-
-            {/* Action buttons */}
-            <div className="flex items-center gap-2 flex-shrink-0">
+          {/* Footer */}
+          <div className="flex items-center justify-between">
+            {/* Links */}
+            <div className="flex items-center gap-3">
               <motion.a
                 href={project.link}
-                whileHover={{ scale: 1.1, y: -2 }}
+                whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.95 }}
-                className="w-9 h-9 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-white/60 hover:text-primary hover:border-primary/40 hover:bg-primary/10 transition-all duration-300"
+                className="relative p-3 rounded-full bg-white/5 border border-white/10 hover:border-white/20 transition-all duration-300 group/link"
                 aria-label="View project"
               >
-                <ExternalLink size={16} />
+                <ExternalLink size={18} className="text-white/60 group-hover/link:text-white transition-colors" />
+                <span className="absolute -top-8 left-1/2 -translate-x-1/2 px-2 py-1 text-xs bg-black/90 backdrop-blur-sm rounded opacity-0 group-hover/link:opacity-100 transition-opacity whitespace-nowrap">
+                  Live Preview
+                </span>
               </motion.a>
               <motion.a
                 href={project.github}
-                whileHover={{ scale: 1.1, y: -2 }}
+                whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.95 }}
-                className="w-9 h-9 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-white/60 hover:text-white hover:border-white/25 hover:bg-white/10 transition-all duration-300"
+                className="relative p-3 rounded-full bg-white/5 border border-white/10 hover:border-white/20 transition-all duration-300 group/link"
                 aria-label="View source code"
               >
-                <Github size={16} />
+                <Github size={18} className="text-white/60 group-hover/link:text-white transition-colors" />
+                <span className="absolute -top-8 left-1/2 -translate-x-1/2 px-2 py-1 text-xs bg-black/90 backdrop-blur-sm rounded opacity-0 group-hover/link:opacity-100 transition-opacity whitespace-nowrap">
+                  Source Code
+                </span>
               </motion.a>
             </div>
+
+            {/* View project arrow */}
+            <motion.div
+              animate={{ x: isHovered ? 4 : 0 }}
+              transition={{ duration: 0.3 }}
+              className="text-white/40 group-hover:text-white transition-colors"
+            >
+              <ArrowRight size={20} />
+            </motion.div>
           </div>
         </div>
 
-        {/* Colored glow on bottom */}
-        <div 
-          className="absolute bottom-0 left-1/2 -translate-x-1/2 w-2/3 h-16 blur-2xl opacity-20 pointer-events-none"
-          style={{ background: project.color }}
-        />
+        {/* Border glow effect */}
+        <div className="absolute inset-0 rounded-2xl border border-transparent group-hover:border-white/5 pointer-events-none transition-colors duration-500" />
       </div>
-
-      {/* Card shine animation keyframes */}
-      <style jsx>{`
-        @keyframes shine {
-          0% { background-position: 200% 0; }
-          100% { background-position: -200% 0; }
-        }
-      `}</style>
-    </motion.div>
+    </motion.article>
   );
 }
 
@@ -273,26 +254,35 @@ export function ProjectsSection() {
 
   const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
   const scale = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0.95, 1, 1, 0.95]);
-  const y = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [50, 0, 0, -50]);
+  const y = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [80, 0, 0, -80]);
 
+  // Title animation
   useEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.fromTo(
-        ".project-title-line",
-        { y: 100, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          stagger: 0.1,
-          duration: 1,
-          ease: "power4.out",
-          scrollTrigger: {
-            trigger: titleRef.current,
-            start: "top 80%",
-            toggleActions: "play none none none",
+      const chars = titleRef.current?.querySelectorAll('.char');
+      if (chars) {
+        gsap.fromTo(
+          chars,
+          { 
+            y: 100, 
+            opacity: 0,
+            rotateX: -45 
           },
-        }
-      );
+          {
+            y: 0,
+            opacity: 1,
+            rotateX: 0,
+            duration: 1.2,
+            stagger: 0.05,
+            ease: "power4.out",
+            scrollTrigger: {
+              trigger: titleRef.current,
+              start: "top 80%",
+              toggleActions: "play none none none",
+            },
+          }
+        );
+      }
     }, sectionRef);
 
     return () => ctx.revert();
@@ -302,72 +292,100 @@ export function ProjectsSection() {
     <section
       ref={sectionRef}
       id="projects"
-      className="relative section-padding overflow-hidden"
+      className="relative py-28 md:py-36 lg:py-44 overflow-hidden"
     >
-      {/* Background gradient */}
-      <div className="absolute inset-0 bg-gradient-to-b from-background via-secondary/5 to-background" />
+      {/* Background matching hero section */}
+      <div
+        className="absolute inset-0 z-0"
+        style={{
+          background: `
+            radial-gradient(ellipse 80% 50% at 50% 0%, rgba(30, 30, 40, 0.8) 0%, transparent 60%),
+            radial-gradient(ellipse 60% 40% at 0% 50%, rgba(20, 20, 30, 0.4) 0%, transparent 50%),
+            radial-gradient(ellipse 60% 40% at 100% 50%, rgba(20, 20, 30, 0.4) 0%, transparent 50%),
+            linear-gradient(180deg, #0a0a0f 0%, #0d0d14 30%, #0a0a0f 100%)
+          `,
+        }}
+      />
+
+      {/* Decorative elements */}
+      <div className="absolute top-1/4 left-10 w-64 h-64 bg-[#f5a352]/5 rounded-full blur-3xl opacity-30" />
+      <div className="absolute bottom-1/4 right-10 w-96 h-96 bg-purple-500/5 rounded-full blur-3xl opacity-20" />
 
       <motion.div 
         style={{ opacity, scale, y }}
-        className="container-custom relative z-10"
+        className="container-custom relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
       >
         {/* Section header */}
-        <div ref={titleRef} className="mb-16 md:mb-24 text-center">
+        <div ref={titleRef} className="mb-16 md:mb-24 text-center flex flex-col items-center">
+          {/* Subtle label */}
           <motion.span
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6 }}
-            className="text-subtitle text-primary mb-4 block"
+            className="inline-block text-xs font-ayer-poster tracking-[0.2em] uppercase text-accent mb-8"
           >
             Featured Work
           </motion.span>
-          <h2 className="text-display text-section overflow-hidden">
-            <span className="project-title-line block">
-              Projects that
+
+          {/* Main title with character animation */}
+          <h2 className="font-ayer-poster text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold text-white leading-[0.9] tracking-tighter mb-6">
+            <span className="inline-block overflow-hidden">
+              <span className="char inline-block">Selected</span>
             </span>
-            <span className="project-title-line block gradient-text">
-              define excellence
+            <br />
+            <span className="inline-block overflow-hidden">
+                <span className="char inline-block text-transparent bg-clip-text bg-gradient-to-r from-accent via-blue-400 to-accent">
+                Projects
+                </span>
+              <span className="char inline-block text-white/10">.</span>
             </span>
           </h2>
+
+          {/* Description */}
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ delay: 0.4, duration: 0.6 }}
-            className="text-muted-foreground mt-6 max-w-2xl mx-auto"
+            className="text-white/60 max-w-2xl mx-auto text-lg leading-relaxed font-light"
           >
-            Each project represents a unique challenge conquered with innovative
-            solutions and meticulous attention to detail.
+            A curated collection of my most impactful work, showcasing innovative solutions 
+            and meticulous attention to detail in every project.
           </motion.p>
         </div>
 
         {/* Projects grid */}
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+        <div className="grid md:grid-cols-2 mb-10 lg:grid-cols-3 gap-8">
           {projects.map((project, index) => (
             <ProjectCard key={project.id} project={project} index={index} />
           ))}
         </div>
 
-        {/* View all CTA */}
+        {/* View all CTA - Matching hero button style */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ delay: 0.8, duration: 0.6 }}
-          className="mt-16 text-center"
+          transition={{ delay: 1.2, duration: 0.6 }}
+          className="text-center "
         >
           <a
             href="#"
-            className="inline-flex items-center gap-2 text-lg text-primary hover:text-accent transition-colors cursor-hover group"
+            className="group mb-4 inline-flex items-center gap-3 font-ayer-poster tracking-[0.1em] uppercase text-sm text-white/70 hover:text-white transition-colors"
           >
-            <span className="line-reveal">View All Projects</span>
+            <span>View Complete Portfolio</span>
             <motion.span
+              className="inline-block"
               animate={{ x: [0, 5, 0] }}
-              transition={{ duration: 1.5, repeat: Infinity }}
+              transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
             >
-              →
+              <ArrowRight size={16} />
             </motion.span>
+            <span className="absolute bottom-0 left-0 w-0 h-px bg-gradient-to-r from-transparent via-white to-transparent group-hover:w-full transition-all duration-500" />
           </a>
         </motion.div>
       </motion.div>
+
+      {/* Section bottom fade */}
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background to-transparent z-0" />
     </section>
   );
 }

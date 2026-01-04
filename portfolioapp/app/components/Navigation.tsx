@@ -170,7 +170,7 @@ export default function Navigation() {
               className="relative h-full w-full md:w-96 flex flex-col items-start justify-center pl-8 sm:pl-12 md:pl-16"
             >
               {/* Navigation Links - Stacked vertically with staggered animation */}
-              <div className="space-y-8">
+              <div className="space-y-8 mb-8">
                 {navLinks.map((link, index) => (
                   <motion.div
                     key={link.href}
@@ -185,7 +185,7 @@ export default function Navigation() {
                   >
                     <button
                       onClick={() => handleClick(link.href)}
-                      className={`font-ayer-poster text-4xl md:text-5xl font-bold tracking-wider transition-all duration-300 hover:text-accent hover:translate-x-4 ${activeLink === link.href.replace("#", "")
+                      className={` font-ayer-poster text-4xl md:text-5xl font-bold tracking-wider transition-all duration-300 hover:text-accent hover:translate-x-4 ${activeLink === link.href.replace("#", "")
                         ? "text-accent"
                         : "text-white/90"
                         }`}
@@ -194,12 +194,12 @@ export default function Navigation() {
                     </button>
                     
                     {/* Subtle separator for each link */}
-                    {index < navLinks.length - 1 && (
+                    {index <= navLinks.length - 1 && (
                       <motion.div
                         initial={{ width: 0 }}
                         animate={{ width: "100%" }}
                         transition={{ delay: 0.15 + index * 0.1, duration: 0.3 }}
-                        className="h-px bg-white/10 mt-2"
+                        className="h-px bg-white/10"
                       />
                     )}
                   </motion.div>
@@ -217,7 +217,7 @@ export default function Navigation() {
                   ease: "easeOut"
                 }}
                 onClick={() => handleClick("#contact")}
-                className="mt-12 font-ayer-poster tracking-[0.1em] uppercase text-lg cursor-pointer bg-transparent border-2 border-white/40 hover:border-accent px-10 py-4 rounded-full text-white hover:text-accent transition-all duration-300 hover:shadow-[0_0_30px_rgba(245,163,82,0.3)] group"
+                className="mb-8 font-ayer-poster tracking-[0.1em] uppercase text-lg cursor-pointer bg-transparent border-2 border-white/40 hover:border-accent px-10 py-4 rounded-full text-white hover:text-accent transition-all duration-300 hover:shadow-[0_0_30px_rgba(245,163,82,0.3)] group"
               >
                 <span className="relative overflow-hidden block">
                   <span className="block group-hover:-translate-y-full transition-transform duration-300">
@@ -230,14 +230,14 @@ export default function Navigation() {
               </motion.button>
 
               {/* Close hint - subtle text */}
-              <motion.p
+              {/* <motion.p
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.6, duration: 0.3 }}
-                className="absolute bottom-8 left-8 text-white/40 text-sm tracking-wider uppercase mt-8"
+                className="absolute bottom-8 left-8 text-white/40 text-sm tracking-wider uppercase  font-ayer-poster"
               >
                 CLICK ANYWHERE TO CLOSE
-              </motion.p>
+              </motion.p> */}
             </motion.div>
           </motion.div>
         )}

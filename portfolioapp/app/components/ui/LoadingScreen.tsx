@@ -41,7 +41,7 @@ export function LoadingScreen() {
               </motion.h1>
 
               {/* Loading bar */}
-              <div className="w-48 h-1 bg-secondary/50 rounded-full overflow-hidden mx-auto">
+              <div className="mb-4 w-48 h-1 bg-secondary/50 rounded-full overflow-hidden mx-auto">
                 <motion.div
                   className="h-full bg-gradient-to-r from-primary to-accent"
                   initial={{ x: "-100%" }}
@@ -58,7 +58,7 @@ export function LoadingScreen() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.5 }}
-                className="text-muted-foreground mt-4 text-sm"
+                className="text-muted-foreground  text-sm"
               >
                 Loading experience...
               </motion.p>

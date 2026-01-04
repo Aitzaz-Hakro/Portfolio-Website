@@ -1,67 +1,55 @@
 "use client";
 
-import { useRef, useState, useEffect } from "react";
-import { motion, useInView, AnimatePresence, useScroll, useTransform } from "framer-motion";
+import { useRef, useEffect } from "react";
+import { motion, useInView, useScroll, useTransform } from "framer-motion";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { ChevronLeft, ChevronRight, Quote } from "lucide-react";
+import { MagneticWrapper } from "@/app/components/ui/MagneticWrapper";
+import { Quote, Star, ChevronRight, ArrowRight } from "lucide-react";
 
 gsap.registerPlugin(ScrollTrigger);
 
 const testimonials = [
   {
     id: 1,
-    name: "Sarah Chen",
-    role: "CEO, TechVenture Inc.",
-    content:
-      "Working with this developer was transformative for our platform. The attention to detail and innovative approach exceeded all expectations. Our user engagement increased by 340% within three months.",
-    avatar: "SC",
-    color: "#8b5cf6",
+    name: "Jane Smith",
+    role: "Freelance Designer",
+    content: "I've been collaborating with Aitzaz on multiple projects for over a year and I'm really impressed with the technical expertise and creative solutions. Our applications have never experienced downtime, and the support is always quick to help with any issues. Highly recommend for any complex web development needs!",
+    rating: 5,
+    color: "accent",
+    gradient: "linear-gradient(145deg, rgba(245, 163, 82, 0.15), rgba(245, 163, 82, 0.05))",
+    borderColor: "#f5a352",
+    avatar: "JS",
   },
   {
     id: 2,
-    name: "Michael Roberts",
-    role: "Founder, StartupHub",
-    content:
-      "The level of professionalism and technical expertise is unmatched. They didn't just build what we asked for—they anticipated our needs and delivered solutions we didn't even know we needed.",
-    avatar: "MR",
-    color: "#06b6d4",
+    name: "Michael Brown",
+    role: "Online Entrepreneur",
+    content: "Working with Aitzaz has been transformative for my e-commerce business. The attention to detail in frontend architecture and the scalability of the backend solutions exceeded expectations. My conversion rates improved by 45% after implementing their recommendations.",
+    rating: 5,
+    color: "#1E4FA8",
+    gradient: "linear-gradient(210deg, rgba(30, 79, 168, 0.15), rgba(30, 79, 168, 0.05))",
+    borderColor: "#1E4FA8",
+    avatar: "MB",
   },
   {
     id: 3,
-    name: "Emily Watson",
-    role: "CTO, InnovateTech",
-    content:
-      "A rare combination of creative vision and technical mastery. The codebase is clean, scalable, and a joy to work with. They've become our go-to partner for all critical projects.",
-    avatar: "EW",
+    name: "Sarah Johnson",
+    role: "Product Director",
+    content: "I was initially hesitant about a complete platform overhaul, but Aitzaz's approach made the transition seamless. The modern tech stack and clean architecture have future-proofed our application. Our team productivity increased by 30% thanks to the well-documented codebase.",
+    rating: 5,
     color: "#10b981",
-  },
-  {
-    id: 4,
-    name: "David Kim",
-    role: "Product Lead, GlobalScale",
-    content:
-      "From day one, the communication was crystal clear. They understood our vision instantly and delivered a product that perfectly captured our brand essence while pushing technical boundaries.",
-    avatar: "DK",
-    color: "#f59e0b",
-  },
-  {
-    id: 5,
-    name: "Lisa Thompson",
-    role: "Director, DigitalFirst Agency",
-    content:
-      "We've collaborated on dozens of projects, and every single one has been delivered on time, under budget, and above expectations. An absolute gem in the development world.",
-    avatar: "LT",
-    color: "#ec4899",
+    gradient: "linear-gradient(165deg, rgba(16, 185, 129, 0.15), rgba(16, 185, 129, 0.05))",
+    borderColor: "#10b981",
+    avatar: "SJ",
   },
 ];
 
 export function TestimonialsSection() {
   const sectionRef = useRef<HTMLElement>(null);
   const titleRef = useRef<HTMLDivElement>(null);
+  const cardsContainerRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(sectionRef, { once: true, margin: "-100px" });
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [direction, setDirection] = useState(0);
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -70,263 +58,303 @@ export function TestimonialsSection() {
 
   const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
   const scale = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0.95, 1, 1, 0.95]);
-  const y = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [50, 0, 0, -50]);
+  const y = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [80, 0, 0, -80]);
 
+  // Title animation
   useEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.fromTo(
-        ".testimonial-title-line",
-        { y: 80, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          stagger: 0.1,
-          duration: 1,
-          ease: "power4.out",
-          scrollTrigger: {
-            trigger: titleRef.current,
-            start: "top 80%",
-            toggleActions: "play none none none",
+      const chars = titleRef.current?.querySelectorAll('.char');
+      if (chars) {
+        gsap.fromTo(
+          chars,
+          { 
+            y: 100, 
+            opacity: 0,
+            rotateX: -45 
           },
-        }
-      );
+          {
+            y: 0,
+            opacity: 1,
+            rotateX: 0,
+            duration: 1.2,
+            stagger: 0.05,
+            ease: "power4.out",
+            scrollTrigger: {
+              trigger: titleRef.current,
+              start: "top 80%",
+              toggleActions: "play none none none",
+            },
+          }
+        );
+      }
+
+      // Animate cards in sequence
+      if (cardsContainerRef.current) {
+        const cards = cardsContainerRef.current.querySelectorAll('.testimonial-card');
+        gsap.fromTo(
+          cards,
+          {
+            y: 60,
+            opacity: 0,
+            scale: 0.95,
+          },
+          {
+            y: 0,
+            opacity: 1,
+            scale: 1,
+            duration: 0.8,
+            stagger: 0.2,
+            ease: "power2.out",
+            scrollTrigger: {
+              trigger: cardsContainerRef.current,
+              start: "top 80%",
+              toggleActions: "play none none none",
+            },
+          }
+        );
+      }
     }, sectionRef);
 
     return () => ctx.revert();
   }, []);
 
-  // Auto-play carousel
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setDirection(1);
-      setCurrentIndex((prev) => (prev + 1) % testimonials.length);
-    }, 6000);
-
-    return () => clearInterval(timer);
-  }, []);
-
-  const handlePrevious = () => {
-    setDirection(-1);
-    setCurrentIndex((prev) =>
-      prev === 0 ? testimonials.length - 1 : prev - 1
-    );
-  };
-
-  const handleNext = () => {
-    setDirection(1);
-    setCurrentIndex((prev) => (prev + 1) % testimonials.length);
-  };
-
-  const slideVariants = {
-    enter: (direction: number) => ({
-      x: direction > 0 ? 300 : -300,
-      opacity: 0,
-      scale: 0.95,
-    }),
-    center: {
-      x: 0,
-      opacity: 1,
-      scale: 1,
-    },
-    exit: (direction: number) => ({
-      x: direction < 0 ? 300 : -300,
-      opacity: 0,
-      scale: 0.95,
-    }),
-  };
-
   return (
     <section
       ref={sectionRef}
       id="testimonials"
-      className="relative section-padding overflow-hidden"
+      className="relative py-28 md:py-36 lg:py-44 overflow-hidden"
     >
-      {/* Background gradient */}
-      <div className="absolute inset-0 bg-gradient-to-b from-background via-secondary/5 to-background" />
+      {/* Background matching hero section */}
+      <div
+        className="absolute inset-0 z-0"
+        style={{
+          background: `
+            radial-gradient(ellipse 80% 50% at 50% 0%, rgba(30, 30, 40, 0.9) 0%, transparent 60%),
+            radial-gradient(ellipse 60% 40% at 0% 50%, rgba(20, 20, 30, 0.5) 0%, transparent 50%),
+            radial-gradient(ellipse 60% 40% at 100% 50%, rgba(20, 20, 30, 0.5) 0%, transparent 50%),
+            linear-gradient(180deg, #0a0a0f 0%, #0d0d14 30%, #0a0a0f 100%)
+          `,
+        }}
+      />
 
       {/* Decorative elements */}
-      <div className="absolute top-1/4 left-0 w-64 h-64 bg-primary/5 rounded-full blur-3xl" />
-      <div className="absolute bottom-1/4 right-0 w-80 h-80 bg-accent/5 rounded-full blur-3xl" />
+      <div className="absolute top-1/4 left-10 w-96 h-96 bg-[#1E4FA8]/5 rounded-full blur-3xl opacity-30" />
+      <div className="absolute bottom-1/4 right-10 w-64 h-64 bg-accent/5 rounded-full blur-3xl opacity-20" />
 
       <motion.div 
         style={{ opacity, scale, y }}
-        className="container-custom relative z-10"
+        className="container-custom relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"
       >
         {/* Section header */}
-        <div ref={titleRef} className="mb-16 md:mb-24 text-center">
+        <div ref={titleRef} className="mb-16 md:mb-24 text-center flex flex-col items-center">
+          {/* Subtle label */}
           <motion.span
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6 }}
-            className="text-subtitle text-primary mb-4 block"
+            className="inline-block text-xs font-ayer-poster tracking-[0.2em] uppercase text-accent mb-8"
           >
-            Testimonials
+            Client Testimonials
           </motion.span>
-          <h2 className="text-display text-section overflow-hidden">
-            <span className="testimonial-title-line block">
-              Words from
+
+          {/* Main title - Matching image style */}
+          <h2 className="font-ayer-poster text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold text-white leading-[0.9] tracking-tighter mb-6">
+            <span className="inline-block overflow-hidden">
+              <span className="char inline-block">Don't Just Take</span>
             </span>
-            <span className="testimonial-title-line block gradient-text">
-              those I&apos;ve worked with
+            <br />
+            <span className="inline-block overflow-hidden">
+              <span className="char inline-block text-transparent bg-clip-text bg-gradient-to-r from-accent via-blue-400 to-accent">
+                My Word For It
+              </span>
             </span>
           </h2>
+
+          {/* Description - Matching image style */}
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ delay: 0.4, duration: 0.6 }}
+            className="text-white/60 max-w-3xl mx-auto text-lg leading-relaxed font-light"
+          >
+            See what actual clients and collaborators have to say about working with me on their projects.
+          </motion.p>
         </div>
 
-        {/* Testimonial carousel */}
-        <div className="max-w-4xl mx-auto">
-          <div className="relative">
-            {/* Main testimonial card */}
-            <div className="relative h-[400px] md:h-[350px] flex items-center justify-center">
-              <AnimatePresence mode="wait" custom={direction}>
-                <motion.div
-                  key={currentIndex}
-                  custom={direction}
-                  variants={slideVariants}
-                  initial="enter"
-                  animate="center"
-                  exit="exit"
-                  transition={{
-                    x: { type: "spring", stiffness: 300, damping: 30 },
-                    opacity: { duration: 0.3 },
-                    scale: { duration: 0.3 },
+        {/* Testimonials Grid - Horizontal layout like the image */}
+        <div ref={cardsContainerRef} className="relative mb-20">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {testimonials.map((testimonial) => (
+              <motion.div
+                key={testimonial.id}
+                className="testimonial-card group relative h-full"
+                whileHover={{ y: -10 }}
+                transition={{ duration: 0.3 }}
+              >
+                {/* Card container */}
+                <div 
+                  className="h-full bg-gradient-to-b from-white/5 to-transparent backdrop-blur-sm border border-white/10 rounded-2xl p-8 relative overflow-hidden transition-all duration-500 group-hover:border-white/20"
+                  style={{
+                    background: testimonial.gradient,
                   }}
-                  className="absolute w-full"
                 >
-                  <div className="glass rounded-3xl p-8 md:p-12 relative overflow-hidden">
-                    {/* Quote icon */}
-                    <motion.div
-                      initial={{ opacity: 0, scale: 0 }}
-                      animate={{ opacity: 0.1, scale: 1 }}
-                      transition={{ delay: 0.2 }}
-                      className="absolute -top-4 -left-4"
-                    >
-                      <Quote
-                        size={120}
-                        style={{ color: testimonials[currentIndex].color }}
-                      />
-                    </motion.div>
+                  {/* Quote icon in background */}
+                  <Quote 
+                    size={80} 
+                    className="absolute top-4 right-4 text-white/5 group-hover:text-white/10 transition-colors duration-500" 
+                  />
 
-                    {/* Content */}
-                    <div className="relative z-10">
-                      <motion.p
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.1 }}
-                        className="text-lg md:text-xl text-foreground/90 leading-relaxed mb-8 italic"
-                      >
-                        &quot;{testimonials[currentIndex].content}&quot;
-                      </motion.p>
-
-                      {/* Author info */}
-                      <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.2 }}
-                        className="flex items-center gap-4"
-                      >
-                        {/* Avatar */}
-                        <div
-                          className="w-14 h-14 rounded-full flex items-center justify-center text-white font-bold text-lg"
+                  {/* Content */}
+                  <div className="relative z-10">
+                    {/* Stars rating - Matching image style */}
+                    <div className="flex items-center gap-1 mb-6">
+                      {[...Array(5)].map((_, i) => (
+                        <Star
+                          key={i}
+                          size={20}
+                          className={`${i < testimonial.rating ? 'fill-accent text-accent' : 'fill-white/10 text-white/10'} transition-colors duration-300 group-hover:scale-110`}
                           style={{
-                            background: `linear-gradient(135deg, ${testimonials[currentIndex].color}, ${testimonials[currentIndex].color}80)`,
+                            transitionDelay: `${i * 50}ms`
                           }}
-                        >
-                          {testimonials[currentIndex].avatar}
-                        </div>
-
-                        <div>
-                          <h4 className="font-semibold text-foreground">
-                            {testimonials[currentIndex].name}
-                          </h4>
-                          <p className="text-sm text-muted-foreground">
-                            {testimonials[currentIndex].role}
-                          </p>
-                        </div>
-                      </motion.div>
+                        />
+                      ))}
                     </div>
 
-                    {/* Decorative gradient */}
-                    <div
-                      className="absolute bottom-0 right-0 w-32 h-32 opacity-10 blur-2xl"
-                      style={{
-                        background: `radial-gradient(circle, ${testimonials[currentIndex].color}, transparent)`,
-                      }}
-                    />
+                    {/* Testimonial text - Full text display like image */}
+                    <p className="text-white/80 text-base leading-relaxed mb-8 font-light italic">
+                      "{testimonial.content}"
+                    </p>
+
+                    {/* Divider - Matching image style */}
+                    <div className="h-px w-full bg-gradient-to-r from-transparent via-white/20 to-transparent mb-6" />
+
+                    {/* Author info - Matching image layout */}
+                    <div className="flex items-center gap-4">
+                      {/* Avatar */}
+                      <div className="relative">
+                        <div className="w-14 h-14 rounded-full overflow-hidden border-2 border-white/20 bg-gradient-to-br from-[#0a0a0f] to-[#0d0d14]">
+                          <div 
+                            className="w-full h-full flex items-center justify-center text-white font-ayer-poster font-bold text-lg"
+                            style={{
+                              background: `linear-gradient(135deg, ${testimonial.color}40, ${testimonial.color}20)`,
+                            }}
+                          >
+                            {testimonial.avatar}
+                          </div>
+                        </div>
+                        {/* Verified badge */}
+                        <div className="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-gradient-to-br from-accent to-[#1E4FA8] flex items-center justify-center border-2 border-[#0a0a0f]">
+                          <Star size={10} className="text-white" />
+                        </div>
+                      </div>
+
+                      {/* Name and role */}
+                      <div>
+                        <h3 className="font-ayer-poster text-lg font-bold text-white mb-1">
+                          {testimonial.name}
+                        </h3>
+                        <p className="text-white/60 text-sm font-light">
+                          {testimonial.role}
+                        </p>
+                      </div>
+                    </div>
                   </div>
-                </motion.div>
-              </AnimatePresence>
-            </div>
 
-            {/* Navigation */}
-            <div className="flex items-center justify-center gap-4 mt-8">
-              {/* Previous button */}
-              <motion.button
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={handlePrevious}
-                className="w-12 h-12 rounded-full glass flex items-center justify-center text-muted-foreground hover:text-primary transition-colors cursor-hover"
-                aria-label="Previous testimonial"
-              >
-                <ChevronLeft size={24} />
-              </motion.button>
-
-              {/* Dots indicator */}
-              <div className="flex gap-2">
-                {testimonials.map((_, index) => (
-                  <button
-                    key={index}
-                    onClick={() => {
-                      setDirection(index > currentIndex ? 1 : -1);
-                      setCurrentIndex(index);
+                  {/* Border glow effect on hover */}
+                  <div className="absolute inset-0 rounded-2xl border border-transparent group-hover:border-white/10 transition-colors duration-500 pointer-events-none" 
+                    style={{
+                      borderColor: testimonial.borderColor,
                     }}
-                    className={`w-2 h-2 rounded-full transition-all duration-300 cursor-hover ${
-                      index === currentIndex
-                        ? "w-8 bg-primary"
-                        : "bg-muted-foreground/30 hover:bg-muted-foreground/50"
-                    }`}
-                    aria-label={`Go to testimonial ${index + 1}`}
                   />
-                ))}
-              </div>
-
-              {/* Next button */}
-              <motion.button
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.95 }}
-                onClick={handleNext}
-                className="w-12 h-12 rounded-full glass flex items-center justify-center text-muted-foreground hover:text-primary transition-colors cursor-hover"
-                aria-label="Next testimonial"
-              >
-                <ChevronRight size={24} />
-              </motion.button>
-            </div>
+                </div>
+              </motion.div>
+            ))}
           </div>
 
-          {/* Trust badges */}
+          {/* Background pattern overlay */}
+          <div className="absolute inset-0 opacity-5 pointer-events-none z-0">
+            <div className="absolute top-0 left-0 w-full h-full"
+              style={{
+                backgroundImage: `radial-gradient(circle at 25% 25%, ${testimonials[0].borderColor}30 2px, transparent 2px)`,
+                backgroundSize: '40px 40px',
+              }}
+            />
+          </div>
+        </div>
+
+        {/* CTA Section - Matching hero button style */}
+        <div className="text-center mb-24">
+          <MagneticWrapper strength={0.15}>
+            <motion.button
+              className="group relative mb-12 inline-flex items-center justify-center gap-3 px-8 md:px-10 py-4 md:py-5 bg-transparent border-2 border-accent hover:border-accent text-white font-ayer-poster font-medium text-base md:text-lg uppercase tracking-widest rounded-full transition-all duration-500 hover:bg-accent/10 overflow-hidden"
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
+            >
+              {/* Animated background effect */}
+              <span className="absolute inset-0 bg-gradient-to-r from-transparent via-accent/10 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
+              
+              <span className="relative">View More Testimonials</span>
+              <ArrowRight className="w-5 h-5 md:w-6 md:h-6 transition-all duration-300 group-hover:translate-x-2 group-hover:scale-110" />
+            </motion.button>
+          </MagneticWrapper>
+
+          {/* Trust indicator */}
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ delay: 0.8, duration: 0.6 }}
-            className="mt-16 text-center"
+            transition={{ delay: 1.2, duration: 0.6 }}
+            className=" text-center"
           >
-            <p className="text-sm text-muted-foreground mb-6">
-              Trusted by innovative companies worldwide
+            <p className="text-white/40 text-sm tracking-wider uppercase font-ayer-poster mb-6">
+              Trusted by professionals worldwide
             </p>
-            <div className="flex flex-wrap justify-center gap-8 opacity-40">
+            
+            {/* Client logos/names */}
+            <div className="flex flex-wrap justify-center items-center gap-8 md:gap-12 opacity-60">
               {["TechVenture", "StartupHub", "InnovateTech", "GlobalScale", "DigitalFirst"].map(
-                (company) => (
-                  <span
+                (company, index) => (
+                  <motion.div
                     key={company}
-                    className="text-lg font-semibold text-foreground"
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={isInView ? { opacity: 1, scale: 1 } : {}}
+                    transition={{ delay: 1.4 + index * 0.1, duration: 0.5 }}
+                    className="text-white/50 hover:text-white/80 transition-colors duration-300"
                   >
-                    {company}
-                  </span>
+                    <span className="font-ayer-poster text-lg font-bold">{company}</span>
+                  </motion.div>
                 )
               )}
             </div>
           </motion.div>
         </div>
+
+        {/* Stats row - Bottom of section */}
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ delay: 1.6, duration: 0.6 }}
+          className=" pt-12 border-t border-white/10 grid grid-cols-2 md:grid-cols-4 gap-8"
+        >
+          {[
+            { value: "100%", label: "Client Satisfaction" },
+            { value: "5.0", label: "Average Rating" },
+            { value: "50+", label: "Projects Completed" },
+            { value: "∞", label: "Scalability Focus" },
+          ].map((stat, index) => (
+            <div key={stat.label} className="text-center">
+              <div className="font-ayer-poster text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-b from-white to-white/70 mb-2">
+                {stat.value}
+              </div>
+              <div className="text-xs tracking-[0.15em] uppercase text-white/40">
+                {stat.label}
+              </div>
+            </div>
+          ))}
+        </motion.div>
       </motion.div>
+
+      {/* Section bottom fade */}
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background to-transparent z-0" />
     </section>
   );
 }

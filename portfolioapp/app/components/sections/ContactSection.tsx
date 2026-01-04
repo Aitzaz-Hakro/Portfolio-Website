@@ -1,331 +1,371 @@
 "use client";
 
-import { useRef, useEffect, useState } from "react";
-import { motion, useInView, useScroll, useTransform } from "framer-motion";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { Button } from "@/app/components/ui/Button";
-import { MagneticWrapper } from "@/app/components/ui/MagneticWrapper";
-import { Mail, MapPin, Phone, Send, Github, Linkedin, Twitter } from "lucide-react";
-
-gsap.registerPlugin(ScrollTrigger);
-
-const socialLinks = [
-  { icon: Github, href: "#", label: "GitHub" },
-  { icon: Linkedin, href: "#", label: "LinkedIn" },
-  { icon: Twitter, href: "#", label: "Twitter" },
-];
+import { useRef, useState } from "react";
+import { motion, useInView, AnimatePresence } from "framer-motion";
+import { Mail, Send, MapPin, Phone, Github, Linkedin, ArrowUpRight, Sparkle, CheckCircle } from "lucide-react";
 
 const contactInfo = [
-  { icon: Mail, label: "Email", value: "hello@example.com" },
-  { icon: Phone, label: "Phone", value: "+1 (555) 123-4567" },
-  { icon: MapPin, label: "Location", value: "San Francisco, CA" },
+  { 
+    icon: Mail, 
+    label: "Email", 
+    value: "aitzazhassan2005@gmail.com",
+    action: "mailto:aitzazhassan2005@gmail.com",
+    color: "text-blue-400",
+  },
+  { 
+    icon: Phone, 
+    label: "Phone", 
+    value: "+92 304 1234567",
+    action: "tel:+923041234567",
+    color: "text-accent",
+  },
+  { 
+    icon: MapPin, 
+    label: "Location", 
+    value: "Karachi, Pakistan",
+    action: "https://maps.google.com",
+    color: "text-purple-400",
+  },
 ];
 
-interface AnimatedInputProps {
-  label: string;
-  type?: string;
-  placeholder: string;
-  isTextarea?: boolean;
-}
-
-function AnimatedInput({
-  label,
-  type = "text",
-  placeholder,
-  isTextarea = false,
-}: AnimatedInputProps) {
-  const [isFocused, setIsFocused] = useState(false);
-  const [hasValue, setHasValue] = useState(false);
-
-  const inputClasses = `
-    w-full px-4 py-4 bg-secondary/30 border border-border rounded-xl
-    text-foreground placeholder-transparent
-    focus:outline-none focus:border-primary focus:bg-secondary/50
-    transition-all duration-300
-    ${isFocused || hasValue ? "pt-6 pb-2" : ""}
-  `;
-
-  const labelClasses = `
-    absolute left-4 transition-all duration-300 pointer-events-none
-    ${isFocused || hasValue
-      ? "top-2 text-xs text-primary"
-      : "top-1/2 -translate-y-1/2 text-muted-foreground"
-    }
-  `;
-
-  return (
-    <div className="relative">
-      {isTextarea ? (
-        <>
-          <textarea
-            className={`${inputClasses} min-h-[150px] resize-none`}
-            placeholder={placeholder}
-            onFocus={() => setIsFocused(true)}
-            onBlur={(e) => {
-              setIsFocused(false);
-              setHasValue(e.target.value.length > 0);
-            }}
-            onChange={(e) => setHasValue(e.target.value.length > 0)}
-          />
-          <label
-            className={`absolute left-4 transition-all duration-300 pointer-events-none ${isFocused || hasValue
-                ? "top-2 text-xs text-primary"
-                : "top-6 text-muted-foreground"
-              }`}
-          >
-            {label}
-          </label>
-        </>
-      ) : (
-        <>
-          <input
-            type={type}
-            className={inputClasses}
-            placeholder={placeholder}
-            onFocus={() => setIsFocused(true)}
-            onBlur={(e) => {
-              setIsFocused(false);
-              setHasValue(e.target.value.length > 0);
-            }}
-            onChange={(e) => setHasValue(e.target.value.length > 0)}
-          />
-          <label className={labelClasses}>{label}</label>
-        </>
-      )}
-
-      {/* Focus indicator line */}
-      <motion.div
-        className="absolute bottom-0 left-0 h-0.5 bg-gradient-to-r from-primary to-accent"
-        initial={{ width: 0 }}
-        animate={{ width: isFocused ? "100%" : 0 }}
-        transition={{ duration: 0.3 }}
-      />
-    </div>
-  );
-}
+const socialLinks = [
+  { 
+    platform: "GitHub", 
+    href: "https://github.com/aitzazhassan", 
+    icon: Github,
+    color: "text-gray-400 hover:text-white",
+    metric: "50+ repos"
+  },
+  { 
+    platform: "LinkedIn", 
+    href: "https://linkedin.com/in/aitzazhassan", 
+    icon: Linkedin,
+    color: "text-blue-400 hover:text-blue-300",
+    metric: "2500+ followers"
+  },
+];
 
 export function ContactSection() {
   const sectionRef = useRef<HTMLElement>(null);
-  const titleRef = useRef<HTMLDivElement>(null);
+  const [hoveredElement, setHoveredElement] = useState<string | null>(null);
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    subject: "",
+    message: "",
+  });
+  const [isSubmitted, setIsSubmitted] = useState(false);
   const isInView = useInView(sectionRef, { once: true, margin: "-100px" });
 
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start end", "end start"],
-  });
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.08,
+        delayChildren: 0.1,
+      },
+    },
+  };
 
-  const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
-  const scale = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0.95, 1, 1, 0.95]);
-  const y = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [50, 0, 0, -50]);
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.5,
+        ease: "easeOut",
+      },
+    },
+  };
 
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.fromTo(
-        ".contact-title-line",
-        { y: 80, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          stagger: 0.1,
-          duration: 1,
-          ease: "power4.out",
-          scrollTrigger: {
-            trigger: titleRef.current,
-            start: "top 80%",
-            toggleActions: "play none none none",
-          },
-        }
-      );
-    }, sectionRef);
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    // Form submission logic would go here
+    setIsSubmitted(true);
+    setTimeout(() => setIsSubmitted(false), 3000);
+  };
 
-    return () => ctx.revert();
-  }, []);
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
 
   return (
     <section
       ref={sectionRef}
       id="contact"
-      className="relative section-padding overflow-hidden"
+      className="relative py-32 overflow-hidden"
+      onMouseLeave={() => setHoveredElement(null)}
     >
-      {/* Background */}
-      <div className="absolute inset-0 bg-gradient-to-t from-background via-secondary/5 to-background" />
+      {/* Minimal background */}
+      <div className="absolute inset-0 bg-gradient-to-b from-[#0a0a0f] via-[#0d0d14] to-[#0a0a0f]" />
+      
+      {/* Accent line */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-48 h-px bg-gradient-to-r from-transparent via-accent/40 to-transparent" />
 
-      {/* Decorative elements */}
-      <div className="absolute top-0 right-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
-      <div className="absolute bottom-0 left-1/4 w-80 h-80 bg-accent/5 rounded-full blur-3xl" />
-
-      {/* Grid pattern */}
-      <div
-        className="absolute inset-0 opacity-5"
-        style={{
-          backgroundImage: `radial-gradient(circle at 1px 1px, currentColor 1px, transparent 0)`,
-          backgroundSize: "40px 40px",
-        }}
-      />
-
-      <motion.div
-        style={{ opacity, scale, y }}
-        className="container-custom relative z-10"
-      >
-        {/* Section header */}
-        <div ref={titleRef} className="mb-16 md:mb-24 text-center">
-          <motion.span
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6 }}
-            className="text-subtitle text-primary mb-4 block"
-          >
-            Get In Touch
-          </motion.span>
-          <h2 className="text-display text-section overflow-hidden">
-            <span className="contact-title-line block">
-              Let&apos;s create
-            </span>
-            <span className="contact-title-line block gradient-text">
-              something amazing
-            </span>
-          </h2>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ delay: 0.4, duration: 0.6 }}
-            className="text-muted-foreground mt-6 max-w-2xl mx-auto"
-          >
-            Ready to bring your vision to life? I&apos;m here to help transform your
-            ideas into digital reality.
-          </motion.p>
-        </div>
-
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-20">
-          {/* Contact form (UI only) */}
-          <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ delay: 0.3, duration: 0.8 }}
-          >
-            <div className="glass rounded-3xl p-8 md:p-10">
-              <h3 className="text-2xl font-bold mb-8">Send a Message</h3>
-
-              <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
-                <div className="grid md:grid-cols-2 gap-6">
-                  <AnimatedInput label="Your Name" placeholder="John Doe" />
-                  <AnimatedInput
-                    label="Email Address"
-                    type="email"
-                    placeholder="john@example.com"
-                  />
-                </div>
-
-                <AnimatedInput
-                  label="Subject"
-                  placeholder="Project Inquiry"
-                />
-
-                <AnimatedInput
-                  label="Your Message"
-                  placeholder="Tell me about your project..."
-                  isTextarea
-                />
-
-                <MagneticWrapper strength={0.15}>
-                  <Button
-                    type="button"
-                    variant="glow"
-                    size="lg"
-                    className="w-full group rounded-full"
-                  >
-                    <span>Send Message</span>
-                    <Send className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
-                  </Button>
-                </MagneticWrapper>
-              </form>
+      <div className="container-custom relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Section Header */}
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+          className="mb-20 text-center flex flex-col items-center"
+        >
+          <motion.div variants={itemVariants} className="mb-12">
+            <div className="inline-flex items-center gap-3 ">
+              <div className="w-8 h-px bg-accent/40" />
+              <span className="text-xs font-ayer-poster tracking-[0.3em] uppercase text-white/40">
+                Contact
+              </span>
             </div>
           </motion.div>
 
-          {/* Contact info */}
-          <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            animate={isInView ? { opacity: 1, x: 0 } : {}}
-            transition={{ delay: 0.5, duration: 0.8 }}
-            className="space-y-8"
-          >
-            {/* Info cards */}
-            <div className="space-y-4">
-              {contactInfo.map((info, index) => (
-                <motion.div
-                  key={info.label}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={isInView ? { opacity: 1, y: 0 } : {}}
-                  transition={{ delay: 0.6 + index * 0.1, duration: 0.6 }}
-                  className="glass rounded-2xl p-6 group hover:bg-white/5 transition-colors cursor-hover"
-                >
-                  <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center group-hover:bg-primary/20 transition-colors">
-                      <info.icon className="w-5 h-5 text-primary" />
-                    </div>
-                    <div>
-                      <p className="text-sm text-muted-foreground">
-                        {info.label}
-                      </p>
-                      <p className="text-lg font-medium">{info.value}</p>
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
+          <motion.div  variants={itemVariants}>
+            <h2 className="font-ayer-poster text-5xl md:text-6xl lg:text-7xl font-bold text-white tracking-tight mb-6">
+              <span className="inline-block">
+                Let&apos;s Build
+              </span>
+              <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent via-blue-400 to-accent">
+                Something Amazing
+              </span>
+            </h2>
+          </motion.div>
 
-            {/* Social links */}
-            <div className="pt-8">
-              <h4 className="text-sm text-muted-foreground uppercase tracking-wider mb-6">
-                Connect with me
-              </h4>
-              <div className="flex gap-4">
-                {socialLinks.map((social, index) => (
-                  <motion.div
-                    key={social.label}
-                    initial={{ opacity: 0, scale: 0 }}
-                    animate={isInView ? { opacity: 1, scale: 1 } : {}}
-                    transition={{ delay: 0.9 + index * 0.1, duration: 0.4 }}
-                  >
-                    <MagneticWrapper strength={0.3}>
-                      <a
-                        href={social.href}
-                        aria-label={social.label}
-                        className="w-14 h-14 rounded-xl glass flex items-center justify-center text-muted-foreground hover:text-primary hover:bg-white/5 transition-all cursor-hover"
-                      >
-                        <social.icon className="w-6 h-6" />
-                      </a>
-                    </MagneticWrapper>
-                  </motion.div>
-                ))}
-              </div>
-            </div>
+          <motion.div variants={itemVariants}>
+            <p className="text-white/60 max-w-xl mx-auto text-lg leading-relaxed font-light">
+              Ready to bring your vision to life? I&apos;m here to help transform your ideas into exceptional digital experiences.
+            </p>
+          </motion.div>
+        </motion.div>
 
-            {/* Availability status */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ delay: 1.2, duration: 0.6 }}
-              className="glass rounded-2xl p-6"
-            >
-              <div className="flex items-center gap-3">
-                <div className="relative">
-                  <div className="w-3 h-3 rounded-full bg-emerald-500" />
-                  <div className="absolute inset-0 w-3 h-3 rounded-full bg-emerald-500 animate-ping" />
-                </div>
-                <span className="text-foreground">
-                  Available for new projects
-                </span>
-              </div>
-              <p className="text-sm text-muted-foreground mt-3">
-                Currently accepting freelance work and full-time remote
-                positions. Response time: &lt;24 hours.
+        {/* Content Grid */}
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          animate={isInView ? "visible" : "hidden"}
+          className="grid lg:grid-cols-2 gap-16"
+        >
+          {/* Contact Form */}
+          <div>
+            <motion.div variants={itemVariants} className="mb-8">
+              <h3 className="font-ayer-poster text-2xl font-medium text-white mb-4">
+                Send a Message
+              </h3>
+              <p className="text-white/40 text-sm font-light">
+                Fill out the form below and I&apos;ll get back to you within 24 hours.
               </p>
             </motion.div>
+
+            <form onSubmit={handleSubmit} className="space-y-6">
+              {/* Name & Email */}
+              <div className="grid sm:grid-cols-2 gap-6">
+                <div className="relative">
+                  <input
+                    type="text"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    placeholder=" "
+                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-transparent focus:outline-none focus:border-accent/40 transition-colors duration-300"
+                  />
+                  <label className="absolute left-4 top-3 text-white/40 text-sm font-light pointer-events-none transition-all duration-300 peer-placeholder-shown:top-3 peer-focus:top-1 peer-focus:text-xs">
+                    Your Name
+                  </label>
+                </div>
+
+                <div className="relative">
+                  <input
+                    type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    placeholder=" "
+                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-transparent focus:outline-none focus:border-accent/40 transition-colors duration-300"
+                  />
+                  <label className="absolute left-4 top-3 text-white/40 text-sm font-light pointer-events-none transition-all duration-300 peer-placeholder-shown:top-3 peer-focus:top-1 peer-focus:text-xs">
+                    Email Address
+                  </label>
+                </div>
+              </div>
+
+              {/* Subject */}
+              <div className="relative">
+                <input
+                  type="text"
+                  name="subject"
+                  value={formData.subject}
+                  onChange={handleChange}
+                  placeholder=" "
+                  className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-transparent focus:outline-none focus:border-accent/40 transition-colors duration-300"
+                />
+                <label className="absolute left-4 top-3 text-white/40 text-sm font-light pointer-events-none transition-all duration-300 peer-placeholder-shown:top-3 peer-focus:top-1 peer-focus:text-xs">
+                  Subject
+                </label>
+              </div>
+
+              {/* Message */}
+              <div className="relative">
+                <textarea
+                  name="message"
+                  value={formData.message}
+                  onChange={handleChange}
+                  placeholder=" "
+                  rows={4}
+                  className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-transparent focus:outline-none focus:border-accent/40 transition-colors duration-300 resize-none"
+                />
+                <label className="absolute left-4 top-3 text-white/40 text-sm font-light pointer-events-none transition-all duration-300 peer-placeholder-shown:top-3 peer-focus:top-1 peer-focus:text-xs">
+                  Your Message
+                </label>
+              </div>
+
+              {/* Submit Button */}
+              <button
+                type="submit"
+                className="group relative w-full px-8 py-4 bg-white/5 border border-white/10 rounded-lg text-white font-light hover:border-accent/40 transition-all duration-300"
+                onMouseEnter={() => setHoveredElement("submit")}
+                onMouseLeave={() => setHoveredElement(null)}
+              >
+                <div className="flex items-center justify-center gap-3">
+                  <span>Send Message</span>
+                  <Send size={16} className="group-hover:translate-x-1 transition-transform" />
+                </div>
+                
+                <AnimatePresence>
+                  {isSubmitted && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -10 }}
+                      className="absolute inset-0 flex items-center justify-center gap-2 bg-accent/10 border border-accent/20 rounded-lg"
+                    >
+                      <CheckCircle size={16} className="text-accent" />
+                      <span className="text-accent text-sm">Message Sent!</span>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </button>
+            </form>
+          </div>
+
+          {/* Contact Info */}
+          <div>
+            <motion.div variants={itemVariants} className="mb-12">
+              <h3 className="font-ayer-poster text-2xl font-medium text-white mb-6">
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent to-blue-400">
+                  Get In Touch
+                </span>
+              </h3>
+              
+              {/* Contact Info Cards */}
+              <div className="space-y-4 mb-12">
+                {contactInfo.map((item) => (
+                  <a
+                    key={item.label}
+                    href={item.action}
+                    target={item.action.startsWith('http') ? '_blank' : undefined}
+                    rel={item.action.startsWith('http') ? 'noopener noreferrer' : undefined}
+                    className="group block"
+                    onMouseEnter={() => setHoveredElement(item.label)}
+                    onMouseLeave={() => setHoveredElement(null)}
+                  >
+                    <div className="flex items-center gap-4 p-4 border border-white/5 rounded-lg hover:border-white/10 transition-colors duration-300">
+                      <div className={`p-3 rounded-lg bg-white/5 ${item.color}`}>
+                        <item.icon size={20} />
+                      </div>
+                      <div className="flex-1">
+                        <div className="text-sm text-white/40 font-light">{item.label}</div>
+                        <div className="text-white font-light">{item.value}</div>
+                      </div>
+                      <ArrowUpRight 
+                        size={16} 
+                        className="text-white/20 group-hover:text-white/60 transition-colors" 
+                      />
+                    </div>
+                  </a>
+                ))}
+              </div>
+            </motion.div>
+
+            {/* Social Links */}
+            <motion.div variants={itemVariants} className="mb-12">
+              <h4 className="font-ayer-poster text-sm font-medium text-white/60 tracking-wider uppercase mb-6">
+                Connect With Me
+              </h4>
+              <div className="grid sm:grid-cols-2 gap-4">
+                {socialLinks.map((social) => (
+                  <a
+                    key={social.platform}
+                    href={social.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`group relative p-4 rounded-lg border border-white/5 hover:border-white/10 transition-all duration-300 ${social.color}`}
+                    onMouseEnter={() => setHoveredElement(`social-${social.platform}`)}
+                    onMouseLeave={() => setHoveredElement(null)}
+                  >
+                    <div className="flex items-start justify-between mb-2">
+                      <social.icon size={20} className="opacity-80" />
+                      <ArrowUpRight 
+                        size={16} 
+                        className="opacity-0 group-hover:opacity-100 transition-opacity" 
+                      />
+                    </div>
+                    <div className="text-sm font-medium">{social.platform}</div>
+                    <div className="text-xs opacity-50 font-light">{social.metric}</div>
+                  </a>
+                ))}
+              </div>
+            </motion.div>
+
+            {/* Availability */}
+            <motion.div variants={itemVariants}>
+              <div className="p-6 border border-white/5 rounded-lg">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="relative">
+                    <div className="w-3 h-3 rounded-full bg-accent" />
+                    <div className="absolute inset-0 w-3 h-3 rounded-full bg-accent animate-ping" />
+                  </div>
+                  <div>
+                    <div className="text-white font-light">Available for Projects</div>
+                    <div className="text-sm text-white/40 font-light">Response time: &lt;24 hours</div>
+                  </div>
+                </div>
+                <p className="text-sm text-white/60 font-light">
+                  Currently accepting freelance work and full-time opportunities. Let&apos;s discuss how I can contribute to your success.
+                </p>
+              </div>
+            </motion.div>
+          </div>
+        </motion.div>
+
+        {/* Bottom Divider */}
+        <motion.div
+          initial={{ opacity: 0, width: 0 }}
+          animate={isInView ? { opacity: 1, width: "100%" } : {}}
+          transition={{ delay: 1, duration: 1 }}
+          className="mt-20 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"
+        />
+      </div>
+
+      {/* Micro-interaction Indicator */}
+      <AnimatePresence>
+        {hoveredElement && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed bottom-8 right-8 pointer-events-none"
+          >
+            <div className="text-xs text-white/30 font-mono tracking-wider">
+              {hoveredElement.toUpperCase()}
+            </div>
           </motion.div>
-        </div>
-      </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 }

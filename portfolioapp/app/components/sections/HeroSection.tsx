@@ -279,16 +279,16 @@ export function HeroSection() {
         className="relative z-20 text-center px-4 sm:px-6 md:px-8 max-w-5xl mx-auto"
       >
         {/* Main title with Tina Smith-inspired layout */}
-        <div className="mb-8 md:mb-12" style={{ perspective: "1200px" }}>
+        <div className="mb-4 md:mb-6" style={{ perspective: "1200px" }}>
           <h1
             ref={titleRef}
             className="font-ayer-poster font-bold text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl mb-6 md:mb-8 leading-[0.95] tracking-tighter"
           >
-            <span className="hero-name inline-block text-accent bg-blue\">
+            <span className="hero-name inline-block text-transparent bg-clip-text bg-gradient-to-r from-accent via-blue-400 to-accent">
               Aitzaz Hassan
             </span>
-            <br />
-            <span className="hero-name inline-block text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl  text-white/90 mt-2 md:mt-4">
+            <br  className="mb-2 md:mb-4"/>
+            <span className="hero-name inline-block text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl  text-white/90 ">
               Creative Full Stack Developer
             </span>
           </h1>
@@ -303,7 +303,7 @@ export function HeroSection() {
         </div>
 
         {/* Updated CTA Button with Tina Smith-inspired styling */}
-        <div ref={ctaRef} className="flex justify-center mt-10 md:mt-14">
+        <div ref={ctaRef} className="flex justify-center">
           <MagneticWrapper strength={0.15}>
             <motion.button
               onClick={handleExploreClick}
