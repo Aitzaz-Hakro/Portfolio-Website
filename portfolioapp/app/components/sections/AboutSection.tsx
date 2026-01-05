@@ -3,25 +3,34 @@
 import { useRef, useState } from "react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import Image from "next/image";
-import { Download, ArrowUpRight, Code, Palette, Zap } from "lucide-react";
+import { Download, ArrowUpRight, Palette, Zap, LucideIcon } from "lucide-react";
 
-const expertise = [
+type ExpertiseItem = {
+  icon?: LucideIcon;
+  customIcon?: string;
+  title: string;
+  description: string;
+  metric: string;
+  color: string;
+};
+
+const expertise: ExpertiseItem[] = [
   {
-    icon: Code,
-    title: "Frontend Architecture",
+    customIcon: "/icons/extension.png",
+    title: "Frontend Development",
     description: "Designing scalable component systems with peak performance optimization",
     metric: "40% faster load times",
     color: "text-blue-400",
   },
   {
-    icon: Palette,
+    customIcon: "/icons/user-experience.png",
     title: "UI/UX Design",
     description: "Crafting intuitive, conversion-focused user interfaces",
     metric: "2.5x engagement boost",
     color: "text-accent",
   },
   {
-    icon: Zap,
+    customIcon: "/icons/team-leader.png",
     title: "Technical Leadership",
     description: "Guiding teams & driving full-stack project success",
     metric: "10+ projects led",
@@ -84,9 +93,13 @@ export function AboutSection() {
                 Aitzaz Hassan
               </h1>
               <div className="flex items-center gap-3">
-                <div className="w-4 h-4 rounded-full bg-accent/20 border border-accent/40 flex items-center justify-center">
-                  <div className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
-                </div>
+                <Image
+                  src="/icons/focus1.png"
+                  alt="Focus"
+                  width={20}
+                  height={20}
+                  className="opacity-80"
+                />
                 <p className="text-white/80 text-lg font-light">
                   Frontend-Focused Full Stack Developer
                 </p>
@@ -114,7 +127,17 @@ export function AboutSection() {
                     onMouseLeave={() => setHoveredElement(null)}
                   >
                     <div className="flex items-start justify-between mb-3">
-                      <item.icon size={20} className={`${item.color} opacity-80`} />
+                      {item.customIcon ? (
+                        <Image
+                          src={item.customIcon}
+                          alt={item.title}
+                          width={20}
+                          height={20}
+                          className="opacity-80"
+                        />
+                      ) : item.icon ? (
+                        <item.icon size={20} className={`${item.color} opacity-80`} />
+                      ) : null}
                       <AnimatePresence>
                         {hoveredElement === item.title && (
                           <motion.span
@@ -174,7 +197,7 @@ export function AboutSection() {
             onMouseLeave={() => setHoveredElement(null)}
           >
             <div className="relative">
-              <div className="relative aspect-square max-w-md mx-auto overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-white/5 to-transparent">
+                <div className="relative aspect-[3/4] max-w-md mx-auto overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-white/5 to-transparent">
                 <Image
                   src="/profile.png"
                   alt="Portrait of Aitzaz Hassan, Frontend-Focused Full Stack Developer"
@@ -183,6 +206,7 @@ export function AboutSection() {
                   sizes="(max-width: 768px) 100vw, 50vw"
                   priority
                 />
+
 
                 <AnimatePresence>
                   {hoveredElement === "profile" && (
