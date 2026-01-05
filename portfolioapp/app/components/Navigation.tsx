@@ -68,7 +68,7 @@ export default function Navigation() {
         transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
         className={`fixed top-0 right-0 z-50 transition-all duration-500 px-4 sm:px-6 md:px-8 pt-6 md:pt-8 ${isScrolled ? "py-2" : "py-4"
           }`}
-      >
+      > 
         <nav
           className={`flex justify-end items-center ${isScrolled
             ? "bg-white/5 backdrop-blur-xl border border-white/15 shadow-[0_8px_32px_rgba(0,0,0,0.3)]"

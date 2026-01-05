@@ -8,22 +8,22 @@ const contactInfo = [
   { 
     icon: Mail, 
     label: "Email", 
-    value: "aitzazhassan2005@gmail.com",
-    action: "mailto:aitzazhassan2005@gmail.com",
+    value: "aitzazhakro123@gmail.com",
+    action: "mailto:aitzazhakro123@gmail.com",
     color: "text-blue-400",
   },
   { 
     icon: Phone, 
     label: "Phone", 
-    value: "+92 304 1234567",
-    action: "tel:+923041234567",
+    value: "+92 304 3005127",
+    action: "tel:+923043005127",
     color: "text-accent",
   },
   { 
     icon: MapPin, 
     label: "Location", 
-    value: "Karachi, Pakistan",
-    action: "https://maps.google.com",
+    value: "Hyderabad, Pakistan",
+    action: "https://maps.google.com/?q=Hyderabad,+Pakistan",
     color: "text-purple-400",
   },
 ];
@@ -31,7 +31,7 @@ const contactInfo = [
 const socialLinks = [
   { 
     platform: "GitHub", 
-    href: "https://github.com/aitzazhassan", 
+    href: "https://github.com/Aitzaz-Hakro/", 
     icon: Github,
     color: "text-gray-400 hover:text-white",
     metric: "50+ repos"
@@ -171,9 +171,9 @@ export function ContactSection() {
                     value={formData.name}
                     onChange={handleChange}
                     placeholder=" "
-                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-transparent focus:outline-none focus:border-accent/40 transition-colors duration-300"
+                    className="peer w-full px-4 py-4 pt-6 bg-white/5 border border-white/10 rounded-lg text-white placeholder-transparent focus:outline-none focus:border-accent/40 transition-colors duration-300"
                   />
-                  <label className="absolute left-4 top-3 text-white/40 text-sm font-light pointer-events-none transition-all duration-300 peer-placeholder-shown:top-3 peer-focus:top-1 peer-focus:text-xs">
+                  <label className={`absolute left-4 text-white/40 text-sm font-light pointer-events-none transition-all duration-300 ${formData.name ? '-top-2.5 text-xs bg-[#0d0d14] px-2 text-accent/70' : 'top-4 peer-focus:-top-2.5 peer-focus:text-xs peer-focus:bg-[#0d0d14] peer-focus:px-2 peer-focus:text-accent/70'}`}>
                     Your Name
                   </label>
                 </div>
@@ -185,9 +185,9 @@ export function ContactSection() {
                     value={formData.email}
                     onChange={handleChange}
                     placeholder=" "
-                    className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-transparent focus:outline-none focus:border-accent/40 transition-colors duration-300"
+                    className="peer w-full px-4 py-4 pt-6 bg-white/5 border border-white/10 rounded-lg text-white placeholder-transparent focus:outline-none focus:border-accent/40 transition-colors duration-300"
                   />
-                  <label className="absolute left-4 top-3 text-white/40 text-sm font-light pointer-events-none transition-all duration-300 peer-placeholder-shown:top-3 peer-focus:top-1 peer-focus:text-xs">
+                  <label className={`absolute left-4 text-white/40 text-sm font-light pointer-events-none transition-all duration-300 ${formData.email ? '-top-2.5 text-xs bg-[#0d0d14] px-2 text-accent/70' : 'top-4 peer-focus:-top-2.5 peer-focus:text-xs peer-focus:bg-[#0d0d14] peer-focus:px-2 peer-focus:text-accent/70'}`}>
                     Email Address
                   </label>
                 </div>
@@ -201,9 +201,9 @@ export function ContactSection() {
                   value={formData.subject}
                   onChange={handleChange}
                   placeholder=" "
-                  className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-transparent focus:outline-none focus:border-accent/40 transition-colors duration-300"
+                  className="peer w-full px-4 py-4 pt-6 bg-white/5 border border-white/10 rounded-lg text-white placeholder-transparent focus:outline-none focus:border-accent/40 transition-colors duration-300"
                 />
-                <label className="absolute left-4 top-3 text-white/40 text-sm font-light pointer-events-none transition-all duration-300 peer-placeholder-shown:top-3 peer-focus:top-1 peer-focus:text-xs">
+                <label className={`absolute left-4 text-white/40 text-sm font-light pointer-events-none transition-all duration-300 ${formData.subject ? '-top-2.5 text-xs bg-[#0d0d14] px-2 text-accent/70' : 'top-4 peer-focus:-top-2.5 peer-focus:text-xs peer-focus:bg-[#0d0d14] peer-focus:px-2 peer-focus:text-accent/70'}`}>
                   Subject
                 </label>
               </div>
@@ -216,9 +216,9 @@ export function ContactSection() {
                   onChange={handleChange}
                   placeholder=" "
                   rows={4}
-                  className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-transparent focus:outline-none focus:border-accent/40 transition-colors duration-300 resize-none"
+                  className="peer w-full px-4 py-4 pt-6 bg-white/5 border border-white/10 rounded-lg text-white placeholder-transparent focus:outline-none focus:border-accent/40 transition-colors duration-300 resize-none"
                 />
-                <label className="absolute left-4 top-3 text-white/40 text-sm font-light pointer-events-none transition-all duration-300 peer-placeholder-shown:top-3 peer-focus:top-1 peer-focus:text-xs">
+                <label className={`absolute left-4 text-white/40 text-sm font-light pointer-events-none transition-all duration-300 ${formData.message ? '-top-2.5 text-xs bg-[#0d0d14] px-2 text-accent/70' : 'top-4 peer-focus:-top-2.5 peer-focus:text-xs peer-focus:bg-[#0d0d14] peer-focus:px-2 peer-focus:text-accent/70'}`}>
                   Your Message
                 </label>
               </div>
@@ -323,7 +323,7 @@ export function ContactSection() {
 
             {/* Availability */}
             <motion.div variants={itemVariants}>
-              <div className="p-6 border border-white/5 rounded-lg">
+              <div className="p-6 mb-10 border border-white/5 rounded-lg">
                 <div className="flex items-center gap-3 mb-4">
                   <div className="relative">
                     <div className="w-3 h-3 rounded-full bg-accent" />
@@ -347,7 +347,7 @@ export function ContactSection() {
           initial={{ opacity: 0, width: 0 }}
           animate={isInView ? { opacity: 1, width: "100%" } : {}}
           transition={{ delay: 1, duration: 1 }}
-          className="mt-20 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"
+          className="h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"
         />
       </div>
 

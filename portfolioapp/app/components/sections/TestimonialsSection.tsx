@@ -12,36 +12,36 @@ gsap.registerPlugin(ScrollTrigger);
 const testimonials = [
   {
     id: 1,
-    name: "Jane Smith",
-    role: "Freelance Designer",
+    name: "Muhsin Abro",
+    role: "Agency Owner",
     content: "I've been collaborating with Aitzaz on multiple projects for over a year and I'm really impressed with the technical expertise and creative solutions. Our applications have never experienced downtime, and the support is always quick to help with any issues. Highly recommend for any complex web development needs!",
-    rating: 5,
+    rating: 4,
     color: "accent",
     gradient: "linear-gradient(145deg, rgba(245, 163, 82, 0.15), rgba(245, 163, 82, 0.05))",
     borderColor: "#f5a352",
-    avatar: "JS",
+    avatar: "MA",
   },
   {
     id: 2,
-    name: "Michael Brown",
-    role: "Online Entrepreneur",
-    content: "Working with Aitzaz has been transformative for my e-commerce business. The attention to detail in frontend architecture and the scalability of the backend solutions exceeded expectations. My conversion rates improved by 45% after implementing their recommendations.",
+    name: "Engr. Muhammad Hassan",
+    role: "Research Assistant, NCRAAI",
+    content: "Aitzaz delivered three outstanding websites for our diverse needs: NCRAAI's research platform, BritCars' luxury automotive showcase, and TeamK9Security's professional services site. Each project demonstrated exceptional attention to detail, from the academic rigor required for NCRAAI to the sleek aesthetics for BritCars and the trustworthy design for TeamK9Security. Highly professional and versatile developer!",
     rating: 5,
     color: "#1E4FA8",
     gradient: "linear-gradient(210deg, rgba(30, 79, 168, 0.15), rgba(30, 79, 168, 0.05))",
     borderColor: "#1E4FA8",
-    avatar: "MB",
+    avatar: "MH",
   },
   {
     id: 3,
-    name: "Sarah Johnson",
-    role: "Product Director",
-    content: "I was initially hesitant about a complete platform overhaul, but Aitzaz's approach made the transition seamless. The modern tech stack and clean architecture have future-proofed our application. Our team productivity increased by 30% thanks to the well-documented codebase.",
-    rating: 5,
+    name: "Rehan Mehdi",
+    role: "Campus Director, Hult Prize",
+    content: "Aitzaz built an exceptional website for our Hult Prize on-campus program. The registration system handled hundreds of participants flawlessly, and the event management features streamlined our entire workflow. The modern design perfectly captured the spirit of social entrepreneurship and innovation.",
+    rating: 4,
     color: "#10b981",
     gradient: "linear-gradient(165deg, rgba(16, 185, 129, 0.15), rgba(16, 185, 129, 0.05))",
     borderColor: "#10b981",
-    avatar: "SJ",
+    avatar: "RM",
   },
 ];
 
@@ -283,10 +283,10 @@ export function TestimonialsSection() {
         </div>
 
         {/* CTA Section - Matching hero button style */}
-        <div className="text-center mb-24">
+        <div className="text-center mb-18">
           <MagneticWrapper strength={0.15}>
             <motion.button
-              className="group relative mb-12 inline-flex items-center justify-center gap-3 px-8 md:px-10 py-4 md:py-5 bg-transparent border-2 border-accent hover:border-accent text-white font-ayer-poster font-medium text-base md:text-lg uppercase tracking-widest rounded-full transition-all duration-500 hover:bg-accent/10 overflow-hidden"
+              className="group relative mb- inline-flex items-center justify-center gap-3 px-8 md:px-10 py-4 md:py-5 bg-transparent border-2 border-accent hover:border-accent text-white font-ayer-poster font-medium text-base md:text-lg uppercase tracking-widest rounded-full transition-all duration-500 hover:bg-accent/10 overflow-hidden"
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
             >
@@ -297,35 +297,7 @@ export function TestimonialsSection() {
               <ArrowRight className="w-5 h-5 md:w-6 md:h-6 transition-all duration-300 group-hover:translate-x-2 group-hover:scale-110" />
             </motion.button>
           </MagneticWrapper>
-
-          {/* Trust indicator */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ delay: 1.2, duration: 0.6 }}
-            className=" text-center"
-          >
-            <p className="text-white/40 text-sm tracking-wider uppercase font-ayer-poster mb-6">
-              Trusted by professionals worldwide
-            </p>
-            
-            {/* Client logos/names */}
-            <div className="flex flex-wrap justify-center items-center gap-8 md:gap-12 opacity-60">
-              {["TechVenture", "StartupHub", "InnovateTech", "GlobalScale", "DigitalFirst"].map(
-                (company, index) => (
-                  <motion.div
-                    key={company}
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={isInView ? { opacity: 1, scale: 1 } : {}}
-                    transition={{ delay: 1.4 + index * 0.1, duration: 0.5 }}
-                    className="text-white/50 hover:text-white/80 transition-colors duration-300"
-                  >
-                    <span className="font-ayer-poster text-lg font-bold">{company}</span>
-                  </motion.div>
-                )
-              )}
-            </div>
-          </motion.div>
+         
         </div>
 
         {/* Stats row - Bottom of section */}
@@ -336,9 +308,9 @@ export function TestimonialsSection() {
           className=" pt-12 border-t border-white/10 grid grid-cols-2 md:grid-cols-4 gap-8"
         >
           {[
-            { value: "100%", label: "Client Satisfaction" },
-            { value: "5.0", label: "Average Rating" },
-            { value: "50+", label: "Projects Completed" },
+            { value: "95%", label: "Client Satisfaction" },
+            { value: "4.5", label: "Average Rating" },
+            { value: "10+", label: "Projects Completed" },
             { value: "∞", label: "Scalability Focus" },
           ].map((stat, index) => (
             <div key={stat.label} className="text-center">

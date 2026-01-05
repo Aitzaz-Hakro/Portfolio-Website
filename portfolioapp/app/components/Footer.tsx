@@ -10,15 +10,15 @@ const footerLinks = [
     items: [
       { label: "Projects", href: "#projects", badge: "10+" },
       { label: "Services", href: "#services", badge: "Expert" },
-      { label: "Testimonials", href: "#testimonials", badge: "5.0★" },
+      { label: "Testimonials", href: "#testimonials", badge: "4.5★" },
     ],
   },
   {
     section: "Connect",
     items: [
-      { label: "LinkedIn", href: "https://linkedin.com/in/aitzazhassan", external: true },
-      { label: "GitHub", href: "https://github.com/aitzazhassan", external: true },
-      { label: "Email", href: "mailto:aitzazhassan2005@gmail.com", external: true },
+      { label: "LinkedIn", href: "https://linkedin.com/in/aitzazhassan2005/", external: true },
+      { label: "GitHub", href: "https://github.com/Aitzaz-Hakro/", external: true },
+      { label: "Email", href: "mailto:aitzazhakro123@gmail.com", external: true },
     ],
   },
 ];
@@ -26,21 +26,21 @@ const footerLinks = [
 const socialLinks = [
   { 
     platform: "GitHub", 
-    href: "https://github.com/aitzazhassan", 
+    href: "https://github.com/Aitzaz-Hakro/", 
     icon: Github,
     metric: "50+ repos",
     color: "text-gray-400 hover:text-white"
   },
   { 
     platform: "LinkedIn", 
-    href: "https://linkedin.com/in/aitzazhassan", 
+    href: "https://linkedin.com/in/aitzazhassan2005/", 
     icon: Linkedin,
-    metric: "500+ connections",
+    metric: "2500+ connections",
     color: "text-blue-400 hover:text-blue-300"
   },
   { 
     platform: "Email", 
-    href: "mailto:aitzazhassan2005@gmail.com", 
+    href: "mailto:aitzazhakro123@gmail.com", 
     icon: Mail,
     metric: "24h response",
     color: "text-accent hover:text-accent-light"

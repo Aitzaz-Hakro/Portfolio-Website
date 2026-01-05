@@ -1,5 +1,14 @@
 @import "tailwindcss";
 
+/* Qilka Bold Font */
+/* @font-face {
+  font-family: 'Qilka Bold';
+  src: url('/fonts/Qilka-Bold copy.otf') format('opentype');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+} */
+
 @theme {
   /* Custom color palette - Futuristic dark theme */
   --color-background: oklch(0.13 0.02 260);

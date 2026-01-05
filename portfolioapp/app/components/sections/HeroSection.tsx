@@ -279,7 +279,7 @@ export function HeroSection() {
         className="relative z-20 text-center px-4 sm:px-6 md:px-8 max-w-5xl mx-auto"
       >
         {/* Main title with Tina Smith-inspired layout */}
-        <div className="mb-4 md:mb-6" style={{ perspective: "1200px" }}>
+        <div className="mb-4 md:mb-6" style={{ perspective: "1200px", marginTop: '-2rem' }}>
           <h1
             ref={titleRef}
             className="font-ayer-poster font-bold text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl mb-6 md:mb-8 leading-[0.95] tracking-tighter"

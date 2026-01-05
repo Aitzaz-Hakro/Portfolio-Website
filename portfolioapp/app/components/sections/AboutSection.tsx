@@ -72,7 +72,7 @@ export function AboutSection() {
           variants={containerVariants}
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
-          className="grid lg:grid-cols-2 gap-20 items-center"
+          className="grid lg:grid-cols-2 mb-20 gap-20 items-center"
         >
           {/* Left Column - Text Content */}
           <div>
@@ -159,21 +159,22 @@ export function AboutSection() {
             </motion.div>
 
             <motion.div variants={itemVariants} className="flex items-center gap-4">
-              <a
+              <motion.a
                 href="/resume.pdf"
                 download
                 aria-label="Download resume PDF"
-                className="group relative inline-flex items-center gap-3 px-6 py-3 text-sm text-white bg-white/5 border border-white/10 rounded-full hover:border-accent/40 transition-all duration-300"
+                className="group relative inline-flex items-center justify-center gap-2 px-6 py-3 bg-transparent border-2 border-accent hover:border-accent text-white font-ayer-poster font-medium text-sm uppercase tracking-widest rounded-full transition-all duration-500 hover:bg-accent/10 overflow-hidden"
                 onMouseEnter={() => setHoveredElement("resume")}
                 onMouseLeave={() => setHoveredElement(null)}
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
               >
-                <Download size={16} className="opacity-60 group-hover:opacity-100" />
-                <span className="font-light">Download Resume</span>
-                <ArrowUpRight
-                  size={14}
-                  className="opacity-0 group-hover:opacity-100 transition-opacity"
-                />
-              </a>
+                {/* Animated background effect */}
+                <span className="absolute inset-0 bg-gradient-to-r from-transparent via-accent/10 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
+                
+                <span className="relative">Download Resume</span>
+                <Download className="w-4 h-4 transition-all duration-300 group-hover:translate-y-1 group-hover:scale-110" />
+              </motion.a>
 
               <a
                 href="#projects"
@@ -264,7 +265,7 @@ export function AboutSection() {
           initial={{ opacity: 0, width: 0 }}
           animate={isInView ? { opacity: 1, width: "100%" } : {}}
           transition={{ delay: 1, duration: 1 }}
-          className="mt-20 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"
+          className="h-px bg-gradient-to-r from-transparent via-white/10 to-transparent"
         />
       </div>
 

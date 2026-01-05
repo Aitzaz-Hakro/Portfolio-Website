@@ -12,68 +12,69 @@ const projects = [
   {
     id: 1,
     title: "Brit Cars Ltd",
-    description: "Comprehensive car rental platform with real-time availability, dynamic pricing,  recommendations.",
-    category: "Web App",
-    tags: ["Next.js", "TypeScript", "PostgreSQL", "AI"],
+    description: "High-converting cab booking platform with real-time availability and SEO optimization.",
+    category: "Buisness",
+    tags: ["Next.js", "JavaScript", "SQL"],
     image: "/projects/project1.png",
     color: "#8b5cf6",
-    link: "https://britcarsltd.co.uk",
+    link: "https://britcarsltd.co.uk/",
     github: "#",
   },
   {
-    id: 2,
-    title: "Hult Prize MUET Chapter",
-    description: "Secure cryptocurrency portfolio management with advanced charting and automated trading strategies.",
-    category: "Web3",
-    tags: ["Html", "Bootstrap", "JavaScript"],
-    image: "/projects/project2.png",
-    color: "#06b6d4",
-    link: "#",
-    github: "#",
-  },
-  {
-    id: 3,
-    title: "Team k9 Security ",
-    description: "Environmental monitoring platform tracking carbon footprint with IoT integration and predictive modeling.",
-    category: "SaaS",
-    tags: ["Python", "FastAPI", "React", "ML"],
-    image: "/projects/project3.png",
-    color: "#10b981",
-    link: "https://teamk9security.co.uk",
-    github: "#",
-  },
-  {
-    id: 4,
-    title: "NCRAAI MUET",
-    description: "Mental wellness application featuring guided meditation, mood tracking, and personalized recommendations.",
-    category: "Mobile",
-    tags: ["React Native", "Node.js", "MongoDB"],
-    image: "/projects/project4.png",
-    color: "#f59e0b",
-    link: "#",
-    github: "#",
-  },
-  {
-    id: 5,
+     id: 2,
     title: "Cerevo Ai",
-    description: "High-frequency trading platform with microsecond execution times and complex algorithmic strategies.",
-    category: "FinTech",
-    tags: ["Rust", "Python", "Redis", "WebSocket"],
+    description: "AI-powered job assistance platform offering real-time ATS resume analysis and multiple intelligent features for developers and professionals.",
+    category: "SaaS",
+    tags: ["Next.js", "ML", "FastAPI",],
     image: "/projects/project5.png",
     color: "#ef4444",
     link: "#",
-    github: "#",
+    github: "https://github.com/Aitzaz-Hakro/Cerevo-AI",
+  },
+  {
+    id: 3,
+    title: "NCRAAI MUET",
+    description: "Mental wellness application featuring guided meditation, mood tracking, and personalized recommendations.",
+    category: "Buisness",
+    tags: ["React Native", "Node.js", "MongoDB"],
+    image: "/projects/project4.png",
+    color: "#f59e0b",
+    link: "https://ncraai.muet.edu.pk/",
+    github: "https://github.com/Aitzaz-Hakro/NCRAAI",
+  },
+  {
+     id: 4,
+    title: "Team k9 Security ",
+    description: "High-converting security provider website designed for leads and trust.",
+    category: "Buisness",
+    tags: ["Html", "Javascript", "tailwindcss"],
+    image: "/projects/project3.png",
+    color: "#10b981",
+    link: "https://teamk9security.co.uk",
+    github: "https://github.com/Aitzaz-Hakro/SMARTSAFE",
+  },
+  {
+   id: 5,
+    title: "Hult Prize MUET Chapter",
+    description: "Professional organization website with secure public event registrations.",
+    category: "Organization",
+    tags: ["Html", "Bootstrap", "JavaScript"],
+    image: "/projects/project2.png",
+    color: "#06b6d4",
+    link: "https://hpmuetszab.social/",
+    github: "https://github.com/Aitzaz-Hakro/HPFinal",
+
   },
   {
     id: 6,
     title: "ExoVision",
-    description: "E-commerce marketplace for handcrafted goods with AR preview and creator monetization tools.",
-    category: "E-commerce",
-    tags: ["Next.js", "Stripe", "Prisma", "AR.js"],
+    description: "Hackathon-built ML platform predicting planetary objects from scientific input data.”",
+    category: "Scientific",
+    tags: ["Next.js", "3D", "ML Model"],
     image: "/projects/project6.png",
     color: "#ec4899",
-    link: "#",
-    github: "#",
+    link: "https://exovisionapp.vercel.app/",
+    github: "https://github.com/Aitzaz-Hakro/Nasa-App/tree/main/frontend/itp-nasa-app",
   },
 ];
 
@@ -175,12 +176,12 @@ function ProjectCard({ project, index }: ProjectCardProps) {
           </h3>
 
           {/* Description */}
-          <p className="text-white/60 text-sm leading-relaxed mb-6 font-light">
+          <p className="text-white/60 text-sm leading-relaxed mb-4 font-light">
             {project.description}
           </p>
 
           {/* Tags */}
-          <div className="flex flex-wrap gap-2 mb-8">
+          <div className="flex flex-wrap gap-2 mb-4">
             {project.tags.slice(0, 3).map((tag, i) => (
               <span 
                 key={i}
@@ -192,10 +193,10 @@ function ProjectCard({ project, index }: ProjectCardProps) {
           </div>
 
           {/* Divider */}
-          <div className="h-px w-full bg-gradient-to-r from-transparent via-white/10 to-transparent mb-6" />
+          <div className="h-px w-full bg-gradient-to-r from-transparent via-white/10 to-transparent mb-3" />
 
           {/* Footer */}
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between -mb-3">
             {/* Links */}
             <div className="flex items-center gap-3">
               <motion.a
@@ -361,7 +362,7 @@ export function ProjectsSection() {
         </div>
 
         {/* View all CTA - Matching hero button style */}
-        <motion.div
+        {/* <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ delay: 1.2, duration: 0.6 }}
@@ -381,7 +382,7 @@ export function ProjectsSection() {
             </motion.span>
             <span className="absolute bottom-0 left-0 w-0 h-px bg-gradient-to-r from-transparent via-white to-transparent group-hover:w-full transition-all duration-500" />
           </a>
-        </motion.div>
+        </motion.div> */}
       </motion.div>
 
       {/* Section bottom fade */}
