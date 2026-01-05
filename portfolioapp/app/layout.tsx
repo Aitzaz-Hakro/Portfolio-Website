@@ -45,10 +45,10 @@ export const metadata: Metadata = {
     description:
       "Crafting exceptional digital experiences through innovative design and cutting-edge technology.",
     type: "website",
-    url: "https://your-portfolio-url.com",
+    url: "https://aitzaz-dev.vercel.app",
     images: [
       {
-        url: "https://your-portfolio-url.com/profile.jpg",
+        url: "https://aitzaz-dev.vercel.app/profile.png",
         width: 1200,
         height: 630,
         alt: "Portfolio Open Graph Image",

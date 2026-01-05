@@ -3,27 +3,27 @@
 import { useRef, useState } from "react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import Image from "next/image";
-import { Download, ArrowUpRight, Sparkle, Code, Palette, Zap, Target } from "lucide-react";
+import { Download, ArrowUpRight, Code, Palette, Zap } from "lucide-react";
 
 const expertise = [
   {
     icon: Code,
     title: "Frontend Architecture",
-    description: "Scalable component systems & performance optimization",
+    description: "Designing scalable component systems with peak performance optimization",
     metric: "40% faster load times",
     color: "text-blue-400",
   },
   {
     icon: Palette,
     title: "UI/UX Design",
-    description: "User-centered design with conversion optimization",
+    description: "Crafting intuitive, conversion-focused user interfaces",
     metric: "2.5x engagement boost",
     color: "text-accent",
   },
   {
     icon: Zap,
     title: "Technical Leadership",
-    description: "Team mentoring & technical strategy development",
+    description: "Guiding teams & driving full-stack project success",
     metric: "10+ projects led",
     color: "text-purple-400",
   },
@@ -38,23 +38,13 @@ export function AboutSection() {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
-      transition: {
-        staggerChildren: 0.08,
-        delayChildren: 0.1,
-      },
+      transition: { staggerChildren: 0.08, delayChildren: 0.1 },
     },
   };
 
   const itemVariants = {
     hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.5,
-        ease: "easeOut",
-      },
-    },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } },
   };
 
   return (
@@ -65,10 +55,7 @@ export function AboutSection() {
       className="relative py-32 overflow-hidden"
       onMouseLeave={() => setHoveredElement(null)}
     >
-      {/* Ultra-minimal background */}
       <div className="absolute inset-0 bg-gradient-to-b from-[#0a0a0f] via-[#0d0d14] to-[#0a0a0f]" />
-      
-      {/* Single accent line for visual anchor */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-48 h-px bg-gradient-to-r from-transparent via-accent/40 to-transparent" />
 
       <div className="container-custom relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -78,22 +65,19 @@ export function AboutSection() {
           animate={isInView ? "visible" : "hidden"}
           className="grid lg:grid-cols-2 gap-20 items-center"
         >
-          
           {/* Left Column - Text Content */}
           <div>
-            {/* Minimal label */}
             <motion.div variants={itemVariants} className="mb-12">
               <div className="inline-flex items-center gap-3">
                 <div className="w-8 h-px bg-accent/40" />
                 <span className="text-xs font-ayer-poster tracking-[0.3em] uppercase text-white/40">
-                  About
+                  About Me
                 </span>
               </div>
             </motion.div>
 
-            {/* Name & Title */}
             <motion.div variants={itemVariants} className="mb-8">
-              <h1 
+              <h1
                 id="about-heading"
                 className="font-ayer-poster text-5xl md:text-6xl lg:text-7xl font-medium text-white tracking-tight mb-4"
               >
@@ -104,27 +88,22 @@ export function AboutSection() {
                   <div className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
                 </div>
                 <p className="text-white/80 text-lg font-light">
-                  Creative Full Stack Developer
+                  Frontend-Focused Full Stack Developer
                 </p>
               </div>
             </motion.div>
 
-            {/* Description */}
             <motion.div variants={itemVariants} className="mb-12">
               <div className="space-y-6">
                 <p className="text-white/70 leading-relaxed font-light text-lg">
-                  I bridge the gap between <span className="text-white ">aesthetic vision</span> and 
-                  <span className="text-white font-"> technical execution</span>, creating digital experiences 
-                  that are both beautiful and performant.
+                  I merge <span className="text-white font-semibold">visually striking design</span> with <span className="text-white font-semibold">robust technical architecture</span> to craft web applications that are fast, accessible, and conversion-driven.
                 </p>
                 <p className="text-white/50 leading-relaxed font-light">
-                  With expertise across the full stack, I specialize in building scalable applications 
-                  that deliver measurable business results through thoughtful architecture and user-centered design.
+                  With full stack expertise, I build <span className="text-white font-semibold">scalable applications</span> that deliver measurable impact, combining frontend excellence, responsive interfaces, and user-centered strategies to maximize engagement and ROI.
                 </p>
               </div>
             </motion.div>
 
-            {/* Expertise Grid */}
             <motion.div variants={itemVariants} className="mb-12">
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                 {expertise.map((item) => (
@@ -156,7 +135,6 @@ export function AboutSection() {
               </div>
             </motion.div>
 
-            {/* CTA Actions */}
             <motion.div variants={itemVariants} className="flex items-center gap-4">
               <a
                 href="/resume.pdf"
@@ -167,20 +145,20 @@ export function AboutSection() {
                 onMouseLeave={() => setHoveredElement(null)}
               >
                 <Download size={16} className="opacity-60 group-hover:opacity-100" />
-                <span className="font-light">Resume</span>
-                <ArrowUpRight 
-                  size={14} 
-                  className="opacity-0 group-hover:opacity-100 transition-opacity" 
+                <span className="font-light">Download Resume</span>
+                <ArrowUpRight
+                  size={14}
+                  className="opacity-0 group-hover:opacity-100 transition-opacity"
                 />
               </a>
-              
+
               <a
                 href="#projects"
                 className="group flex items-center gap-2 text-white/60 hover:text-white transition-colors text-sm font-light"
                 onMouseEnter={() => setHoveredElement("projects")}
                 onMouseLeave={() => setHoveredElement(null)}
               >
-                <span>View Projects</span>
+                <span>See My Projects</span>
                 <ArrowUpRight size={14} className="group-hover:translate-x-0.5 transition-transform" />
               </a>
             </motion.div>
@@ -195,20 +173,17 @@ export function AboutSection() {
             onMouseEnter={() => setHoveredElement("profile")}
             onMouseLeave={() => setHoveredElement(null)}
           >
-            {/* Minimal frame */}
             <div className="relative">
-              {/* Image container */}
               <div className="relative aspect-square max-w-md mx-auto overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-white/5 to-transparent">
                 <Image
                   src="/profile.png"
-                  alt="Portrait of Aitzaz Hassan, Creative Full Stack Developer"
+                  alt="Portrait of Aitzaz Hassan, Frontend-Focused Full Stack Developer"
                   fill
                   className="object-cover object-center"
                   sizes="(max-width: 768px) 100vw, 50vw"
                   priority
                 />
-                
-                {/* Hover overlay */}
+
                 <AnimatePresence>
                   {hoveredElement === "profile" && (
                     <motion.div
@@ -221,7 +196,6 @@ export function AboutSection() {
                 </AnimatePresence>
               </div>
 
-              {/* Status indicator */}
               <div className="absolute -top-3 -right-3">
                 <div className="flex items-center gap-2 px-3 py-1.5 bg-accent/10 border border-accent/20 rounded-full backdrop-blur-sm">
                   <div className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
@@ -229,7 +203,6 @@ export function AboutSection() {
                 </div>
               </div>
 
-              {/* Stats overlay - appears on hover */}
               <AnimatePresence>
                 {hoveredElement === "profile" && (
                   <motion.div
@@ -238,14 +211,16 @@ export function AboutSection() {
                     exit={{ opacity: 0, y: 10 }}
                     className="absolute -bottom-4 left-1/2 -translate-x-1/2 w-4/5"
                   >
-                    <div className="grid grid-cols-3 gap-4 p-4  backdrop-blur-md border border-white/10 rounded-xl">
+                    <div className="grid grid-cols-3 gap-4 p-4 backdrop-blur-md border border-white/10 rounded-xl">
                       {[
-                        { value: "2+", label: "Years" },
-                        { value: "50+", label: "Projects" },
-                        { value: "100%", label: "Satisfaction" },
+                        { value: "2+", label: "Years Experience" },
+                        { value: "50+", label: "Projects Delivered" },
+                        { value: "100%", label: "Client Satisfaction" },
                       ].map((stat) => (
                         <div key={stat.label} className="text-center">
-                          <div className="text-lg font-medium text-transparent bg-clip-text bg-gradient-to-r from-accent via-blue-400 to-accent">{stat.value}</div>
+                          <div className="text-lg font-medium text-transparent bg-clip-text bg-gradient-to-r from-accent via-blue-400 to-accent">
+                            {stat.value}
+                          </div>
                           <div className="text-xs text-white/40">{stat.label}</div>
                         </div>
                       ))}
@@ -255,14 +230,12 @@ export function AboutSection() {
               </AnimatePresence>
             </div>
 
-            {/* Background decorative element */}
             <div className="absolute -z-10 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full">
               <div className="absolute inset-0 bg-gradient-to-r from-accent/5 via-transparent to-accent/5 blur-3xl" />
             </div>
           </motion.div>
         </motion.div>
 
-        {/* Bottom divider */}
         <motion.div
           initial={{ opacity: 0, width: 0 }}
           animate={isInView ? { opacity: 1, width: "100%" } : {}}
@@ -271,7 +244,6 @@ export function AboutSection() {
         />
       </div>
 
-      {/* Micro-interaction indicator */}
       <AnimatePresence>
         {hoveredElement && (
           <motion.div
