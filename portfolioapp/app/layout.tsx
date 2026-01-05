@@ -64,7 +64,7 @@ export const metadata: Metadata = {
     url: "https://www.aitzazhassan.tech",
     images: [
       {
-        url: "https://www.aitzazhassan.tech/profile.png",
+        url: "https://www.aitzazhassan.tech/OGprofile.jpeg",
         width: 1200,
         height: 630,
         alt: "Portfolio Open Graph Image",
