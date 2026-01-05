@@ -38,7 +38,7 @@ const socialLinks = [
   },
   { 
     platform: "LinkedIn", 
-    href: "https://linkedin.com/in/aitzazhassan", 
+    href: "https://linkedin.com/in/aitzazhassan2005", 
     icon: Linkedin,
     color: "text-blue-400 hover:text-blue-300",
     metric: "2500+ followers"
