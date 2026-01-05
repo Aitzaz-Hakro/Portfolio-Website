@@ -26,11 +26,14 @@ const jetbrainsMono = JetBrains_Mono({
 export const metadata: Metadata = {
   title: "Portfolio | Aitzaz Hassan - Full-Stack Dev",
   description:
-    "Crafting exceptional digital experiences through innovative design and cutting-edge technology. Full-stack developer specializing in React, Next.js, and modern web technologies.",
+    "Aitzaz Hassan is a passionate full-stack developer with expertise in React, Next.js, and modern web technologies. He builds clean, responsive, and user-friendly websites that turn ideas into exceptional digital experiences.",
   keywords: [
     "full-stack developer",
     "web developer",
     "aitzaz hassan hakro",
+    "aitzaz hassan",
+    "aitzaz hassan tech portfolio",
+    "aitzaz hassan developer",
     "aitzaz hakro",
     "aitzaz portfolio",
     "web development",
@@ -41,15 +44,27 @@ export const metadata: Metadata = {
     "backend developer",
   ],
   authors: [{ name: "Aitzaz Hassan" }],
+  alternates: {
+    canonical: "https://www.aitzazhassan.tech",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+    },
+  },
   openGraph: {
     title: "Portfolio | Aitzaz Hassan - Full-Stack Dev",
     description:
-      "Crafting exceptional digital experiences through innovative design and cutting-edge technology.",
-    type: "website",
-    url: "https://aitzaz-dev.vercel.app",
+      "Aitzaz Hassan is a passionate full-stack developer building clean, responsive websites with React, Next.js, and modern web technologies.",
+    
+      type: "website",
+    url: "https://www.aitzazhassan.tech",
     images: [
       {
-        url: "https://aitzaz-dev.vercel.app/profile.png",
+        url: "https://www.aitzazhassan.tech/profile.png",
         width: 1200,
         height: 630,
         alt: "Portfolio Open Graph Image",
