@@ -115,7 +115,7 @@ export default function Navigation() {
               onClick={() => handleClick("#contact")}
               className="font-ayer-poster tracking-[0.1em] uppercase text-sm cursor-pointer bg-transparent border border-white/30 hover:border-accent px-6 py-3 rounded-full text-white hover:text-accent transition-all duration-300 hover:shadow-[0_0_20px_rgba(245,163,82,0.2)] ml-2"
             >
-              CONTACT
+              WORK WITH ME
             </motion.button>
           </div>
 
@@ -221,10 +221,10 @@ export default function Navigation() {
               >
                 <span className="relative overflow-hidden block">
                   <span className="block group-hover:-translate-y-full transition-transform duration-300">
-                    CONTACT ME
+                   START A PROJECT
                   </span>
                   <span className="absolute top-full left-0 block group-hover:-translate-y-full transition-transform duration-300 text-accent">
-                    CONTACT ME
+                    START A PROJECT 
                   </span>
                 </span>
               </motion.button>

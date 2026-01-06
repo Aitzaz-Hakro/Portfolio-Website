@@ -298,7 +298,7 @@ export function HeroSection() {
             ref={taglineRef}
             className="font-ayer-poster font-normal text-xl sm:text-2xl md:text-3xl lg:text-4xl leading-relaxed text-white/70 max-w-4xl mx-auto px-4"
             >
-            specializing in <span className="text-accent font-semibold">frontend architecture</span> and <span className="text-accent font-semibold">immersive user experiences</span>
+            Building fast, accessible, and <span className="text-accent font-semibold">scalable web</span> experiences <span className="text-accent font-semibold">that convert</span>
             </p>
         </div>
 
@@ -314,7 +314,7 @@ export function HeroSection() {
               {/* Animated background effect */}
               <span className="absolute inset-0 bg-gradient-to-r from-transparent via-accent/10 to-transparent translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000" />
               
-              <span className="relative">View Selected Projects</span>
+              <span className="relative">View My Work</span>
               <ArrowRight className="w-5 h-5 md:w-6 md:h-6 transition-all duration-300 group-hover:translate-x-2 group-hover:scale-110" />
             </motion.button>
           </MagneticWrapper>

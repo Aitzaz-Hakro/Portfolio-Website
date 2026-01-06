@@ -109,10 +109,13 @@ export function AboutSection() {
             <motion.div variants={itemVariants} className="mb-12">
               <div className="space-y-6">
                 <p className="text-white/70 leading-relaxed font-light text-lg">
-                  I merge <span className="text-white font-semibold">visually striking design</span> with <span className="text-white font-semibold">robust technical architecture</span> to craft web applications that are fast, accessible, and conversion-driven.
+                  I design and build <span className="text-white font-semibold">high-performance web applications</span> where <span className="text-white font-semibold">visual clarity</span> meets <span className="text-white font-semibold">clean, scalable architecture</span>.
                 </p>
                 <p className="text-white/50 leading-relaxed font-light">
-                  With full stack expertise, I build <span className="text-white font-semibold">scalable applications</span> that deliver measurable impact, combining frontend excellence, responsive interfaces, and user-centered strategies to maximize engagement and ROI.
+                  As a full-stack developer with a <span className="text-white font-semibold">frontend-first mindset</span>, I focus on speed, accessibility, and <span className="text-white font-semibold">SEO-ready experiences</span> that convert users into customers.
+                </p>
+                <p className="text-white/50 leading-relaxed font-light">
+                  Every product I build is optimized for <span className="text-white font-semibold">real-world performance</span>, <span className="text-white font-semibold">responsive UX</span>, and <span className="text-white font-semibold">measurable business outcomes</span>.
                 </p>
               </div>
             </motion.div>
