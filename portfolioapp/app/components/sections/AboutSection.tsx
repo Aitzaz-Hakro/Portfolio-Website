@@ -16,21 +16,21 @@ type ExpertiseItem = {
 
 const expertise: ExpertiseItem[] = [
   {
-    customIcon: "/icons/extension.png",
+    customIcon: "/icons/extension.webp",
     title: "Frontend Development",
     description: "Designing scalable component systems with peak performance optimization",
     metric: "40% faster load times",
     color: "text-blue-400",
   },
   {
-    customIcon: "/icons/user-experience.png",
+    customIcon: "/icons/user-experience.webp",
     title: "UI/UX Design",
     description: "Crafting intuitive, conversion-focused user interfaces",
     metric: "2.5x engagement boost",
     color: "text-accent",
   },
   {
-    customIcon: "/icons/team-leader.png",
+    customIcon: "/icons/team-leader.webp",
     title: "Technical Leadership",
     description: "Guiding teams & driving full-stack project success",
     metric: "10+ projects led",
@@ -94,7 +94,7 @@ export function AboutSection() {
               </h1>
               <div className="flex items-center gap-3">
                 <Image
-                  src="/icons/focus1.png"
+                  src="/icons/focus1.webp"
                   alt="Focus"
                   width={20}
                   height={20}
@@ -203,7 +203,7 @@ export function AboutSection() {
             <div className="relative">
                 <div className="relative aspect-[3/4] max-w-md mx-auto overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-white/5 to-transparent">
                 <Image
-                  src="/profile.png"
+                  src="/profile.webp"
                   alt="Portrait of Aitzaz Hassan, Frontend-Focused Full Stack Developer"
                   fill
                   className="object-cover object-center"

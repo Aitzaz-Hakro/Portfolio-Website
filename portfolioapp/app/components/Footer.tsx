@@ -4,7 +4,16 @@ import { motion, useInView, AnimatePresence } from "framer-motion";
 import { useRef, useState } from "react";
 import { Github, Linkedin, Mail, ArrowUpRight, ExternalLink, Sparkle } from "lucide-react";
 
-const footerLinks = [
+type FooterLinkItem = 
+  | { label: string; href: string; badge: string; external?: never }
+  | { label: string; href: string; external: boolean; badge?: never };
+
+type FooterSection = {
+  section: string;
+  items: FooterLinkItem[];
+};
+
+const footerLinks: FooterSection[] = [
   {
     section: "Explore",
     items: [
@@ -52,6 +61,13 @@ export function Footer() {
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);
   const isInView = useInView(footerRef, { once: true, margin: "-100px" });
 
+  const handleNavigate = (href: string) => {
+    const element = document.querySelector(href);
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -87,7 +103,7 @@ export function Footer() {
       {/* Single subtle accent line */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-px bg-gradient-to-r from-transparent via-accent/30 to-transparent" />
 
-      <div className="container-custom relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="container-custom relative z-2 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Main content - Single column for maximum clarity */}
         <motion.div
           variants={containerVariants}
@@ -101,9 +117,9 @@ export function Footer() {
             className="mb-16"
           >
             <div className="inline-block">
-              <a 
-                href="#hero" 
-                className="group relative mb-4 inline-block"
+              <button 
+                onClick={() => handleNavigate("#hero")} 
+                className="group relative mb-4 inline-block text-left"
                 onMouseEnter={() => setHoveredItem("signature")}
               >
                 <div className="flex items-baseline gap-3">
@@ -128,7 +144,7 @@ export function Footer() {
                     />
                   )}
                 </AnimatePresence>
-              </a>
+              </button>
               <p className="text-white/40 text-sm font-light max-w-md">
                 Creative Full Stack Developer • Frontend Architect • Digital Experience Specialist
               </p>
@@ -148,17 +164,52 @@ export function Footer() {
                 <ul className="space-y-4">
                   {section.items.map((item) => (
                     <li key={item.label}>
-                      <a
-                        href={item.href}
-                        target={"external" in item && item.external ? "_blank" : undefined}
-                        rel={"external" in item && item.external ? "noopener noreferrer" : undefined}
-                        className="group flex items-center justify-between py-2 text-white/70 hover:text-white transition-colors duration-300"
-                        onMouseEnter={() => setHoveredItem(item.label)}
-                        onMouseLeave={() => setHoveredItem(null)}
-                      >
+                      {item.external ? (
+                        <a
+                          href={item.href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="group flex items-center justify-between py-2 text-white/70 hover:text-white transition-colors duration-300"
+                          onMouseEnter={() => setHoveredItem(item.label)}
+                          onMouseLeave={() => setHoveredItem(null)}
+                        >
                         <div className="flex items-center gap-3">
                           <span className="text-sm font-light">{item.label}</span>
-                          {"badge" in item && item.badge && (
+                        </div>
+                        
+                        <div className="flex items-center gap-2">
+                          <AnimatePresence>
+                            {hoveredItem === item.label && (
+                              <motion.span
+                                initial={{ opacity: 0, x: -5 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                exit={{ opacity: 0, x: 5 }}
+                                className="text-xs text-accent"
+                              >
+                                External
+                              </motion.span>
+                            )}
+                          </AnimatePresence>
+                          <motion.span
+                            animate={{ 
+                              rotate: hoveredItem === item.label ? 45 : 0 
+                            }}
+                            className="text-white/30 group-hover:text-white"
+                          >
+                            <ExternalLink size={16} />
+                          </motion.span>
+                        </div>
+                        </a>
+                      ) : (
+                        <button
+                          onClick={() => handleNavigate(item.href)}
+                          className="group flex items-center justify-between py-2 text-white/70 hover:text-white transition-colors duration-300 w-full text-left"
+                          onMouseEnter={() => setHoveredItem(item.label)}
+                          onMouseLeave={() => setHoveredItem(null)}
+                        >
+                        <div className="flex items-center gap-3">
+                          <span className="text-sm font-light">{item.label}</span>
+                          {item.badge && (
                             <span className="text-xs px-2 py-0.5 bg-white/5 rounded-full text-white/40">
                               {item.badge}
                             </span>
@@ -174,24 +225,21 @@ export function Footer() {
                                 exit={{ opacity: 0, x: 5 }}
                                 className="text-xs text-accent"
                               >
-                                {"external" in item && item.external ? "External" : "Navigate"}
+                                Navigate
                               </motion.span>
                             )}
                           </AnimatePresence>
                           <motion.span
                             animate={{ 
-                              rotate: hoveredItem === item.label ? ("external" in item && item.external ? 45 : 0) : 0 
+                              rotate: 0 
                             }}
                             className="text-white/30 group-hover:text-white"
                           >
-                            {"external" in item && item.external ? (
-                              <ExternalLink size={16} />
-                            ) : (
-                              <ArrowUpRight size={16} />
-                            )}
+                            <ArrowUpRight size={16} />
                           </motion.span>
                         </div>
-                      </a>
+                        </button>
+                      )}
                     </li>
                   ))}
                 </ul>
@@ -295,8 +343,8 @@ export function Footer() {
             </div>
 
             {/* Back to top - Subtle */}
-            <a
-              href="#hero"
+            <button
+              onClick={() => handleNavigate("#hero")}
               className="group flex items-center gap-2 text-white/40 hover:text-white/60 transition-colors"
             >
               <span className="text-xs font-light tracking-wider">TOP</span>
@@ -307,7 +355,7 @@ export function Footer() {
               >
                 <ArrowUpRight size={12} className="rotate-90" />
               </motion.div>
-            </a>
+            </button>
           </div>
         </motion.div>
       </div>

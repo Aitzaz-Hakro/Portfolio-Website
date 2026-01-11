@@ -77,7 +77,7 @@ export function ServicesSection() {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   return (
-    <section className="relative py-20 md:py-32 overflow-hidden">
+    <section id="services" className="relative py-20 md:py-32 overflow-hidden">
       {/* Background */}
       <div className="absolute inset-0 bg-gradient-to-b from-background via-background/95 to-background" />
       
@@ -281,7 +281,7 @@ export function ServicesSection() {
                 { value: "95%", label: "Client Satisfaction" },
                 { value: "10+", label: "Projects" },
                 { value: "24/7", label: "Support" },
-                { value: "<4s", label: "Avg. Load Time" }
+                { value: "<2s", label: "Avg. Load Time" }
               ].map((stat) => (
                 <div key={stat.label} className="text-center">
                   <div className="font-ayer-poster text-2xl sm:text-3xl font-bold text-accent mb-1">

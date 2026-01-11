@@ -54,7 +54,9 @@ export function ContactSection() {
     subject: "",
     message: "",
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const isInView = useInView(sectionRef, { once: true, margin: "-100px" });
 
   const containerVariants = {
@@ -80,11 +82,34 @@ export function ContactSection() {
     },
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Form submission logic would go here
-    setIsSubmitted(true);
-    setTimeout(() => setIsSubmitted(false), 3000);
+    setIsSubmitting(true);
+    setError(null);
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        setIsSubmitted(true);
+        setFormData({ name: "", email: "", subject: "", message: "" });
+        setTimeout(() => setIsSubmitted(false), 5000);
+      } else {
+        setError(data.error || "Failed to send message. Please try again.");
+      }
+    } catch {
+      setError("Something went wrong. Please try again later.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -117,23 +142,31 @@ export function ContactSection() {
         >
           <motion.div variants={itemVariants} className="mb-12">
             <div className="inline-flex items-center gap-3 ">
-              <div className="w-8 h-px bg-accent/40" />
-              <span className="text-xs font-ayer-poster tracking-[0.3em] uppercase text-white/40">
-                Contact
-              </span>
+           <motion.span
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="inline-block text-xs font-ayer-poster tracking-[0.2em] uppercase text-accent mb-6"
+          >
+            Expert Services
+          </motion.span>
             </div>
           </motion.div>
 
           <motion.div  variants={itemVariants}>
-            <h2 className="font-ayer-poster text-5xl md:text-6xl lg:text-7xl font-bold text-white tracking-tight mb-6">
-              <span className="inline-block">
+        <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="font-ayer-poster text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-[0.9] tracking-tighter mb-8"
+          >              <span className="inline-block">
                 Let&apos;s Build
               </span>
               <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-accent via-blue-400 to-accent">
                 Something Amazing
               </span>
-            </h2>
+            </motion.h2>
           </motion.div>
 
           <motion.div variants={itemVariants}>
@@ -224,31 +257,125 @@ export function ContactSection() {
               </div>
 
               {/* Submit Button */}
-              <button
-                type="submit"
-                className="group relative w-full px-8 py-4 bg-white/5 border border-white/10 rounded-lg text-white font-light hover:border-accent/40 transition-all duration-300"
-                onMouseEnter={() => setHoveredElement("submit")}
-                onMouseLeave={() => setHoveredElement(null)}
-              >
-                <div className="flex items-center justify-center gap-3">
-                  <span>Send Message</span>
-                  <Send size={16} className="group-hover:translate-x-1 transition-transform" />
-                </div>
-                
+              <div className="space-y-3">
+                <motion.button
+                  type="submit"
+                  disabled={isSubmitting || isSubmitted}
+                  whileHover={{ scale: isSubmitting || isSubmitted ? 1 : 1.02 }}
+                  whileTap={{ scale: isSubmitting || isSubmitted ? 1 : 0.98 }}
+                  className={`group relative w-full px-8 py-4 rounded-xl text-white font-medium overflow-hidden transition-all duration-500 ${
+                    isSubmitted 
+                      ? 'bg-gradient-to-r from-accent/20 to-emerald-500/20 border-2 border-accent/40' 
+                      : isSubmitting
+                        ? 'bg-white/5 border-2 border-accent/30'
+                        : 'bg-gradient-to-r from-accent/10 via-white/5 to-accent/10 border-2 border-white/10 hover:border-accent/50 hover:shadow-[0_0_30px_rgba(245,163,82,0.15)]'
+                  }`}
+                  onMouseEnter={() => setHoveredElement("submit")}
+                  onMouseLeave={() => setHoveredElement(null)}
+                >
+                  {/* Animated background gradient */}
+                  <motion.div 
+                    className="absolute inset-0 bg-gradient-to-r from-transparent via-accent/10 to-transparent"
+                    animate={{
+                      x: isSubmitting ? ['-100%', '100%'] : '0%',
+                    }}
+                    transition={{
+                      duration: 1.5,
+                      repeat: isSubmitting ? Infinity : 0,
+                      ease: "linear"
+                    }}
+                  />
+                  
+                  {/* Hover glow effect */}
+                  <motion.div
+                    className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+                    style={{
+                      background: 'radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(245,163,82,0.15) 0%, transparent 50%)'
+                    }}
+                  />
+
+                  <AnimatePresence mode="wait">
+                    {isSubmitted ? (
+                      <motion.div
+                        key="success"
+                        initial={{ opacity: 0, y: 20, scale: 0.8 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, y: -20, scale: 0.8 }}
+                        className="relative flex items-center justify-center gap-3"
+                      >
+                        <motion.div
+                          initial={{ scale: 0 }}
+                          animate={{ scale: 1 }}
+                          transition={{ type: "spring", stiffness: 500, damping: 15, delay: 0.1 }}
+                        >
+                          <CheckCircle size={20} className="text-accent" />
+                        </motion.div>
+                        <span className="text-accent font-medium">Message Sent Successfully!</span>
+                        <motion.div
+                          className="absolute -inset-1"
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: [0, 0.5, 0] }}
+                          transition={{ duration: 1, repeat: 2 }}
+                        >
+                          <div className="w-full h-full rounded-xl bg-accent/20 blur-xl" />
+                        </motion.div>
+                      </motion.div>
+                    ) : isSubmitting ? (
+                      <motion.div
+                        key="loading"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="relative flex items-center justify-center gap-3"
+                      >
+                        <motion.div
+                          animate={{ rotate: 360 }}
+                          transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                          className="w-5 h-5 border-2 border-accent/30 border-t-accent rounded-full"
+                        />
+                        <span className="text-white/80">Sending your message...</span>
+                      </motion.div>
+                    ) : (
+                      <motion.div
+                        key="default"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        className="relative flex items-center justify-center gap-3"
+                      >
+                        <span>Send Message</span>
+                        <motion.div
+                          className="relative"
+                          animate={{ x: [0, 4, 0] }}
+                          transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+                        >
+                          <Send size={18} className="text-accent" />
+                        </motion.div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </motion.button>
+
+                {/* Error Message */}
                 <AnimatePresence>
-                  {isSubmitted && (
+                  {error && (
                     <motion.div
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -10 }}
-                      className="absolute inset-0 flex items-center justify-center gap-2 bg-accent/10 border border-accent/20 rounded-lg"
+                      initial={{ opacity: 0, y: -10, scale: 0.95 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: -10, scale: 0.95 }}
+                      className="p-4 bg-red-500/10 border border-red-500/20 rounded-xl text-red-400 text-sm text-center flex items-center justify-center gap-2"
                     >
-                      <CheckCircle size={16} className="text-accent" />
-                      <span className="text-accent text-sm">Message Sent!</span>
+                      <motion.span
+                        animate={{ rotate: [0, 10, -10, 0] }}
+                        transition={{ duration: 0.5 }}
+                      >
+                        ⚠️
+                      </motion.span>
+                      {error}
                     </motion.div>
                   )}
                 </AnimatePresence>
-              </button>
+              </div>
             </form>
           </div>
 

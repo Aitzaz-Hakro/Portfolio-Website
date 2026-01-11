@@ -158,8 +158,12 @@ export function TestimonialsSection() {
           </motion.span>
 
           {/* Main title - Matching image style */}
-          <h2 className="font-ayer-poster text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold text-white leading-[0.9] tracking-tighter mb-6">
-            <span className="inline-block overflow-hidden">
+         <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="font-ayer-poster text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-[0.9] tracking-tighter mb-8"
+          >            <span className="inline-block overflow-hidden">
               <span className="char inline-block">Don't Just Take</span>
             </span>
             <br />
@@ -168,7 +172,7 @@ export function TestimonialsSection() {
                 My Word For It
               </span>
             </span>
-          </h2>
+          </motion.h2>
 
           {/* Description - Matching image style */}
           <motion.p

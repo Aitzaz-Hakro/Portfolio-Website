@@ -9,6 +9,18 @@ export default function Navigation() {
   const [activeLink, setActiveLink] = useState("");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
+  // Disable body scroll when mobile menu is open
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isMobileMenuOpen]);
+
   useEffect(() => {
     // Add Ayer Poster font
     const style = document.createElement('style');
