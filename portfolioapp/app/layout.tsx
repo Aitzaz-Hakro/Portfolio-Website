@@ -92,6 +92,35 @@ export default function RootLayout({
             gtag('config', 'G-LP0Y7PGPBG');
           `}
         </Script>
+         <Script
+          id="person-schema"
+          type="application/ld+json"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Person",
+              "name": "Aitzaz Hassan Hakro",
+              "alternateName": [
+                "Aitzaz Hakro",
+                "Aitzaz Hassan",
+                "Aitzaz"
+              ],
+              "url": "https://www.aitzazhassan.tech",
+              "image": "https://www.aitzazhassan.tech/OGprofile.jpeg",
+              "jobTitle": "Full Stack Developer",
+              "sameAs": [
+                "https://www.youtube.com/@aitzazhakro",
+                "https://www.linkedin.com/in/aitzazhassan2005/",
+                "https://github.com/Aitzaz-Hakro/",
+                "https://x.com/aitzazhakro20",
+                "https://www.instagram.com/aitzazhakro/",
+                "https://www.facebook.com/aitzaz.hakro.2025/",
+                
+              ]
+            }),
+          }}
+        />
       </head>
       <body
         className={`${syne.variable} ${rubik.variable} ${jetbrainsMono.variable} antialiased`}
