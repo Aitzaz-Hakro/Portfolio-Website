@@ -45,7 +45,7 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "Aitzaz Hassan" }],
   alternates: {
-    canonical: "https://www.aitzazhassan.tech",
+    canonical: "https://aitzaz-dev.vercel.app",
   },
   robots: {
     index: true,
@@ -61,15 +61,18 @@ export const metadata: Metadata = {
       "Aitzaz Hassan is a passionate full-stack developer building clean, responsive websites with React, Next.js, and modern web technologies.",
     
       type: "website",
-    url: "https://www.aitzazhassan.tech",
+    url: "https://aitzaz-dev.vercel.app",
     images: [
       {
-        url: "https://www.aitzazhassan.tech/OGprofile.jpeg",
+        url: "https://aitzaz-dev.vercel.app/OGprofile.jpeg",
         width: 1200,
         height: 630,
         alt: "Portfolio Open Graph Image",
       },
     ],
+  },
+  verification: {
+    google: "6FHF-lhzSA10Rwrfqof3DyiUNQ9ZcCpik06HVWa_F9s",
   },
 };
 export default function RootLayout({
@@ -104,10 +107,15 @@ export default function RootLayout({
               "alternateName": [
                 "Aitzaz Hakro",
                 "Aitzaz Hassan",
-                "Aitzaz"
+                "Aitzaz",
+                "Aitzaz Hassan Tech",
+                "Aitzaz Hassan Portfolio",
+                "Aitzaz Hassan Developer",
+                "Aitzaz Hakro Portfolio",
+                "Aitzaz Hakro Developer",
               ],
-              "url": "https://www.aitzazhassan.tech",
-              "image": "https://www.aitzazhassan.tech/OGprofile.jpeg",
+              "url": "https://aitzaz-dev.vercel.app",
+              "image": "https://aitzaz-dev.vercel.app/OGprofile.jpeg",
               "jobTitle": "Full Stack Developer",
               "sameAs": [
                 "https://www.youtube.com/@aitzazhakro",
