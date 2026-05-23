@@ -25,7 +25,7 @@ const testimonials = [
     id: 2,
     name: "Engr. Muhammad Hassan",
     role: "Research Assistant, NCRAAI",
-    content: "Aitzaz delivered three outstanding websites for our diverse needs: NCRAAI's research platform, BritCars' luxury automotive showcase, and TeamK9Security's professional services site. Each project demonstrated exceptional attention to detail, from the academic rigor required for NCRAAI to the sleek aesthetics for BritCars and the trustworthy design for TeamK9Security. Highly professional and versatile developer!",
+    content: "Aitzaz delivered three outstanding websites for our diverse needs: NCRAAI's research platform, BritCars' luxury automotive showcase, and Mehran App's academic archive for MUET students. Each project demonstrated exceptional attention to detail, from the academic rigor required for NCRAAI to the sleek aesthetics for BritCars and the accessible student-first design for Mehran App. Highly professional and versatile developer!",
     rating: 5,
     color: "#1E4FA8",
     gradient: "linear-gradient(210deg, rgba(30, 79, 168, 0.15), rgba(30, 79, 168, 0.05))",
